@@ -1,0 +1,18 @@
+{
+  "generator-ng-fullstack": {
+    "appName": "ng-fullstack-app",
+    "username": "DiegoSerra",
+    "userEmail": "diegogeijo@gmail.com",
+    "stack": "fullstack",
+    "repoHostUrl": "github.com",
+    "userNameSpace": "DiegoSerra",
+    "client": "ng2",
+    "stylePreprocessor": "none",
+    "server": "node",
+    "nodeWebFrameworkServer": "express",
+    "transpilerServer": "typescript",
+    "secure": true,
+    "testsSeparated": true,
+    "differentStaticServer": false
+  }
+}

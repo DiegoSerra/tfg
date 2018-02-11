@@ -1,0 +1,53 @@
+@import "../../../../core/scss/main";
+
+:host {
+
+    #profile {
+
+        .header {
+            height: 320px;
+            min-height: 320px;
+            max-height: 320px;
+            background: url('/assets/home-bg.jpg') no-repeat 0 45%;
+            background-size: 100% auto;
+
+            .profile-image {
+                margin-right: 24px;
+
+                @include media-breakpoint('sm') {
+                    margin: 0 0 16px 0;
+                }
+            }
+
+            .name {
+                font-size: 34px;
+                color: #FFFFFF;
+
+                @include media-breakpoint('sm') {
+                    margin-bottom: 32px;
+                }
+            }
+
+            .actions {
+
+                button {
+                    text-transform: none;
+                    padding: 0 16px;
+                    height: 32px;
+                    line-height: 32px;
+                    margin: 0 0 0 8px;
+                }
+            }
+        }
+
+        .public-content {
+
+            .public-view-mode {
+                
+                h3 {
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}

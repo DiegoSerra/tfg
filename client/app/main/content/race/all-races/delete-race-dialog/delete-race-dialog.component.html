@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Está seguro que desea borrar el viaje {{data.name}}</h2>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close()">NO</button>
+
+    <button mat-raised-button class="submit-button" color="accent" [mat-dialog-close]="data"
+            aria-label="SÍ">
+        SÍ
+    </button>
+</div>

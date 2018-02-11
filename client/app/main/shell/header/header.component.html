@@ -1,0 +1,22 @@
+<div class="header p-24" fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center" [style.backgroundColor]="headerColor">
+  <div fxLayout="row" fxLayoutalign="start center">
+    <div class="logo" fxlayout="row" fxlayoutalign="start center" style="flex-direction: row; box-sizing: border-box; display: flex; max-height: 100%; place-content: center flex-start; align-items: center;">
+      <mat-icon class="mr-16" role="img" aria-hidden="true">{{icon}}</mat-icon>
+      <span class="h1">{{title}}</span>
+    </div>
+  </div>
+  <div *ngIf="search" class="mt-16 ml-8 m-sm-0" fxLayout="row" fxLayoutalign="start center">
+    <mat-form-field>
+      <input matInput placeholder="Buscar">
+    </mat-form-field>
+  </div>
+  <button *ngIf="create" mat-fab color="warn" [routerLink]="create" style="position: absolute; right: 18px; bottom: -26px; z-index: 10;">
+    <mat-icon style="color: white">playlist_add</mat-icon>
+  </button>
+
+  <button *ngIf="!create && import" mat-fab color="warn" (click)="fileInput.click()" style="position: absolute; right: 18px; bottom: -26px; z-index: 10;">
+    <mat-icon style="color: white">add</mat-icon>
+    <input #fileInput type="file" ng2FileSelect [uploader]="uploaderImportFile" (change)="importFile()"
+            style="display:none">
+  </button>
+</div>

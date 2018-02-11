@@ -1,0 +1,79 @@
+<div class="page-layout simple tabbed"  fxLayout="row wrap" fxLayoutAlign="center start">
+  <app-header title="Mis Carreras" icon="directions_run" headerColor="#03a9f4" import="race" (update)="dataChange($event)">
+  </app-header>
+  <div fxFlex.gt-sm="0 0 85" fxFlex.sm="0 0 95" fxFlex="0 0 100" fxLayout="row wrap" class.gt-xs="content"
+  class.xs="content-xs" fxLayoutAlign="center stretch">
+    <mat-progress-bar *ngIf="loading" mode="indeterminate" color="accent"></mat-progress-bar>
+    <div fxFlex="0 0 100" fxLayout="row wrap" class.xs="content-card content-card-xs mat-elevation-z4"
+    class.gt-xs="content-card content-card-gt-xs mat-elevation-z4" fxLayoutAlign="center start">
+          <div id="price-tables" class="page-layout simple fullwidth"
+
+          fxLayout="row wrap"
+          fxLayoutAlign="center start">
+            <div class="content" fxLayout="column" fxFlex="95" style="margin-top: 0px;">
+              <div fxLayout="row wrap" fxFlex="1 0 100" fxLayoutAlign="space-around center">
+                  <h3><b>Total:</b></h3>
+                  <span>{{totalRaces?.length}}</span>
+                  <h3><b>Nuevos esta semana:</b></h3>
+                  <span>{{totalRaces | lastWeek: 'createdBy' : 'when'}}</span>
+                  <h3><b>Nuevos hoy:</b></h3>
+                  <span>{{totalRaces | today: 'createdBy' : 'when'}}</span>
+              </div>
+
+              <mat-form-field floatPlaceholder="never">
+                <input matInput #filter placeholder="Filtrar carreras">
+              </mat-form-field>
+
+              <mat-table #table [dataSource]="dataSource">
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+                  </ng-container>
+
+                  <!-- CreatedBy Column -->
+                  <ng-container matColumnDef="createdBy">
+                    <mat-header-cell *matHeaderCellDef> Creado por </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.createdBy.name}} </mat-cell>
+                  </ng-container>
+
+                  <!-- When Column -->
+                  <ng-container matColumnDef="when">
+                    <mat-header-cell *matHeaderCellDef> Creado el </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.createdBy.when | date: 'dd/MM/yyyy'}} </mat-cell>
+                  </ng-container>
+
+                  <!-- Participants Column -->
+                  <ng-container matColumnDef="participants">
+                    <mat-header-cell *matHeaderCellDef> Participantes </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.results.length}} </mat-cell>
+                  </ng-container>
+
+                  <!-- Action Column -->
+                  <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-around center">
+                        <button mat-icon-button>
+                          <mat-icon class="md-24" aria-label="Ir a la carrera" [routerLink]="['/app/race/view', element._id]">forward</mat-icon>
+                        </button>
+                      </div>
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+
+                <mat-paginator #paginator
+                  [length]="totalRaces?.length"
+                  [pageIndex]="0"
+                  [pageSize]="25"
+                  [pageSizeOptions]="[5, 10, 25, 100]">
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+
+  </div>
+</div>

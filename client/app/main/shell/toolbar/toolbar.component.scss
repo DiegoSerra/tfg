@@ -1,0 +1,49 @@
+@import 'client/app/core/scss/main';
+
+:host {
+    position: relative;
+    display: flex;
+    flex: 0 0 auto;
+    z-index: 4;
+
+    &.below {
+        z-index: 2;
+    }
+
+    .mat-toolbar {
+        background: inherit;
+        color: inherit;
+    }
+
+    .loading-spinner {
+        width: 32px !important;
+        height: 32px !important;
+    }
+
+    .user-button,
+    .search-button,
+    .language-button,
+    .quick-panel-toggle-button {
+        min-width: 64px;
+        height: 64px;
+
+        @include media-breakpoint-down('xs') {
+            height: 56px;
+        }
+    }
+
+    .toggle-button-navbar {
+        min-width: 56px;
+        height: 56px;
+    }
+
+    .toolbar-separator {
+        height: 64px;
+        width: 1px;
+        background: rgba(0, 0, 0, .12);
+
+        @include media-breakpoint-down('xs') {
+            height: 56px;
+        }
+    }
+}

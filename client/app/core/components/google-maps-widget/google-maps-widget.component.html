@@ -1,0 +1,18 @@
+<agm-map #map
+  [style.height.px]="height"
+  [latitude]="lat"
+  [longitude]="lng"
+  [styles]="styles"
+  [scrollwheel]="scrollwheel"
+  [zoom]="zoom"
+>
+
+  <agm-marker *ngFor="let market of markets"
+              [latitude]="market.latitude"
+              [longitude]="market.longitude"
+              [title]="market.title"></agm-marker>
+
+</agm-map>
+
+
+<br>

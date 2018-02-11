@@ -1,0 +1,24 @@
+@import "../core/scss/main";
+
+.container {
+  min-height: calc(100%);
+  margin-top: -64px;
+  height: calc(100%);
+  background-image: url(/assets/home-bg.jpg);
+  background-size: cover;
+  background-color: #0f82aa;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.inner-content {
+  height: calc(100%);
+  min-height: 734px;
+  padding-top: 64px;
+  color: white;
+}
+
+.main-content {
+  height: calc(100%);
+}
+

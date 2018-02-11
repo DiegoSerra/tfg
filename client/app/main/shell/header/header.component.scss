@@ -1,0 +1,14 @@
+.header {
+  background-image: url(/assets/header-bg.png);
+  background-size: cover;
+  width: 100%;
+  position: relative;
+
+  .logo {
+    color: white;
+
+    mat-icon {
+      color: white;
+    }
+  }
+}

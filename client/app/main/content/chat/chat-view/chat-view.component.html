@@ -1,0 +1,153 @@
+<!-- CHAT -->
+<div class="chat" fxFlex fxLayout="column">
+
+    <!-- CHAT TOOLBAR -->
+    <mat-toolbar class="chat-toolbar">
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+
+            <div fxLayout="row" fxLayoutAlign="start center">
+
+                <!-- RESPONSIVE CHATS BUTTON-->
+                <div mat-button fxHide.gt-md class="responsive-chats-button mat-icon-button mr-16"
+                     appMdSidenavToggler="chat-left-sidenav"
+                     aria-label="chats button">
+                    <mat-icon class="s-36">chat</mat-icon>
+                </div>
+                <!-- / RESPONSIVE CHATS BUTTON-->
+
+                <!-- CHAT CONTACT-->
+                <div class="chat-contact" fxLayout="row" fxLayoutAlign="start center"
+                     appMdSidenavToggler="chat-right-sidenav" (click)="selectContact()">
+
+                    <div class="avatar-wrapper">
+
+                        <img [src]="'/api/user/image/profile/'+contact?.receiverId"
+                             class="avatar"
+                             alt="{{contact?.name}}"/>
+
+                        <mat-icon class="s-16 status"
+                                 [ngClass]="contact?.status">
+                        </mat-icon>
+                    </div>
+
+                    <div class="chat-contact-name">
+                        {{contact?.name}}
+                    </div>
+
+                </div>
+                <!-- / CHAT CONTACT-->
+            </div>
+
+            <div>
+                <button mat-button class="mat-icon-button" [matMenuTriggerFor]="contactMenu"
+                        aria-label="more">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+
+                <mat-menu #contactMenu="matMenu">
+                    <button mat-menu-item appMdSidenavToggler="chat-right-sidenav" (click)="selectContact()">
+                        Contact Info
+                    </button>
+                </mat-menu>
+            </div>
+
+        </div>
+    </mat-toolbar>
+    <!-- / CHAT TOOLBAR -->
+
+    <!-- CHAT CONTENT -->
+    <div #scrollMe id="chat-content" fxFlex style="overflow: scroll;">
+
+        <!-- CHAT MESSAGES -->
+        <div class="chat-messages">
+
+            <!-- MESSAGE -->
+            <div fxLayout="row" *ngFor="let message of dialog" class="message-row"
+                 [ngClass]="{'user' :message.sender === user._id}">
+
+                <img *ngIf="message.sender === contact?.receiverId"
+                     [src]="'/api/user/image/profile/'+contact?.receiverId"
+                     class="avatar"
+                     alt="{{contact?.name}}"/>
+
+                <img *ngIf="message.sender === user._id" class="avatar" [src]="user.profileImageUrl">
+
+                <div class="bubble">
+                    <div class="message">{{message.body}}</div>
+                    <div class="time secondary-text">{{message.sending ? 'sending...' :  (message.createdAt | date:'medium')}}</div>
+                </div>
+
+            </div>
+            <!-- / MESSAGE -->
+
+        </div>
+        <!-- CHAT MESSAGES -->
+
+    </div>
+    <!-- / CHAT CONTENT -->
+
+    <!-- CHAT FOOTER -->
+    <div class="chat-footer" fxLayout="row" fxLayoutAlign="center center">
+
+        <!-- REPLY FORM -->
+        <form #replyForm="ngForm"
+              (ngSubmit)="reply($event)"
+              (keyup.enter)="reply($event);"
+              fxFlex class="reply-form"
+              fxLayout="row"
+              fxLayoutAlign="start center">
+
+            <button mat-mini-fab type="button" style="margin-right: 1em" color="accent" aria-label="Emoticonos" [matMenuTriggerFor]="emojiMenu">
+                <mat-icon style="color: white">tag_faces</mat-icon>
+            </button>
+						
+            <mat-menu #emojiMenu="matMenu"
+                        [overlapTrigger]="false"
+                        yPosition="above"											 
+                        class="emoji-menu">
+                <mat-form-field fxFlex="1 0 100" style="padding: 0 1em" (click)="$event.stopPropagation()">
+                    <input matInput 											  
+                            type="text" 
+                            placeholder="Buscar emoji..." 
+                            [(ngModel)]="emojiName"
+                            [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+                <mat-tab-group mat-dynamic-height="true" (click)="$event.stopPropagation()">
+                    <mat-tab [label]="tab.name" *ngFor="let tab of tabs">
+                        <ng-template mat-tab-label>
+                            <button mat-icon-button (click)="fillEmojisCategory(tab.code)">
+                                <mat-icon>{{tab.icon}}</mat-icon>
+                            </button>
+                        </ng-template>
+                        <div *ngFor="let emoji of (tab.content | emojiFilter:emojiName); trackBy: trackByFn" class="emoji">
+                            <button mat-menu-item style="width: 54px;"
+                                    matTooltip="{{emoji.name}}" 
+                                    matTooltipPosition="right" 
+                                    (click)="concatEmoji(emoji)">
+                                {{emoji.code}} 
+                            </button>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </mat-menu>
+
+            <mat-form-field class="" fxFlex floatPlaceholder="never">
+                <textarea matInput
+                          #replyInput
+                          placeholder="Type and hit enter to send message"
+                          [(ngModel)]="message"
+                          name="message"
+                          (keyup)="isTyping()"></textarea>
+            </mat-form-field>
+
+            <button *ngIf="replyForm.valid" mat-fab class="" type="submit" aria-label="Send message">
+                <mat-icon style="color: white">send</mat-icon>
+            </button>
+
+        </form>
+        <!-- / REPLY FORM -->
+    </div>
+    <!-- / CHAT FOOTER-->
+</div>
+<!-- / CHAT -->

@@ -1,0 +1,43 @@
+<mat-list class="date">
+
+    <h3 mat-subheader>
+        <span>Today</span>
+    </h3>
+
+    <div class="secondary-text mat-display-1 mb-0 p-16">
+        <div class="mb-12">
+            {{date | date:'EEEE'}}
+        </div>
+        <div fxLayout="row" fxLayoutAlign="start start">
+            <span> {{date | date:'d'}}</span>
+            <span class="mat-subheading-1">th</span>
+            <span> {{date | date:'MMMM'}}</span>
+        </div>
+    </div>
+</mat-list>
+
+<mat-divider></mat-divider>
+
+<mat-list>
+    <h3 mat-subheader>
+        <span>Quick Settings</span>
+    </h3>
+
+    <mat-list-item>
+        <mat-slide-toggle fxFlex class="mat-primary" [(ngModel)]="settings.notify" aria-label="Notifications" labelPosition="before">
+            <h3>Notifications</h3>
+        </mat-slide-toggle>
+    </mat-list-item>
+
+    <mat-list-item>
+        <mat-slide-toggle fxFlex class="mat-accent" [(ngModel)]="settings.cloud" aria-label="Cloud" labelPosition="before">
+            <h3>Cloud Sync</h3>
+        </mat-slide-toggle>
+    </mat-list-item>
+
+    <mat-list-item>
+        <mat-slide-toggle fxFlex class="mat-warn" [(ngModel)]="settings.retro" aria-label="Retro Thrusters" labelPosition="before">
+            <h3>Retro Thrusters</h3>
+        </mat-slide-toggle>
+    </mat-list-item>
+</mat-list>

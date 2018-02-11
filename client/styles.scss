@@ -1,0 +1,50 @@
+// Import App main library
+@import "app/core/scss/core";
+// Import font-awesome
+@import '~font-awesome/css/font-awesome.min.css';
+
+
+.content {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  min-height: calc(100% - 50px);
+}
+
+.content-profile {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  min-height: calc(100% - 370px);
+}
+
+.content-xs {
+  min-height: 100%;
+}
+
+.content-card {
+}
+
+.cta-container .mat-input-subscript-wrapper {
+  margin-bottom: 5px;
+}
+
+.content-card-gt-xs {
+  padding: 35px;
+  background: white;
+}
+
+.content-card-xs {
+  background: white;
+  padding: 15px 10px;
+}
+
+.content-card-xs .section-header {
+  padding: 0px 10px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.fa {
+  color: white;
+}

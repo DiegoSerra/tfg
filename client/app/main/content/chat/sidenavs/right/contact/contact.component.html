@@ -1,0 +1,47 @@
+<!-- SIDENAV HEADER -->
+<div class="sidenav-header" *ngIf="contact">
+
+    <!-- CONTACT TOOLBAR -->
+    <mat-toolbar>
+
+        <!-- TOOLBAR TOP -->
+        <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+
+            <div>Contact Info</div>
+
+            <button mat-button class="mat-icon-button" appMdSidenavToggler="chat-right-sidenav" aria-label="close">
+                <mat-icon>close</mat-icon>
+            </button>
+
+        </div>
+        <!-- / TOOLBAR TOP -->
+
+        <!-- TOOLBAR BOTTOM -->
+        <mat-toolbar-row class="toolbar-bottom" fxLayout="column" fxLayoutAlign="center center">
+
+            <img [src]="'/api/user/image/profile/'+contact.receiverId" class="avatar contact-avatar huge" alt="{{contact.name}}"/>
+
+            <div class="contact-name my-8">{{contact.name}}</div>
+
+        </mat-toolbar-row>
+        <!-- / TOOLBAR BOTTOM -->
+
+    </mat-toolbar>
+    <!-- / CONTACT TOOLBAR -->
+</div>
+
+<!-- SIDENAV CONTENT -->
+<div class="sidenav-content p-16"  fxFlex *ngIf="contact">
+
+    <!-- CONTACT MOOD -->
+    <!--<mat-card>-->
+
+        <!--<mat-form-field fxFlex>-->
+                <!--<textarea matInput placeholder="Mood" name="mood"-->
+                          <!--[value]="'We can add information here about the user'" rows="3" disabled>-->
+                <!--</textarea>-->
+        <!--</mat-form-field>-->
+
+    <!--</mat-card>-->
+    <!-- / CONTACT MOOD -->
+</div>

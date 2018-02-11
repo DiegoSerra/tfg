@@ -1,0 +1,12 @@
+{
+  "name": "Tfg",
+  "script": "./server/index.js",
+  "cwd" : "/usr/app/production/Tfg",
+  "host":"<INSERT HOST>",
+  "max_memory_restart": "1G",
+  "env": {
+    "NODE_ENV": "production",
+    "PORT": 4001,
+    "HOSTURL": "http://tfg-diego.com"
+  }
+}

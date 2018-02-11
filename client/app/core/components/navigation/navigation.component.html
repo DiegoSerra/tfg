@@ -1,0 +1,11 @@
+<div id="main-navigation" class="nav">
+    <ng-container *ngFor="let item of navigation">
+
+        <app-nav-subheader *ngIf="item.type=='subheader'" [item]="item"></app-nav-subheader>
+
+        <app-nav-item *ngIf="item.type=='nav-item'" [item]="item"></app-nav-item>
+
+        <app-nav-collapse *ngIf="item.type=='nav-collapse'" [item]="item"></app-nav-collapse>
+
+    </ng-container>
+</div>

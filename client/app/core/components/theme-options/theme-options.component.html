@@ -1,0 +1,95 @@
+<button #openButton mat-icon-button class="open-button mat-primary-bg mat-elevation-z2" (click)="openBar()">
+    <mat-icon>settings</mat-icon>
+</button>
+
+<div #panel class="theme-options-panel mat-white-bg mat-elevation-z2 pb-16">
+
+    <button mat-icon-button class="close-button" (click)="closeBar()">
+        <mat-icon>close</mat-icon>
+    </button>
+
+    <mat-list>
+        <h3 mat-subheader>Navigation:</h3>
+        <mat-list-item>
+            <mat-radio-group [(ngModel)]="appSettings.layout.navigation" (ngModelChange)="onSettingsChange()">
+                <mat-radio-button class="mr-8" value="left">Left</mat-radio-button>
+                <mat-radio-button class="mr-8" value="right">Right</mat-radio-button>
+                <mat-radio-button class="mr-8" value="none">None</mat-radio-button>
+            </mat-radio-group>
+        </mat-list-item>
+
+        <h3 mat-subheader>Toolbar:</h3>
+        <mat-list-item>
+            <mat-radio-group [(ngModel)]="appSettings.layout.toolbar" (ngModelChange)="onSettingsChange()">
+                <mat-radio-button class="mr-8" value="below">Below</mat-radio-button>
+                <mat-radio-button class="mr-8" value="above">Above</mat-radio-button>
+                <mat-radio-button class="mr-8" value="none">None</mat-radio-button>
+            </mat-radio-group>
+        </mat-list-item>
+
+        <h3 mat-subheader>Footer:</h3>
+        <mat-list-item>
+            <mat-radio-group [(ngModel)]="appSettings.layout.footer" (ngModelChange)="onSettingsChange()">
+                <mat-radio-button class="mr-8" value="below">Below</mat-radio-button>
+                <mat-radio-button class="mr-8" value="above">Above</mat-radio-button>
+                <mat-radio-button class="mr-8" value="none">None</mat-radio-button>
+            </mat-radio-group>
+        </mat-list-item>
+
+        <mat-divider></mat-divider>
+
+        <h3 mat-subheader>Colors:</h3>
+
+        <mat-list-item>
+            <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+                <h4>Toolbar Color</h4>
+                <app-material-color-picker [(selectedClass)]="appSettings.colorClasses.toolbar" (onValueChange)="onSettingsChange()"></app-material-color-picker>
+            </div>
+        </mat-list-item>
+
+        <mat-list-item>
+            <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+                <h4>Navigation Bar Color</h4>
+                <app-material-color-picker [(selectedClass)]="appSettings.colorClasses.navbar" (onValueChange)="onSettingsChange()"></app-material-color-picker>
+            </div>
+        </mat-list-item>
+
+        <mat-list-item>
+            <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+                <h4>Footer Color</h4>
+                <app-material-color-picker [(selectedClass)]="appSettings.colorClasses.footer" (onValueChange)="onSettingsChange()"></app-material-color-picker>
+            </div>
+        </mat-list-item>
+
+        <mat-divider></mat-divider>
+
+        <h3 mat-subheader>Animation:</h3>
+
+        <mat-list-item>
+            <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+                <h4>Router Animation</h4>
+                <mat-select [(ngModel)]="appSettings.routerAnimation">
+                    <mat-option value="none">
+                        None
+                    </mat-option>
+                    <mat-option value="slideUp">
+                        Slide up
+                    </mat-option>
+                    <mat-option value="slideDown">
+                        Slide down
+                    </mat-option>
+                    <mat-option value="slideRight">
+                        Slide right
+                    </mat-option>
+                    <mat-option value="slideLeft">
+                        Slide left
+                    </mat-option>
+                    <mat-option value="fadeIn">
+                        Fade in
+                    </mat-option>
+                </mat-select>
+            </div>
+        </mat-list-item>
+
+    </mat-list>
+</div>

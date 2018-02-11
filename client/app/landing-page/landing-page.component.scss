@@ -1,0 +1,53 @@
+@import "../core/scss/main";
+
+.red {
+  background: red
+}
+
+.blue {
+  background: blue
+}
+
+.green {
+  background: green
+}
+
+.logo-home-container div, .logo-home-container>div img {
+  max-width: 100%;
+}
+
+.landing-container {
+  height: calc(100%);
+  overflow: auto;
+  margin-top: -64px;
+}
+
+.landing-content {
+  height: calc(100%);
+  min-height: 734px;
+}
+
+.cta-container {
+  background: white;
+  padding: 30px 40px 25px;
+  border-radius: 75px;
+  color: #000;
+}
+
+.cta-button {
+  padding-top: 3px;
+}
+
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.main-landing-content {
+  height: calc(100%);
+}

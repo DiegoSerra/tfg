@@ -1,0 +1,57 @@
+<mat-sidenav-container>
+
+    <div id="app-main-content" fxFlexFill>
+
+        <!-- TOOLBAR: Above -->
+        <ng-container *ngIf="appSettings.layout.toolbar === 'above'">
+            <app-toolbar class="above" [class]="appSettings.colorClasses.toolbar"></app-toolbar>
+        </ng-container>
+        <!-- / TOOLBAR: Above -->
+
+        <div id="wrapper">
+
+            <app-navbar [folded]="false"
+                         class="left-navbar"
+                         *ngIf="appSettings.layout.navigation === 'left'"
+                         [class]="appSettings.colorClasses.navbar">
+            </app-navbar>
+
+            <div class="content-wrapper">
+
+                <!-- TOOLBAR: Below -->
+                <ng-container *ngIf="appSettings.layout.toolbar === 'below'">
+                    <app-toolbar class="below" [class]="appSettings.colorClasses.toolbar"></app-toolbar>
+                </ng-container>
+                <!-- / TOOLBAR: Below -->
+                
+                <app-content></app-content>
+
+                <!-- FOOTER: Below -->
+                <ng-container *ngIf="appSettings.layout.footer === 'below'">
+                    <app-footer class="below" [class]="appSettings.colorClasses.footer"></app-footer>
+                </ng-container>
+                <!-- / FOOTER: Below -->
+
+            </div>
+
+            <app-navbar [folded]="false" class="mat-primary-700-bg right-navbar" *ngIf="appSettings.layout.navigation === 'right'"></app-navbar>
+
+        </div>
+
+        <!-- FOOTER: Above -->
+        <ng-container *ngIf="appSettings.layout.footer === 'above'">
+            <app-footer class="above" [class]="appSettings.colorClasses.footer"></app-footer>
+        </ng-container>
+        <!-- FOOTER: Above -->
+
+    </div>
+
+    <!-- QUICK PANEL -->
+    <mat-sidenav appMatSidenavHelper="quick-panel" align="end">
+        <app-quick-panel></app-quick-panel>
+    </mat-sidenav>
+    <!-- / QUICK PANEL -->
+
+</mat-sidenav-container>
+
+<!--<app-theme-options></app-theme-options>-->

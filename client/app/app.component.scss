@@ -1,0 +1,80 @@
+@import "client/app/core/scss/main";
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+
+  &.disable-perfect-scrollbar {
+
+    .ps {
+      -webkit-overflow-scrolling: touch !important;
+      overflow: auto !important;
+    }
+
+    .ps__scrollbar-x-rail,
+    .ps__scrollbar-y-rail {
+      display: none !important;
+    }
+  }
+
+  > .mat-drawer-container {
+    display: flex;
+    flex: 1;
+
+    > .mat-drawer-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      height: 100vh;
+
+      @include media-breakpoint-down('sm') {
+        height: auto !important;
+      }
+
+      #app-main-content {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        overflow: hidden;
+
+        #wrapper {
+          display: flex;
+          position: relative;
+          flex: 1;
+          overflow: hidden;
+
+          .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            overflow: hidden;
+
+            app-content {
+              position: relative;
+              display: flex;
+              flex: 1;
+              flex-direction: row;
+              width: 100%;
+
+              > *:not(router-outlet):not(.ps__scrollbar-x-rail):not(.ps__scrollbar-y-rail) {
+                display: flex;
+                flex: 1;
+                width: 100%;
+                min-width: 100%;
+              }
+
+              > *.ng-animating {
+
+                .mat-tab-body {
+                  height: 100vh;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

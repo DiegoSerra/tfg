@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Tu cuenta está desactivada. Si continúas la reactivarás y recuperarás tu información</h2>
+
+<div mat-dialog-actions>
+    <button mat-button (click)="logout()">CANCELAR</button>
+
+    <button mat-raised-button class="submit-button" color="accent"
+            aria-label="SÍ" (click)="reactivate()">
+        REACTIVAR
+    </button>
+</div>

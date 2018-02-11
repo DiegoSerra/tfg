@@ -1,0 +1,19 @@
+<mat-sidenav-container fxLayout="row wrap" fxLayoutAlign="start start" fxFlex="1 0 100" style="overflow: hidden;">
+  <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex="1 0 100" class="main-content">
+    <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center start">
+      <app-header (onGoToFragment)="goToLandingPageFragment($event)"></app-header>
+    </div>
+    <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center start" class="container" >
+      <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start start">
+        <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start start" class="inner-content">
+          <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center start">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center start">
+        <app-footer (onGoToFragment)="goToLandingPageFragment($event)"></app-footer>
+      </div>
+    </div>
+  </div>
+</mat-sidenav-container>

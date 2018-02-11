@@ -1,0 +1,77 @@
+<div id="register" fxLayout="column" >
+
+    <div id="register-form-wrapper" fxLayout="column" fxLayoutAlign="center center">
+
+        <div id="register-form">
+            <div class="logo">
+              <img [routerLink]="['/']" class="pointer" src="assets/brand.png" alt="icon">
+            </div>
+
+            <div class="title">CREA TU CUENTA</div>
+
+            <form name="registerForm" [formGroup]="registerForm" novalidate>
+
+                <mat-form-field>
+                    <input matInput placeholder="Nombre Completo" formControlName="name">
+                    <mat-error *ngIf="registerFormErrors.name.required">
+                        El Nombre Completo es requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Email" formControlName="email">
+                    <mat-error *ngIf="registerFormErrors.email.required">
+                        El Email es requerido
+                    </mat-error>
+                    <mat-error *ngIf="!registerFormErrors.email.required && registerFormErrors.email.email">
+                        Por favor ingresa un Email válido
+                    </mat-error>
+                    <span *ngIf="repeatedEmail" style="font-size: 10.5px; color: #f44336; position: absolute; margin-top: 1em;">
+                       El Email que utilizaste ya existe
+                    </span>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Contraseña" formControlName="password" type="password">
+                    <mat-error *ngIf="registerFormErrors.password.passRequired">
+                        La Contraseña es requerida
+                    </mat-error>
+                    <mat-error *ngIf="!registerFormErrors.password.passRequired && registerFormErrors.password" [innerText]="displayRequeriments(registerFormErrors.password)">
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Confirma tu Contraseña" formControlName="passwordConfirm" type="password">
+                    <mat-error *ngIf="registerFormErrors.passwordConfirm.required">
+                        La confirmación de tu Contraseña es requerida
+                    </mat-error>
+                    <mat-error *ngIf="!registerFormErrors.passwordConfirm.required && registerFormErrors.passwordConfirm.matchPassword">
+                        Tu Contraseñas no coinciden
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="terms" fxLayout="row" fxLayoutAlign="center center">
+                    <mat-checkbox formControlName="terms" aria-label="Aceptación de términos y condiciones" [(ngModel)]="checked">
+                        <span>He leido y acepto los </span>
+                    </mat-checkbox>
+                    <a [routerLink]="['/content/terms-and-conditions']" target="_blank">Términos y Condiciones</a>
+                </div>
+                <mat-error *ngIf="!registerForm.invalid && !checked && clicked">
+                    Debes confirmar que has leido y aceptas los Términos y Condiciones
+                </mat-error>
+
+                <button mat-raised-button color="accent" class="submit-button" aria-label="CREA TU CUENTA"
+                        [disabled]="registerForm.invalid"
+                        (click)="register()">
+                    CREAR CUENTA
+                </button>
+
+            </form>
+
+            <div class="register" fxLayout="column" fxLayoutAlign="center center">
+                <span class="text">¿Ya tienes cuenta?</span>
+                <a class="link" [routerLink]="'/auth/login'">Acceder</a>
+            </div>
+        </div>
+    </div>
+</div>

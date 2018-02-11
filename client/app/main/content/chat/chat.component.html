@@ -1,0 +1,44 @@
+<div id="calendar" class="page-layout carded fullwidth">
+
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg mat-accent-bg"></div>
+    <!-- / TOP BACKGROUND -->
+
+    <!-- CENTER -->
+    <div class="center">
+
+        <!-- CONTENT CARD -->
+        <div class="content-card">
+
+            <mat-sidenav-container>
+
+                <!-- LEFT SIDENAV -->
+                <mat-sidenav class="sidenav mat-drawer-opened" align="start" opened="true" mode="side"
+                            appMatSidenavHelper="chat-left-sidenav" mat-is-locked-open="gt-md">
+                    <app-chat-left-sidenav></app-chat-left-sidenav>
+                </mat-sidenav>
+                <!-- / LEFT SIDENAV -->
+
+                <!-- CONTENT -->
+                <mat-sidenav-content>
+                  <app-chat-start *ngIf="!selectedChat"></app-chat-start>
+                  <app-chat-view *ngIf="selectedChat"></app-chat-view>
+                </mat-sidenav-content>
+                <!-- / CONTENT -->
+
+                <!-- RIGHT SIDENAV -->
+                <mat-sidenav class="sidenav mat-drawer-opened" align="end" opened="false" mode="over"
+                            appMatSidenavHelper="chat-right-sidenav">
+                    <app-chat-right-sidenav></app-chat-right-sidenav>
+                </mat-sidenav>
+                <!-- / RIGHT SIDENAV -->
+
+            </mat-sidenav-container>
+
+        </div>
+        <!-- / CONTENT CARD -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

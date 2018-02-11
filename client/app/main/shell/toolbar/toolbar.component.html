@@ -1,0 +1,84 @@
+<mat-toolbar class="p-0 mat-elevation-z1">
+
+    <div fxFlex fxFill fxLayout="row" fxLayoutAlign="start center">
+
+        <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+
+            <button mat-button class="toggle-button-navbar mat-icon-button" appNavbar="openBar" fxHide.gt-md>
+                <mat-icon>menu</mat-icon>
+            </button>
+
+            <div class="toolbar-separator" fxHide.gt-md></div>
+
+            <div class="toolbar-separator"></div>
+
+        </div>
+
+        <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
+
+            <mat-spinner [diameter]="32" strokeWidth="3" *ngIf="showSpinner" class="loading-spinner mx-8" color="black"></mat-spinner>
+
+            <button mat-button [matMenuTriggerFor]="userMenu"
+                    class="user-button">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <img class="avatar" [src]="user.profileImageUrl">
+                    <span class="username mr-12" fxHide fxShow.gt-sm>{{user.name}}</span>
+                    <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
+                </div>
+            </button>
+
+            <mat-menu #userMenu="matMenu">
+
+                <button mat-menu-item routerLink="/app/profile">
+                    <mat-icon>account_circle</mat-icon>
+                    <span>Mi Perfil</span>
+                </button>
+
+                <button mat-menu-item class="">
+                    <mat-icon>mail</mat-icon>
+                    <span>Correo</span>
+                </button>
+
+                <button mat-menu-item class="" (click)="logout()">
+                    <mat-icon>exit_to_app</mat-icon>
+                    <span>Desconectar</span>
+                </button>
+
+            </mat-menu>
+
+            <!--<div class="toolbar-separator"></div>-->
+
+            <!--<app-search-bar (onInput)="search($event)"></app-search-bar>-->
+
+            <!--<div class="toolbar-separator"></div>-->
+
+            <!--<button mat-button-->
+                    <!--class="language-button"-->
+                    <!--[matMenuTriggerFor]="languageMenu">-->
+                <!--<div fxLayout="row" fxLayoutAlign="center center">-->
+                    <!--<img class="flag mr-8" [src]="'assets/images/flags/'+selectedLanguage.flag+'.png'">-->
+                    <!--<span class="iso text-uppercase">{{selectedLanguage.id}}</span>-->
+                <!--</div>-->
+            <!--</button>-->
+
+            <!--<mat-menu #languageMenu="matMenu">-->
+                <!--<button mat-menu-item *ngFor="let lang of languages" (click)="selectedLanguage = lang">-->
+                    <!--<div fxLayout="row" fxLayoutAlign="start center">-->
+                        <!--<img class="flag mr-16" [src]="'assets/images/flags/'+lang.flag+'.png'">-->
+                        <!--<span class="iso">{{lang.title}}</span>-->
+                    <!--</div>-->
+                <!--</button>-->
+            <!--</mat-menu>-->
+
+            <!--<div class="toolbar-separator"></div>-->
+
+            <!--<button mat-icon-button-->
+                    <!--class="mat-icon-button quick-panel-toggle-button"-->
+                    <!--appMdSidenavToggler="quick-panel"-->
+                    <!--aria-label="Toggle quick panel">-->
+                <!--<mat-icon class="icon">format_list_bulleted</mat-icon>-->
+            <!--</button>-->
+
+        </div>
+    </div>
+</mat-toolbar>

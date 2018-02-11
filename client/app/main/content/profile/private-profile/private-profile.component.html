@@ -1,0 +1,45 @@
+<div id="profile" class="page-layout simple tabbed" >
+
+    <!-- HEADER -->
+    <div class="header p-24" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+         fxLayoutAlign.gt-sm="space-between end">
+
+        <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
+             fxLayoutAlign.gt-sm="start center">
+          <input #profileUploaderInput type="file" accept="image/*" ng2FileSelect [uploader]="uploaderProfileImage"
+                 (change)="changeProfileImage()" style="display: none"/>
+            <img (click)="profileUploaderInput.click()" class="profile-image avatar huge pointer" [src]="user.profileImageUrl">
+            <div class="name">{{user.name}}</div>
+        </div>
+
+        <div class="actions" fxLayout="row" fxLayoutAlign="end center">
+          <button mat-raised-button [routerLink]="[user._id]" color="accent" aria-label="Follow">Ver perfil publico</button>
+          <!--<button mat-raised-button color="primary" aria-label="Send Message">Send Message</button>-->
+        </div>
+
+    </div>
+    <!-- / HEADER -->
+
+    <!-- CONTENT -->
+    <div class="content-profile">
+
+        <mat-tab-group mat-dynamic-height="true">
+
+            <!--<mat-tab label="Timeline">-->
+                <!--&lt;!&ndash;<app-profile-timeline></app-profile-timeline>&ndash;&gt;-->
+            <!--</mat-tab>-->
+
+            <mat-tab label="Información">
+                <app-profile-about></app-profile-about>
+            </mat-tab>
+
+            <!--<mat-tab label="Photos & Videos">-->
+                <!--<app-profile-photos-videos></app-profile-photos-videos>-->
+            <!--</mat-tab>-->
+
+        </mat-tab-group>
+
+    </div>
+    <!-- / CONTENT -->
+
+</div>

@@ -1,0 +1,48 @@
+<div fxFlex="1 0 100" class="nav-bar-container">
+  <app-sidebar (onGoToFragment)="goToFragment($event)" [open]="isSideNavOpen"></app-sidebar>
+  <mat-toolbar color="primary">
+    <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center start">
+      <div fxFlex.lt-md="0 0 90" fxFlex.md="0 0 90" fxFlex.gt-md="0 1 1190px" fxLayout="row wrap"
+           fxLayoutAlign="space-between stretch">
+        <div fxFlex.lt-sm="0 1 180px" fxFlex.sm="0 1 230px" fxFlex.gt-sm="0 1 300px" fxLayout="row wrap"
+             fxLayoutAlign="space-between center"
+             class="logo-home-container">
+          <div fxFlex="0 0 15">
+            <img src="assets/brand-white.png" alt="Logo">
+          </div>
+          <div fxFlex="0 0 80">
+            TFG
+          </div>
+        </div>
+
+        <div fxFlex="" fxLayout="row wrap" fxLayoutAlign.gt-sm="center center" fxLayoutAlign.lt-md="end center">
+
+          <div fxHide.gt-sm="true" class="mobile-menu-trigger">
+            <button mat-icon-button (click)="toggleSidenav()">
+              <mat-icon class="md-24" aria-label="Abrir Menu de Navegación">menu</mat-icon>
+            </button>
+          </div>
+          <div fxHide.lt-md="true" fxFlex.md="1 0 100" fxFlex.gt-md="0 1 530px" fxLayout="row wrap"
+               fxLayoutAlign="start center"
+               class="main-nav-header">
+            <a class="pointer" (click)="goToFragment('know-more-section')">Saber más</a>
+            <!-- <a class="pointer" (click)="goToFragment('where-section')">Dónde</a> -->
+            <a class="pointer" (click)="goToFragment('contact-section')">Contacto</a>
+          </div>
+        </div>
+        <div *ngIf="!hideAccessPanel" fxHide.lt-md="true" fxLayout="row wrap" fxLayoutAlign="center center" class="main-controls-header">
+          <button mat-raised-button color="primary" routerLink="/auth/login" (click)="isLogedIn ? showLoading() : null">
+            {{isLogedIn ? 'Ir a mi cuenta' : 'Iniciar Sesion'}}
+          </button>
+          <button mat-raised-button
+                  color="accent"
+                  routerLink="/auth/register"
+                  [fxHide]="isLogedIn"
+                  style="margin-left: 5px;">Registrate
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </mat-toolbar>
+</div>

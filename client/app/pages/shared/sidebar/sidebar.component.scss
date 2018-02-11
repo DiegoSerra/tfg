@@ -1,0 +1,25 @@
+:host {
+    flex: 1;
+}
+
+.example-sidenav-content {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+.example-sidenav {
+    padding: 35px;
+}
+
+.landing-drawer-menu a {
+    padding: 5px 0;
+}
+
+.landing-drawer-menu a:hover {
+}
+
+.landing-drawer-auth {
+    margin-top: 20px;
+}

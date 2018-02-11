@@ -1,0 +1,27 @@
+<mat-sidenav #sidenav class="example-sidenav">
+  <div fxLayout="row wrap">
+    <h3>Menú</h3>
+  </div>
+  <div fxLayout="row wrap" class="landing-drawer-menu">
+    <a (click)="goToFragment('know-more-section')" fxFlex="1 0 100" class="pointer">- Servicios</a>
+    <!-- <a (click)="goToFragment('where-section')" fxFlex="1 0 100" class="pointer">- Dónde</a> -->
+    <a (click)="goToFragment('contact-section')" fxFlex="1 0 100" class="pointer">- Contacto</a>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxLayout="row wrap">
+    <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center start" class="landing-drawer-auth">
+      <button mat-raised-button color="primary" routerLink="/auth/login" *ngIf="!hideAccessPanel" (click)="isLogedIn ? showLoading() : null">
+        {{isLogedIn ? 'Ir a mi cuenta' : 'Iniciar Sesion'}}
+      </button>
+    </div>
+    <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center start" class="landing-drawer-auth">
+      <button mat-raised-button
+              *ngIf="!hideAccessPanel"
+              color="accent"
+              routerLink="/auth/register"
+              [fxHide]="isLogedIn"
+              style="margin-left: 5px;">Registrate
+      </button>
+    </div>
+  </div>
+</mat-sidenav>

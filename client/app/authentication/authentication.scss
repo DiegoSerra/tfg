@@ -1,0 +1,26 @@
+button {
+
+  &.google,
+  &.facebook,
+  &.linkedin {
+    width: 192px;
+    text-transform: none;
+    color: #FFFFFF;
+    font-size: 13px;
+  }
+
+  &.google {
+    background-color: #D73D32;
+    margin-bottom: 8px;
+  }
+
+  &.facebook {
+    background-color: rgb(63, 92, 154);
+    margin-bottom: 8px;
+  }
+
+  &.linkedin {
+    background-color: #0077b5;
+    margin-bottom: 8px;
+  }
+}

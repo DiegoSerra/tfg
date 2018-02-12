@@ -20,8 +20,11 @@ const ResultSchema = new mongoose.Schema(<any>{
 
 const RaceSchema = new mongoose.Schema(<any>{
   name: String,
-  dateStart: Date,
-  dateEnd: Date,
+  dateStart: String,
+  hourStart: String,
+  city: String,
+  country: String,
+  kms: Number,
   createdBy: CreatedBy,
   active: {
     type: Boolean,
@@ -30,17 +33,18 @@ const RaceSchema = new mongoose.Schema(<any>{
   results: [ResultSchema]
 });
 
-RaceSchema
-  .virtual('systemDateStart')
-  .get(function () {
-    return TimeService.dateToSystemMoment(this.dateStart);
-  });
+// RaceSchema
+//   .virtual('systemDateStart')
+//   .get(function () {
+//     return TimeService.dateToSystemMoment(this.dateStart);
+//   });
 
-RaceSchema
-  .virtual('systemDateEnd')
-  .get(function () {
-    return TimeService.dateToSystemMoment(this.dateEnd);
-  });
+// RaceSchema
+//   .virtual('systemHourStart')
+//   .get(function () {
+//     const utcMoment = TimeService.toUTCMoment(this.get('systemDateStart'));
+//     return TimeService.momentToFullHourString(utcMoment);
+//   });
 
 export default (RaceSchema);
 

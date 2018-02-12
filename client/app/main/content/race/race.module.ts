@@ -13,6 +13,7 @@ import {EditRaceComponent} from './edit-race/edit-race.component';
 import {DeleteRaceDialogComponent} from './all-races/delete-race-dialog/delete-race-dialog.component';
 import {ReactiveAccountDialogComponent} from './all-races/reactive-account-dialog/reactive-account-dialog.component';
 import {AppMainModule} from '../../main.module';
+import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 
 const routes: Route[] = [
   {
@@ -63,6 +64,7 @@ const routes: Route[] = [
   ],
   imports: [
     SharedModule,
+    LeafletModule,
     RouterModule.forChild(routes)
   ],
   providers: [

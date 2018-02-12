@@ -110,7 +110,7 @@ export class RaceController {
       .then((result) => {
         res.status(201).json(result);
       })
-      .catch(error => console.log(error));
+      .catch(error => res.status(400).json(error));
   }
 
 }

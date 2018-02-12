@@ -37,7 +37,12 @@ export class ExcelService {
         .then(() => {
           // Fill Basic Race info with the Summary Sheet
           const summarySheet = workbook.getWorksheet('Summary');
-          race.name = summarySheet.getRow(1).getCell(2).value;        
+          race.name = summarySheet.getRow(1).getCell(2).value;      
+          race.dateStart = summarySheet.getRow(2).getCell(2).value;  
+          race.hourStart = summarySheet.getRow(3).getCell(2).value;
+          race.city = summarySheet.getRow(4).getCell(2).value;
+          race.country = summarySheet.getRow(5).getCell(2).value;
+          race.kms = +summarySheet.getRow(6).getCell(2).value;
 
           // Fill Basic Race Result info
           const worksheet = workbook.getWorksheet('Results');

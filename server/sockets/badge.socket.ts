@@ -1,4 +1,4 @@
-import UserDao from '../api/user/user.dao';
+import BadgeDao from '../api/badge/badge.dao';
 
 export class BadgeSocket {
   private static users = {};
@@ -8,9 +8,9 @@ export class BadgeSocket {
   }
 
   static initializeBadges(userId, socket) {
-    UserDao['getOneByQuery']({_id: userId})
-      .then(user => {
-        socket.emit('initialize-badges', user.newChats);
+    BadgeDao['getBadges'](userId)
+      .then(badges => {
+        socket.emit('initialize-badges', badges.chat, badges.coincidence);
       });
   }
 
@@ -19,7 +19,7 @@ export class BadgeSocket {
     if (receiverSocket) {
       receiverSocket.emit('increase-chat-badge', conversationId);
     } else {
-      UserDao['incrementNewChats'](receiverUserId);
+      BadgeDao['incrementChats'](receiverUserId);
     }
   }
 }

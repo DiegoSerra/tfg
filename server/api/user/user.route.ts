@@ -61,19 +61,6 @@ export class UserRoutes {
         AuthService.setTokenCookie);
 
     router
-      .route('/api/user/badges')
-      .put(UserController.updateBadges,
-        AuthService.updateUser,
-        AuthService.setTokenCookie);
-
-    router
-      .route('/api/me/new-chats')
-      .put(AuthService.needAuthenticate,
-        UserController.updateNewChats,
-        AuthService.updateUser,
-        AuthService.setTokenCookie);
-
-    router
       .route('/api/user/chats')
       .get(AuthService.needAuthenticate,
         UserController.getChats);

@@ -279,27 +279,6 @@ userSchema.static('updateEventsOnDeleteEvent', (userId, eventId) => {
   });
 });
 
-userSchema.static('incrementNewChats', (userId, quantity) => {
-  return new Promise((resolve, reject) => {
-
-    if (!_.isString(userId)) {
-      return reject(new TypeError('userId is not a valid String.'));
-    }
-
-    if (!quantity) {
-      quantity = 1;
-    }
-
-    User
-      .update(
-        {_id: userId},
-        {$inc: {newChats: quantity}}
-      ).exec((err, updated) => {
-      err ? reject(err) : resolve(updated);
-    });
-  });
-});
-
 User = mongoose.model('user', userSchema);
 
 export default User;

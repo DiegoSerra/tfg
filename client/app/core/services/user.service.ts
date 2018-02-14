@@ -160,21 +160,6 @@ export class UserService {
       });
   }
 
-  updateBadges(user) {
-    return this.http.put(`api/user/badges`, {user: user})
-      .map(result => {
-        return result.json();
-      });
-  }
-
-  incrementNewChats(quantity) {
-    return this.http.put(`api/me/new-chats`, {quantity})
-      .map(result => {
-        return result.json();
-      });
-  }
-
-
   exportExternalUsers() {
     return this.http.get(`api/users/export`)
       .map((result: Response) => {

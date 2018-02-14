@@ -80,7 +80,6 @@ const UserSchema = new mongoose.Schema({
   passwordToken: String,
   resetPasswordExpires: Date,
   status: String,
-  newChats: Number,
   active: {
     default: true,
     type: Boolean

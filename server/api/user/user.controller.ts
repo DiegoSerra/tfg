@@ -179,20 +179,6 @@ export class UserController {
       .catch(error => res.status(400).json(error));
   }
 
-  static updateBadges(req: any, res: express.Response, next: express.NextFunction) {
-    req['user'] = req.body.user;
-    UserDAO.updateOne(req['user']._id, req.body.user)
-      .then(user => next())
-      .catch(error => res.status(400).json(error));
-  }
-
-  static updateNewChats(req: any, res: express.Response, next: express.NextFunction) {
-    const quantity = req.body.quantity || 1;
-    UserDAO.incrementNewChats(req['user']._id, quantity)
-      .then(user => next())
-      .catch(error => res.status(400).json(error));
-  }
-
   static getChats(req: any, res: express.Response, next: express.NextFunction) {
     UserDAO.getChats(req.user._id)
       .then(users => res.status(200).json(users))

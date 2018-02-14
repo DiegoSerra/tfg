@@ -84,7 +84,8 @@ export class ChatSocketio {
   }
 
   disconnect() {
-    this.badgesService.updateBadges(this.me, this.userService);
+    this.badgesService.updateBadges(this.me)
+      .subscribe();
   }
 
   messageSent(userId, conversationId, message) {

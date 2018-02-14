@@ -4,6 +4,7 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 import 'rxjs/add/operator/map';
 import {Badges} from '../../models/badges.model';
+import {Http, Response} from '@angular/http';
 
 @Injectable()
 export class BadgesService {
@@ -12,6 +13,9 @@ export class BadgesService {
   private _badgesSubject: BehaviorSubject<Badges> = new BehaviorSubject<Badges>(new Badges({}));
   badges$: Observable<Badges> = this._badgesSubject.asObservable()
     .map(badges => this.badgesSnapshot = badges);
+
+  constructor(private http: Http) {}
+
 
   init(chat) {
     this._badgesSubject.value.chat.count = chat || 0;
@@ -27,10 +31,13 @@ export class BadgesService {
     this._badgesSubject.next(this.badgesSnapshot);
   }
 
-  updateBadges(user: any, userService: any) {
-    user.newChats = this.badgesSnapshot.chat.count;
-    userService.updateBadges(user)
-      .subscribe();
+  updateBadges(user: any): Observable<any> {
+    const badges = {chat: this.badgesSnapshot.chat.count};
+    
+    return this.http.put(`api/badge/${user._id}`, badges)
+      .map((result: Response) => {
+        return result.json();
+      });
   }
 
 }

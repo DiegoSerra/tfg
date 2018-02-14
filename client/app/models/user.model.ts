@@ -16,6 +16,5 @@ export declare interface User {
   coverImageUrl: string;
   messageConversations: any[];
   status: string;
-  newChats: number;
   active: boolean;
 }

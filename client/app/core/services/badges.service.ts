@@ -18,7 +18,7 @@ export class BadgesService {
 
 
   init(chat) {
-    this._badgesSubject.value.chat.count = chat || 0;
+    this._badgesSubject.value.chat.count = chat;
   }
 
   increaseChat(num = 1) {

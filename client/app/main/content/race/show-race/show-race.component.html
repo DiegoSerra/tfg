@@ -2,14 +2,7 @@
     <app-header [title]="race.name" icon="near_me" headerColor="#03a9f4">
     </app-header>
   
-    <div fxFlex.gt-sm="0 0 85" fxFlex.sm="0 0 95" fxFlex="0 0 100" fxLayout="row wrap" class.gt-xs="content"
-         class.xs="content-xs" fxLayoutAlign="center stretch">
-         <div fxFlex="1 0 100" style="height: 300px;"
-            leaflet 
-            [leafletOptions]="options"
-            [leafletLayersControl]="layersControl">
-        </div>
-    </div>
+    <app-map [race]="race"></app-map>
   
   </div>
   

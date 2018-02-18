@@ -24,10 +24,12 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.scss",
-        "../node_modules/leaflet/dist/leaflet.css"
+        "../node_modules/leaflet/dist/leaflet.css",
+        "styles.scss"
       ],
       "scripts": [
+        "../node_modules/leaflet/dist/leaflet.js",
+        "../node_modules/leaflet-omnivore/leaflet-omnivore.min.js",
         "../node_modules/socket.io-client/dist/socket.io.js"
       ],
       "environmentSource": "environments/environment.ts",

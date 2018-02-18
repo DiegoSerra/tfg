@@ -11,5 +11,5 @@ export class Race {
     age: string;
     time: string;
     rhythm: string;
-    };
+  };
 }

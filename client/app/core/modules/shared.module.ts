@@ -33,6 +33,8 @@ import {TextMaskModule} from 'angular2-text-mask';
 import {AppHeaderComponent} from '../../main/shell/header/header.component';
 import {RouterModule} from '@angular/router';
 import {FileUploadModule} from 'ng2-file-upload';
+import {MapComponent} from '../../main/shell/map/map.component';
+import { CreateRaceDialogComponent } from '../../main/shell/header/create-race-dialog/create-race-dialog.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import {FileUploadModule} from 'ng2-file-upload';
     AppGoogleMapsWidgetComponent,
     EqualValidatorDirective,
     AppHeaderComponent,
+    MapComponent,
+    CreateRaceDialogComponent
   ],
   imports: [
     RouterModule,
@@ -87,10 +91,12 @@ import {FileUploadModule} from 'ng2-file-upload';
     EqualValidatorDirective,
     TextMaskModule,
     MomentModule,
-    AppHeaderComponent
+    AppHeaderComponent,
+    MapComponent,
   ],
   entryComponents: [
-    AppConfirmDialogComponent
+    AppConfirmDialogComponent,
+    CreateRaceDialogComponent
   ],
   providers: [
     AppNavigationService,

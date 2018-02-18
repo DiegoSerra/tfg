@@ -19,4 +19,8 @@
     <input #fileInput type="file" ng2FileSelect [uploader]="uploaderImportFile" (change)="importFile()"
             style="display:none">
   </button>
+
+  <button *ngIf="!create && dialog" mat-fab color="warn" (click)="openDialog()" style="position: absolute; right: 18px; bottom: -26px; z-index: 10;">
+    <mat-icon style="color: white">add</mat-icon>
+  </button>
 </div>

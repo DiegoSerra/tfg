@@ -30,7 +30,7 @@ const RaceSchema = new mongoose.Schema(<any>{
     type: Boolean,
     default: true,
   },
-  results: [ResultSchema]
+  results: [ResultSchema],
 });
 
 // RaceSchema

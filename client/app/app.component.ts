@@ -6,8 +6,6 @@ import {NavigationEnd, Router} from '@angular/router';
 
 declare const gtag: Function;
 declare const fbq: Function;
-declare const hotjar: Function;
-declare const drift: any;
 
 @Component({
   selector: 'app-root',

@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Crear carrera</h2>
+
+<div mat-dialog-content>
+	<form name="raceForm" fxLayout="row wrap" fxLayoutAlign="space-between center" [formGroup]="raceForm" novalidate>
+		<mat-form-field fxFlex="1 0 100">
+			<input matInput placeholder="Nombre del track" formControlName="track" [matAutocomplete]="auto">
+			<mat-error *ngIf="raceFormErrors.track.required">
+				El Nombre del track es <strong>requerido</strong>
+			</mat-error>
+    </mat-form-field>
+    
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let track of tracks" [value]="track">
+        {{ track }}
+      </mat-option>
+    </mat-autocomplete>
+
+		<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin: 1em auto">
+			<span style="font-weight: 500">Importar resultados de la carrera</span>
+		</div>
+		<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+			<div fxLayout="row wrap" fxLayoutAlign="start center">
+				<span [ngStyle]="{'color': fileState === 'e' ? 'red' : 'gray'}">{{fileState | fileStateFormat: file}}</span>
+			</div>
+			<button mat-raised-button color="accent" (click)="fileInput.click()">
+				{{fileState === 'n' ? 'Cargar Archivo' : 'Reemplazar Archivo'}}
+				<input #fileInput type="file" ng2FileSelect [uploader]="uploaderImportFile" (change)="importFile()"
+								style="display:none">
+			</button>     
+		</div>
+	</form>
+</div>
+
+<div mat-dialog-actions>
+	<button mat-button (click)="dialogRef.close()">DESCARTAR</button>
+
+	<button mat-raised-button class="submit-button" color="accent" [mat-dialog-close]="raceForm.value"
+					aria-label="CREAR" [disabled]="raceForm.invalid || fileState === 'e'">
+		CREAR
+	</button>
+</div>

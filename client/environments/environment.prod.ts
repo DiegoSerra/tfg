@@ -3,7 +3,6 @@ export const environment = {
   googleApi: 'AIzaSyCer-q1Zm7c1_V4sV8l5ToDO-nIJ3PjDWc',
   analytics: 'UA-106550475-1',
   pixel: '1867547966890846',
-  hotjar: '726290',
-  drift: '5s8c3xcyew7v',
   hideAccessPanel: false,
+  mapbox: 'pk.eyJ1IjoiZGllZ29zZXJyYWdhcmNpYSIsImEiOiJjamRybHlxdm0yNG01MnFxb3BzdG1waWdsIn0.IWQgZ97DABj-LZ62tmzZ-A'
 };

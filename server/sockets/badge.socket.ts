@@ -10,7 +10,7 @@ export class BadgeSocket {
   static initializeBadges(userId, socket) {
     BadgeDao['getBadges'](userId)
       .then(badges => {
-        socket.emit('initialize-badges', badges.chat, badges.coincidence);
+        socket.emit('initialize-badges', badges.chat || 0);
       });
   }
 

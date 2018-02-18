@@ -21,6 +21,7 @@ import {UrlService} from './core/services/url.service';
 import {EmojisService} from './core/services/emojis.service';
 import {BadgesService} from './core/services/badges.service';
 import {RaceService} from './core/services/race.service';
+import {MapService} from './core/services/map.service';
 
 const appRoutes: Routes = [
   {
@@ -47,7 +48,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'tfg.com'}),
@@ -68,6 +69,7 @@ const appRoutes: Routes = [
     AppConfigService,
     UserService,
     RaceService,
+    MapService,
 
     AppNavigationCreation,
     TimeService,
@@ -78,7 +80,7 @@ const appRoutes: Routes = [
   ],
   bootstrap: [
     AppComponent
-  ]
+  ],
 })
 export class AppModule {
 }

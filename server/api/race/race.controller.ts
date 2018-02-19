@@ -27,13 +27,6 @@ export class RaceController {
   static createNew(req: express.Request, res: express.Response, next: express.NextFunction) {
     const _race = req.body;
 
-    _race.from = _race.connections[0].from;
-    _race.dateStart = _race.connections[0].dateStart;
-
-    const lastIndex = _race.connections.length - 1;
-    _race.to = _race.connections[lastIndex].to;
-    _race.dateEnd = _race.connections[lastIndex].dateEnd;
-
     _race.createdBy = {
       userId: req['user']._id,
       name: req['user'].name
@@ -104,10 +97,6 @@ export class RaceController {
 
     ExcelService.getRaceFromExcel(file.path)
       .then((result: any) => {
-        result.createdBy = user;
-        return RaceDao.createOrEdit(result);
-      })
-      .then((result) => {
         res.status(201).json(result);
       })
       .catch(error => res.status(400).json(error));

@@ -3,7 +3,7 @@
 import * as express from 'express';
 import MapDao from './map.dao';
 
-const raceFolder = '../../../assets/races/';
+const raceFolder = 'client/assets/tracks/';
 const fs = require('fs');
 
 export class MapController {
@@ -77,18 +77,9 @@ export class MapController {
   }
 
   static getFileNames(req: express.Request, res: express.Response, next: express.NextFunction) {
-    const promises = [];
-
     fs.readdir(raceFolder, (err, files) => {
-      files.forEach(file => {
-        promises.push(file);
-      });
+      !err ? res.status(200).json(files) : res.status(400).json(err);
     });
-
-    Promise.all(promises)
-      .then(values => res.status(200).json(values))
-      .catch(error => res.status(400).json(error));
-
   }
 
 }

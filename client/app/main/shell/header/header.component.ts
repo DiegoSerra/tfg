@@ -1,6 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {FileItem, FileUploader, ParsedResponseHeaders} from 'ng2-file-upload';
 import { MatDialog } from '@angular/material';
+import { CreateRaceDialogComponent } from './create-race-dialog/create-race-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -28,7 +29,7 @@ export class AppHeaderComponent implements OnInit {
     if (this.import) {
       this.uploaderImportFile = new FileUploader({url: `api/${this.import}/import`});
       this.uploaderImportFile.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-        this.change.emit(item);        
+        this.change.emit(response);        
       };
     }
   }
@@ -41,12 +42,24 @@ export class AppHeaderComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.matDialog.open(this.dialog);
+    const component = this.getDialogComponent();
+
+    const dialogRef = this.matDialog.open(component);
 
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         this.change.emit(data);
       }
     });
+  }
+
+  getDialogComponent() {
+    switch (this.dialog) {
+      case 'CreateRace':
+        return CreateRaceDialogComponent;
+    
+      default:
+        break;
+    }
   }
 }

@@ -56,7 +56,7 @@ export class ExcelService {
               // Get Position (First Column)
               const position = +row.getCell(1).value;
               // Get Runner Name (Second Column)
-              const runnerName = row.getCell(2).value;
+              const runnerName = _.isObject(row.getCell(2).value) ? row.getCell(2).text : row.getCell(2).value;
               // Get Gender (Third Column)
               const gender = row.getCell(3).value;
               // Get Age (Fourth  Column)

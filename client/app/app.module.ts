@@ -3,7 +3,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {HttpModule} from '@angular/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule, Routes} from '@angular/router';
-import {LeafletModule} from '@asymmetrik/ngx-leaflet';
 import 'hammerjs';
 
 import {CookieModule} from 'ngx-cookie';
@@ -58,7 +57,6 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     SharedModule,
     CookieModule.forRoot(),
-    LeafletModule.forRoot(),
   ],
   providers: [
     // {provide: LocationStrategy, useClass: HashLocationStrategy},

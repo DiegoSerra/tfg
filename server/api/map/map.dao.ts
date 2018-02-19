@@ -110,6 +110,10 @@ mapSchema.static('createNew', (map) => {
       return reject(new TypeError('Is not a valid object.'));
     }
 
+    if (map.gpx) {
+      map.gpx = `../../assets/tracks/${map.gpx}`;
+    }
+
     const _something = new Map(map);
     _something.save((err, saved) => {
       err ? reject(err) : resolve(saved);

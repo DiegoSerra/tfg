@@ -62,32 +62,17 @@ export class MapService {
   }
 
   plotActivity(_map) {
-    const myStyle = {
-      'color': '#3949AB',
-      'weight': 5,
-      'opacity': 0.95
-    };
+    const { googleSatellite, googleStreets, mapboxDark, baseMaps } = this.setLayersOnMap();
+    
+    const map = L.map('map', {layers: [googleSatellite, googleStreets, mapboxDark]});
+    map.locate({setView: true, maxZoom: 100});
+    
+    const layersControl = L.control.layers(baseMaps, null, {collapsed: false, position: 'bottomright'}).addTo(map);
 
-    const map = L.map('map').setView(defaultCoords, defaultZoom);
-
-    map.maxZoom = 100;
-
-    L.tileLayer('https://api.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-      // tslint:disable-next-line:max-line-length
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
-      maxZoom: 18,
-      id: 'mapbox.dark',
-      accessToken: apiToken
-    }).addTo(map);
-
-    const customLayer = L.geoJson(null, {
-      style: myStyle
-    });
-
-    const gpxLayer = omnivore.gpx(_map.gpxData, null, customLayer)
-    .on('ready', function() {
-      map.fitBounds(gpxLayer.getBounds());
-    }).addTo(map);
+    const gpxLayer = omnivore.gpx(_map.gpx, null, null)
+      .on('ready', function() {
+        map.fitBounds(gpxLayer.getBounds());
+      }).addTo(map);
   }
 
   getMapNames() {
@@ -96,4 +81,38 @@ export class MapService {
         return result.json();
       });
   }
+
+  setLayersOnMap() {
+    const GOOGLE_TILES = 'http://{s}.google.com/vt/lyrs={type}&x={x}&y={y}&z={z}';
+    const googleStreets = L.tileLayer(GOOGLE_TILES, {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      type: 'm'
+    });
+    const googleSatellite = L.tileLayer(GOOGLE_TILES, {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      type: 's'
+    });
+    const googleTerrain = L.tileLayer(GOOGLE_TILES, {
+      maxZoom: 20,
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      type: 'p'
+    });
+
+    const mapboxDark = L.tileLayer('https://api.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+      // tslint:disable-next-line:max-line-length
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 18,
+      id: 'mapbox.dark',
+      accessToken: apiToken
+    });
+    const baseMaps = {
+      'satellite': googleSatellite,
+      'roadmap': googleStreets,
+      'dark': mapboxDark
+    };
+    return { googleSatellite, googleStreets, mapboxDark, baseMaps };
+  }
 }
+

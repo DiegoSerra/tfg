@@ -20,18 +20,19 @@ export class MapRoutes {
       .get(AuthService.needAuthenticate, MapController.getAllMe);
 
     router
-      .route('/api/map/race/:raceid')
+      .route('/api/map/race/:raceId')
       .get(MapController.getOneByRaceId);
 
+    router
+      .route('/api/map/files')
+      .get(MapController.getFileNames);
+      
     router
       .route('/api/map/:id')
       .get(MapController.getOne)
       .put(AuthService.needAuthenticate, MapController.updateOne)
       .delete(AuthService.needAuthenticate, MapController.removeById);
 
-    router
-      .route('/api/map/file')
-      .get(MapController.getFileNames);
 
   }
 }

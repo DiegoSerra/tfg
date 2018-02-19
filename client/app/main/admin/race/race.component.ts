@@ -1,5 +1,6 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {RaceService} from '../../../core/services/race.service';
+import {MapService} from '../../../core/services/map.service';
 import {Observable} from 'rxjs/Observable';
 import {MatPaginator} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
@@ -30,7 +31,7 @@ export class RaceComponent implements OnInit {
 
   totalRaces: any;
 
-  constructor(private raceService: RaceService) {
+  constructor(private raceService: RaceService, private mapService: MapService) {
     this.updateRaces();
   }
 
@@ -59,7 +60,12 @@ export class RaceComponent implements OnInit {
   }
 
   dataChange(event) {
-    this.updateRaces();
+    this.raceService.create(event.race)
+      .subscribe(race => {
+        const map = {raceId: race._id, gpx: event.track};
+        this.mapService.create(map)
+          .subscribe((data) => this.updateRaces());
+      });
   }
 
 }

@@ -2,7 +2,19 @@
     <app-header [title]="race.name" icon="near_me" headerColor="#03a9f4">
     </app-header>
   
-    <app-map [race]="race"></app-map>
+    <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
+      <mat-tab-group fxFlex="1 0 100" mat-dynamic-height="true">
+        <mat-tab label="Resumen">                 
+          <app-summary [race]="race"></app-summary>
+        </mat-tab>
+        <mat-tab label="Clasificados">   
+          <app-classifieds [race]="race"></app-classifieds>
+        </mat-tab>
+        <mat-tab label="Análisis">   
+          <app-analysis [race]="race"></app-analysis>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
   
   </div>
   

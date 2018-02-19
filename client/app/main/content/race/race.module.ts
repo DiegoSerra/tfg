@@ -13,7 +13,9 @@ import {EditRaceComponent} from './edit-race/edit-race.component';
 import {DeleteRaceDialogComponent} from './all-races/delete-race-dialog/delete-race-dialog.component';
 import {ReactiveAccountDialogComponent} from './all-races/reactive-account-dialog/reactive-account-dialog.component';
 import {AppMainModule} from '../../main.module';
-import {LeafletModule} from '@asymmetrik/ngx-leaflet';
+import { SummaryComponent } from './show-race/summary/summary.component';
+import { ClassifiedsComponent } from './show-race/classifieds/classifieds.component';
+import { AnalysisComponent } from './show-race/analysis/analysis.component';
 
 const routes: Route[] = [
   {
@@ -56,6 +58,9 @@ const routes: Route[] = [
     DeleteRaceDialogComponent,
     EditRaceComponent,
     ReactiveAccountDialogComponent,
+    SummaryComponent,
+    ClassifiedsComponent,
+    AnalysisComponent,
   ],
   entryComponents: [
     DialogComponent,
@@ -64,8 +69,7 @@ const routes: Route[] = [
   ],
   imports: [
     SharedModule,
-    LeafletModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
   providers: [
     RaceResolve

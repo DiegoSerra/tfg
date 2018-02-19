@@ -9,6 +9,7 @@ import {MessageRoutes} from '../api/chat/messages.route';
 
 import {ErrorHandler} from '../config/error-handler.config';
 import {RaceRoutes} from '../api/race/race.route';
+import {MapRoutes} from '../api/map/map.route';
 
 export class Routes {
   static init(app: express.Application, router: express.Router) {
@@ -18,6 +19,7 @@ export class Routes {
     
     MessageRoutes.init(router);
     RaceRoutes.init(router);
+    MapRoutes.init(router);
 
     ErrorHandler.notFound(router);
 

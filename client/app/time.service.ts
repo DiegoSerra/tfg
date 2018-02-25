@@ -80,11 +80,40 @@ export class TimeService {
     return minutes >= 10 ? `${minutes}` : `0${minutes}`;
   }
 
-  fullHourString(hourString: number, minuteString: number) {
-    return `${this.toHourString(hourString)}:${this.toMinutesString(minuteString)}`;
+  toSecondsString(seconds: number) {
+    return seconds >= 10 ? `${seconds}` : `0${seconds}`;
   }
 
-  stringDateToFullHourString(date: string) {
-    return this.fullHourString(new Date(date).getHours(), new Date(date).getMinutes());
+  fullHourString(hourString: number, minuteString: number, secondString: number) {
+    return `${this.toHourString(hourString)}:${this.toMinutesString(minuteString)}:${this.toSecondsString(secondString)}`;
+  }
+
+  rhythmString(minuteString: number, secondString: number) {
+    return `${this.toMinutesString(minuteString)}:${this.toSecondsString(secondString)}`;
+  }
+
+  stringDateToFullHourString(date: string, rest1Hour = false) {
+    const hours = !rest1Hour ? new Date(date).getHours() : new Date(date).getHours() - 1;
+    return this.fullHourString(hours, new Date(date).getMinutes(), new Date(date).getSeconds());
+  }
+
+  stringDateToRhythmString(date: string) {
+    return this.rhythmString(new Date(date).getHours(), new Date(date).getMinutes());
+  }
+
+  stringRhythmToFullSeconds(date: string) {
+    const minutes = new Date(date).getHours() - 1;
+    const minutesToSeconds = minutes * 60;
+    const seconds = new Date(date).getMinutes();
+    return (minutesToSeconds + seconds);
+  }
+
+  stringDateToFullSeconds(date: string, rest1Hour = false) {
+    const hours = !rest1Hour ? new Date(date).getHours() : new Date(date).getHours() - 1;
+    const hoursToSeconds = hours * 60 * 60;
+    const minutes = new Date(date).getMinutes();
+    const minutesToSeconds = minutes * 60;
+    const seconds = new Date(date).getSeconds();
+    return (hoursToSeconds + minutesToSeconds + seconds);
   }
 }

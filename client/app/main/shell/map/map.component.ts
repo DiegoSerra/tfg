@@ -19,7 +19,7 @@ export class MapComponent implements OnInit {
     this.mapService.getOneByRace(this.race._id)
       .subscribe(map => {
         this.map = map;
-        this.mapService.plotActivity(this.map);
+        this.mapService.plotActivity(this.map, this.race);
       });
   }
 

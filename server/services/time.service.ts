@@ -74,4 +74,8 @@ export class TimeService {
     return minutes >= 10 ? `${minutes}` : `0${minutes}`;
   }
 
+  public static toSecondsString(seconds: number) {
+    return seconds >= 10 ? `${seconds}` : `0${seconds}`;
+  }
+
 }

@@ -33,18 +33,5 @@ const RaceSchema = new mongoose.Schema(<any>{
   results: [ResultSchema],
 });
 
-// RaceSchema
-//   .virtual('systemDateStart')
-//   .get(function () {
-//     return TimeService.dateToSystemMoment(this.dateStart);
-//   });
-
-// RaceSchema
-//   .virtual('systemHourStart')
-//   .get(function () {
-//     const utcMoment = TimeService.toUTCMoment(this.get('systemDateStart'));
-//     return TimeService.momentToFullHourString(utcMoment);
-//   });
-
 export default (RaceSchema);
 

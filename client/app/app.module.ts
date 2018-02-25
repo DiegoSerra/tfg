@@ -21,6 +21,7 @@ import {EmojisService} from './core/services/emojis.service';
 import {BadgesService} from './core/services/badges.service';
 import {RaceService} from './core/services/race.service';
 import {MapService} from './core/services/map.service';
+import {TrackService} from './core/services/track.service';
 
 const appRoutes: Routes = [
   {
@@ -68,6 +69,7 @@ const appRoutes: Routes = [
     UserService,
     RaceService,
     MapService,
+    TrackService,
 
     AppNavigationCreation,
     TimeService,

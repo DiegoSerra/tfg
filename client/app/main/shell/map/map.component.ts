@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { MapService } from '../../../core/services/map.service';
 import { Map } from '../../../models/map.model';
+import { TrackService } from '../../../core/services/track.service';
 
 @Component({
   selector: 'app-map',
@@ -13,13 +14,13 @@ export class MapComponent implements OnInit {
 
   map: Map;
 
-  constructor(private mapService: MapService) { }
+  constructor(private mapService: MapService, private trackService: TrackService) { }
 
   ngOnInit() {
     this.mapService.getOneByRace(this.race._id)
       .subscribe(map => {
         this.map = map;
-        this.mapService.plotActivity(this.map, this.race);
+        this.trackService.plotActivity(this.map, this.race);
       });
   }
 

@@ -42,7 +42,8 @@ export class TrackService {
       .on('ready', (data) => {
         map.fitBounds(gpxLayer.getBounds());
         try {       
-          const _latlngs = data.sourceTarget._layers[123]._latlngs;
+          const layerAtr = Object.keys(data.sourceTarget._layers)[0];
+          const _latlngs = data.sourceTarget._layers[layerAtr]._latlngs;
           const cumdist = this.fillCumdist(_latlngs);
           const { _race, numSteps } = this.initializeRaceVars(race);
           this.simulateRace(_race, numSteps, _latlngs, cumdist);
@@ -51,7 +52,7 @@ export class TrackService {
             this.changeOfSliderLayer(map, value, offset);
           }, timeRaceSliderOptions).addTo(map);
         } catch (error) {
-          this.snackBar.open('Parece que hubo un problema, por favor recargue la página si desea ver el mapa de calor', '', {duration: 5000});
+          this.snackBar.open('Parece que hubo un problema con el mapa de calor, por favor recargue la página si desea verlo', '', {duration: 5000});
         }
       }).addTo(map);
 

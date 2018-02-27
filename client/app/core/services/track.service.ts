@@ -47,6 +47,7 @@ export class TrackService {
           const cumdist = this.fillCumdist(_latlngs);
           const { _race, numSteps } = this.initializeRaceVars(race);
           this.simulateRace(_race, numSteps, _latlngs, cumdist);
+
           const timeRaceSlider = L.control.slider((value) => {
             const offset = Math.floor(_race.finishTime / (numSteps - 1));
             this.changeOfSliderLayer(map, value, offset);

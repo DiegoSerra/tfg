@@ -16,6 +16,7 @@ import {AppMainModule} from '../../main.module';
 import { SummaryComponent } from './show-race/summary/summary.component';
 import { ClassifiedsComponent } from './show-race/classifieds/classifieds.component';
 import { AnalysisComponent } from './show-race/analysis/analysis.component';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
 
 const routes: Route[] = [
   {
@@ -70,6 +71,7 @@ const routes: Route[] = [
   imports: [
     SharedModule,
     RouterModule.forChild(routes),
+    NgxChartsModule
   ],
   providers: [
     RaceResolve

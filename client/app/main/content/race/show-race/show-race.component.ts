@@ -15,22 +15,20 @@ export class ShowRaceComponent implements OnInit {
   me: User;
 
   race: Race = <Race>{};
-
+  
   constructor(private userService: UserService,
               private route: ActivatedRoute,
               private raceService: RaceService,
               private router: Router) {
-  }
 
-  ngOnInit() {
-    this.userService.user$
-      .subscribe((me: User) => {
-        this.me = me;
-      });
-
+    userService.user$.subscribe((me: User) => this.me = me);
+  
     this.route.data.subscribe((data) => {
       this.race = data.race;
     });
+  }
+
+  ngOnInit() {
   }
 
 }

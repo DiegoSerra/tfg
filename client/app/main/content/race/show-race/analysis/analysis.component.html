@@ -1,3 +1,9 @@
-<p>
-  analysis works!
-</p>
+<ngx-charts-pie-chart
+  [scheme]="colorScheme"
+  [results]="single"
+  [doughnut]="true"
+  [gradient]="gradient"
+  [explodeSlices]="'true'"
+  [labels]="'true'"
+  (select)="onSelect($event)">
+</ngx-charts-pie-chart>

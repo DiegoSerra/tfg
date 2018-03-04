@@ -11,11 +11,15 @@ const CreatedBy = new mongoose.Schema({
 
 const ResultSchema = new mongoose.Schema(<any>{
   position: Number,
-  runnerName: String,
-  gender: String,
-  age: String,
   time: String,
-  rhythm: String
+  rhythm: String,
+  dorsal: Number,
+  runnerName: String,
+  positionCategory: Number,
+  fullCategory: String,
+  category: String,
+  gender: String,
+  club: String,
 }, { _id : false });
 
 const RaceSchema = new mongoose.Schema(<any>{

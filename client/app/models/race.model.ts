@@ -5,11 +5,13 @@ export class Race {
   dateStart?: Date;
   dateEnd?: Date;
   results: {
-    position: number;
-    runnerName: string;
-    gender: string;
-    age: string;
-    time: string;
-    rhythm: string;
+    position: number,
+    time: string,
+    rhythm: string,
+    dorsal: number,
+    runnerName: string,
+    positionCategory: number,
+    category: string,
+    club: string,
   };
 }

@@ -52,26 +52,61 @@ export class ExcelService {
           worksheet.eachRow((row, rowNumber: number) => {
 
             // Skip first Row (Table Header)
+            // if (rowNumber > 1) {
+            //   // Get Position (First Column)
+            //   const position = +row.getCell(1).value;
+            //   // Get Runner Name (Second Column)
+            //   const runnerName = _.isObject(row.getCell(2).value) ? row.getCell(2).text : row.getCell(2).value;
+            //   // Get Gender (Third Column)
+            //   const gender = row.getCell(3).value;
+            //   // Get Age (Fourth  Column)
+            //   const age = row.getCell(4).value;
+            //   // Get Time (Fifth  Column)
+            //   const time = row.getCell(5).value;
+            //   // Get Rhythm (Sixth  Column)
+            //   const rhythm = row.getCell(6).value;
+            //   race.results.push({
+            //     position,
+            //     runnerName,
+            //     gender,
+            //     age,
+            //     time,
+            //     rhythm
+            //   });
+            // }
             if (rowNumber > 1) {
               // Get Position (First Column)
               const position = +row.getCell(1).value;
-              // Get Runner Name (Second Column)
-              const runnerName = _.isObject(row.getCell(2).value) ? row.getCell(2).text : row.getCell(2).value;
-              // Get Gender (Third Column)
-              const gender = row.getCell(3).value;
-              // Get Age (Fourth  Column)
-              const age = row.getCell(4).value;
-              // Get Time (Fifth  Column)
-              const time = row.getCell(5).value;
-              // Get Rhythm (Sixth  Column)
-              const rhythm = row.getCell(6).value;
+              // Get Time (Second  Column)
+              const time = row.getCell(2).value;
+              // Get Rhythm (Third  Column)
+              const rhythm = row.getCell(3).value;
+              // Get Dorsal (Fourth  Column)
+              const dorsal = +row.getCell(4).value;
+              // Get Runner Name (Fifth Column)
+              const runnerName = _.isObject(row.getCell(5).value) ? row.getCell(5).text : row.getCell(5).value;
+              // Get Position Category (Six Column)
+              const positionCategory = +row.getCell(6).value;
+              // Get Full category (Seventh Column)
+              const fullCategory = row.getCell(7).value;
+              // Get category
+              const category = fullCategory.split('-')[0];
+              // Get gender
+              const gender = fullCategory.split('-')[1];
+              // Get Club (Eighth Column)       
+              const club = row.getCell(8).value;  
+              
               race.results.push({
                 position,
-                runnerName,
-                gender,
-                age,
                 time,
-                rhythm
+                rhythm,
+                dorsal,
+                runnerName,
+                positionCategory,
+                fullCategory,
+                category,
+                gender,
+                club
               });
             }
           });

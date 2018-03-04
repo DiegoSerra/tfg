@@ -29,7 +29,8 @@ export class RoutesConfig {
     application.use(express.static(_root + _nodeModules));
     application.use(express.static(_root + _jspmPackages));
     application.use(express.static(_root + _clientFiles));
-    application.use(bodyParser.json());
+    application.use(bodyParser.json({limit: '50mb'}));
+    application.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
     application.use(cookieParser());
     application.use(morgan('dev'));
     application.use(helmet());

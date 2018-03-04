@@ -1,9 +1,45 @@
-<ngx-charts-pie-chart
-  [scheme]="colorScheme"
-  [results]="single"
-  [doughnut]="true"
-  [gradient]="gradient"
-  [explodeSlices]="'true'"
-  [labels]="'true'"
-  (select)="onSelect($event)">
-</ngx-charts-pie-chart>
+<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+  <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">   
+    <ngx-charts-number-card
+      [scheme]="'cool'"
+      [results]="info">
+    </ngx-charts-number-card>
+  </div>
+
+  <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center" style.gt-sm="max-height: 500px">
+    <ngx-charts-bar-vertical
+      [scheme]="colorScheme"
+      [results]="rhythm"
+      [gradient]="gradient"
+      [legend]="'true'"
+      [legendTitle]="'Ritmo'"
+      [xAxis]="'true'"
+      [yAxis]="'true'"
+      [showXAxisLabel]="'true'"
+      [showYAxisLabel]="'true'"
+      (select)="onSelect($event)">
+    </ngx-charts-bar-vertical>
+  </div>
+  
+
+  <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutAlign.gt-sm="space-between center" style.gt-sm="max-height: 500px"> 
+    <div fxFlex="100" fxFlex.gt-sm="50">
+      <ngx-charts-pie-chart
+        [scheme]="colorScheme"
+        [results]="categorys"
+        [legend]="'true'"
+        [legendTitle]="'Categorías'"
+        [gradient]="gradient">
+      </ngx-charts-pie-chart>
+    </div>
+    <div fxFlex="100" fxFlex.gt-sm="50">
+      <ngx-charts-pie-chart
+        [scheme]="colorScheme"
+        [results]="genders"
+        [legend]="'true'"
+        [legendTitle]="'Género'"
+        [gradient]="gradient">
+      </ngx-charts-pie-chart>
+    </div>
+  </div>
+</div>

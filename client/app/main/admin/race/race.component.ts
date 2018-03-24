@@ -15,6 +15,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/merge';
 import { Race } from '../../../models/race.model';
+import { TimeService } from '../../../time.service';
 
 @Component({
   selector: 'app-race',
@@ -32,7 +33,7 @@ export class RaceComponent implements OnInit {
 
   totalRaces: any;
 
-  constructor(private raceService: RaceService, private mapService: MapService) {
+  constructor(private raceService: RaceService, private mapService: MapService, private timeService: TimeService) {
     this.updateRaces();
   }
 
@@ -67,12 +68,27 @@ export class RaceComponent implements OnInit {
   }
 
   dataChange(event) {
+    event.race.dateStart = this.createDateSystem(event.race.dateStart, event.race.hourStart);
+    event.race.dateEnd = this.createDateSystem(event.race.dateEnd, event.race.hourEnd);
+
     this.raceService.create(event.race)
       .subscribe(race => {
         const map = {raceId: race._id, gpx: event.track};
         this.mapService.create(map)
           .subscribe((data) => this.updateRaces());
       });
+  }
+
+  createDateSystem(date, hour) {
+    const splitHour = hour.split(':');
+
+    return this.timeService.createSystemMoment(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      splitHour[0],
+      splitHour[1]
+    );
   }
 
 }

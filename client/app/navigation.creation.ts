@@ -60,6 +60,12 @@ export class AppNavigationCreation {
               badge: badges.chat
             },
             {
+              title: 'Calendario',
+              type: 'nav-item',
+              icon: 'today',
+              url: '/app/calendar',
+            },
+            {
               title: 'Mi Perfil',
               type: 'nav-item',
               icon: 'person',

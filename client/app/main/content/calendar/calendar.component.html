@@ -1,0 +1,140 @@
+<div id="calendar" class="page-layout simple fullwidth">
+
+  <!-- HEADER -->
+  <div class="header p-16 p-sm-24 calendar-header" [ngClass]="'month' + (viewDate | date:'MM')">
+
+    <div class="header-content" fxLayout="column" fxLayoutAlign="space-between">
+
+      <div class="header-top" fxLayout="row" fxLayoutAlign="space-between center" fxLayout.xs="column">
+
+        <div class="logo mb-16 mb-sm-0" fxLayout="row" fxLayoutAlign="start center">
+
+          <mat-icon class="logo-icon">today</mat-icon>
+
+          <span class="logo-text">Calendario de Viajes</span>
+
+        </div>
+
+        <!-- TOOLBAR -->
+        <div class="toolbar" fxLayout="row" fxLayoutAlign="start center">
+
+          <button mat-button class="mat-icon-button" aria-label="Search" matTooltip="Buscar">
+            <mat-icon>search</mat-icon>
+          </button>
+
+          <button mat-button class="mat-icon-button" (click)="view='day'"
+                  aria-label="Day" matTooltip="Día">
+            <mat-icon>view_day</mat-icon>
+          </button>
+
+          <button mat-button class="mat-icon-button" (click)="view='week'"
+                  aria-label="Week" matTooltip="Semana">
+            <mat-icon>view_week</mat-icon>
+          </button>
+
+          <button mat-button class="mat-icon-button" (click)="view='month'"
+                  aria-label="Month" matTooltip="Mes">
+            <mat-icon>view_module</mat-icon>
+          </button>
+        </div>
+      </div>
+      <!-- / TOOLBAR -->
+
+      <!-- HEADER BOTTOM -->
+      <div class="header-bottom" fxLayout="row" fxLayoutAlign="center start" *ngIf="view !== 'list'">
+
+        <button mat-button class="mat-icon-button arrow"
+                mwlCalendarPreviousView
+                [view]="view"
+                [(viewDate)]="viewDate"
+                (viewDateChange)="selectedDay = {date:$event}"
+                aria-label="Previous">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+
+        <div fxLayout="column" fxLayoutAlign="start center">
+          <div class="title">
+            {{ viewDate | calendarDate:(view + 'ViewTitle') }}
+          </div>
+          <div>
+            <a class="today-header"
+               mwlCalendarToday
+               [(viewDate)]="viewDate"
+               (viewDateChange)="selectedDay = {date:$event}"
+               aria-label="Hoy">
+              Ver hoy
+            </a>
+          </div>
+        </div>
+
+
+        <button mat-button class="mat-icon-button arrow"
+                mwlCalendarNextView
+                [view]="view"
+                [(viewDate)]="viewDate"
+                (viewDateChange)="selectedDay = {date:$event}"
+                aria-label="Next">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+
+      <!-- / HEADER BOTTOM -->
+    </div>
+
+    <!-- MENU BUTTON -->
+    <mat-menu [overlapTrigger]="false" class="calendar-menu" #rootMenu="matMenu">
+      <!-- MENU ITEM   -->
+      <div fxFlex="row wrap" fxLayoutAlign="space-between center">
+        <span class="pointer mat-elevation-z3 label">Nuevo viaje</span>
+        <button mat-mini-fab routerLink="/app/trip/create">
+          <mat-icon>add_box</mat-icon>
+        </button>
+      </div>
+      <!-- / MENU ITEM -->
+    </mat-menu>
+
+    <button mat-fab class="add-event-button mat-warn" [matMenuTriggerFor]="rootMenu">
+      <mat-icon>add</mat-icon>
+    </button>
+    <!-- / MENU BUTTON -->
+  </div>
+  <!-- / HEADER -->
+
+  <!-- CONTENT -->
+  <div class="content  m-t-200" *appIfOnDom [@animate]="{value:'*',params:{delay:'200ms',y:'40px'}}">
+    <div [ngSwitch]="view">
+      <mwl-calendar-month-view
+        *ngSwitchCase="'month'"
+        [viewDate]="viewDate"
+        [events]="events"
+        [refresh]="refresh"
+        [activeDayIsOpen]="activeDayIsOpen"
+        (dayClicked)="dayClicked($event.day)"
+        (eventClicked)="editEvent('edit', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)"
+        (beforeViewRender)="beforeMonthViewRender($event)">
+      </mwl-calendar-month-view>
+      <mwl-calendar-week-view
+        *ngSwitchCase="'week'"
+        [viewDate]="viewDate"
+        (viewDateChange)="selectedDay = {date:$event}"
+        [events]="events"
+        [refresh]="refresh"
+        (dayClicked)="dayClicked($event.day)"
+        (eventClicked)="editEvent('edit', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-week-view>
+      <mwl-calendar-day-view
+        *ngSwitchCase="'day'"
+        [viewDate]="viewDate"
+        (viewDateChange)="selectedDay = {date:$event}"
+        [events]="events"
+        [refresh]="refresh"
+        (dayClicked)="dayClicked($event.day)"
+        (eventClicked)="editEvent('edit', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-day-view>
+    </div>
+  </div>
+  <!-- / CONTENT -->
+</div>

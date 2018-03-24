@@ -27,11 +27,11 @@ const UserSchema = new mongoose.Schema({
   },
   profileImageUrl: {
     type: String,
-    default: 'assets/default-avatar.png'
+    default: 'assets/images/default/default-avatar.png'
   },
   coverImageUrl: {
     type: String,
-    default: 'assets/default-avatar.png'
+    default: 'assets/images/default/default-avatar.png'
   },
   gender: {
     type: String,

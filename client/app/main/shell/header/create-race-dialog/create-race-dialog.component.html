@@ -2,18 +2,95 @@
 
 <div mat-dialog-content>
 	<form name="raceForm" fxLayout="row wrap" fxLayoutAlign="space-between center" [formGroup]="raceForm" novalidate>
+		<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+			<mat-form-field fxFlex="0 0 65" [formGroup]="raceForm.get('race')">
+				<input matInput placeholder="Nombre de la carrera" formControlName="name" required>
+			</mat-form-field>
+
+			<mat-form-field fxFlex="0 0 25" [formGroup]="raceForm.get('race')">
+				<input matInput placeholder="Kms" formControlName="kms" required>
+			</mat-form-field>
+		</div>
+
+		<!-- AUTOCOMPLETE -->
 		<mat-form-field fxFlex="1 0 100">
-			<input matInput placeholder="Nombre del track" formControlName="track" [matAutocomplete]="auto">
+			<input matInput placeholder="Nombre del track" formControlName="track" [matAutocomplete]="auto" required>
 			<mat-error *ngIf="raceFormErrors.track.required">
 				El Nombre del track es <strong>requerido</strong>
 			</mat-error>
-    </mat-form-field>
-    
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let track of tracks" [value]="track">
-        {{ track }}
-      </mat-option>
-    </mat-autocomplete>
+		</mat-form-field>
+
+		<mat-autocomplete #auto="matAutocomplete">
+			<mat-option *ngFor="let track of tracks" [value]="track">
+				{{ track }}
+			</mat-option>
+		</mat-autocomplete>
+		<!-- / AUTOCOMPLETE -->
+
+		<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+			<mat-form-field fxFlex="0 0 45" [formGroup]="raceForm.get('race')">
+				<input matInput
+								formControlName="dateStart"
+								[matDatepicker]="dateStartPicker"
+								placeholder="Fecha de salida"
+								(focus)="fromToggle._open($event)"
+								[errorStateMatcher]="onSubmittedShowError">
+				<mat-error *ngIf="raceFormErrors.dateStart.isNotADate">
+					<strong>No es una fecha valida</strong>
+				</mat-error>
+				<mat-error
+					*ngIf="raceFormErrors.dateStart.required">
+					Campo <strong>requerido</strong>
+				</mat-error>
+				<mat-datepicker-toggle #fromToggle matSuffix [for]="dateStartPicker"></mat-datepicker-toggle>
+				<mat-datepicker #dateStartPicker></mat-datepicker>
+			</mat-form-field>
+	
+			<mat-form-field fxFlex="0 0 45" [formGroup]="raceForm.get('race')">
+				<input matInput
+								placeholder="Hora de salida (hh:mm)"
+								formControlName="hourStart"
+								[textMask]="{mask: mask}"
+								[errorStateMatcher]="onSubmittedShowError"
+								required>
+				<mat-error *ngIf="raceFormErrors.hourStart.required">
+					Campo <strong>requerido</strong>
+				</mat-error>
+			</mat-form-field>
+		</div>
+
+		<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+			<mat-form-field fxFlex="0 0 45" [formGroup]="raceForm.get('race')">
+				<input matInput
+								formControlName="dateEnd"
+								[matDatepicker]="dateEndPicker"
+								[min]="raceForm.get('race').get('dateStart').value"
+								placeholder="Fecha de finalización"
+								(focus)="toToggle._open($event)"
+								[errorStateMatcher]="onSubmittedShowError">
+				<mat-error *ngIf="raceFormErrors.dateEnd.isNotADate">
+					<strong>No es una fecha valida</strong>
+				</mat-error>
+				<mat-error
+					*ngIf="raceFormErrors.dateEnd.required">
+					Campo <strong>requerido</strong>
+				</mat-error>
+				<mat-datepicker-toggle #toToggle matSuffix [for]="dateEndPicker"></mat-datepicker-toggle>
+				<mat-datepicker #dateEndPicker></mat-datepicker>
+			</mat-form-field>
+	
+			<mat-form-field fxFlex="0 0 45" [formGroup]="raceForm.get('race')">
+				<input matInput
+								placeholder="Hora de finalización (hh:mm)"
+								formControlName="hourEnd"
+								[textMask]="{mask: mask}"
+								[errorStateMatcher]="onSubmittedShowError"
+								required>
+				<mat-error *ngIf="raceFormErrors.hourEnd.required">
+					Campo <strong>requerido</strong>
+				</mat-error>
+			</mat-form-field>
+		</div>
 
 		<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin: 1em auto">
 			<span style="font-weight: 500">Importar resultados de la carrera</span>

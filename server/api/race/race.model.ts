@@ -26,6 +26,8 @@ const RaceSchema = new mongoose.Schema(<any>{
   name: String,
   dateStart: String,
   hourStart: String,
+  dateEnd: String,
+  hourEnd: String,
   city: String,
   country: String,
   kms: Number,

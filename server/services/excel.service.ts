@@ -31,22 +31,12 @@ export class ExcelService {
   static getRaceFromExcel(file) {
     return new Promise((resolve, reject) => {
       const workbook = new Excel.Workbook();
-      const race: any = {};
+      const results = [];
 
       return workbook.xlsx.readFile(file)
         .then(() => {
-          // Fill Basic Race info with the Summary Sheet
-          const summarySheet = workbook.getWorksheet('Summary');
-          race.name = summarySheet.getRow(1).getCell(2).value;      
-          race.dateStart = summarySheet.getRow(2).getCell(2).value;  
-          race.hourStart = summarySheet.getRow(3).getCell(2).value;
-          race.city = summarySheet.getRow(4).getCell(2).value;
-          race.country = summarySheet.getRow(5).getCell(2).value;
-          race.kms = +summarySheet.getRow(6).getCell(2).value;
-
           // Fill Basic Race Result info
           const worksheet = workbook.getWorksheet('Results');
-          race.results = [];
 
           // Iterate all Rows (Stations)
           worksheet.eachRow((row, rowNumber: number) => {
@@ -74,7 +64,7 @@ export class ExcelService {
               // Get Club (Eighth Column)       
               const club = row.getCell(8).value;  
               
-              race.results.push({
+              results.push({
                 position,
                 time,
                 rhythm,
@@ -88,7 +78,7 @@ export class ExcelService {
               });
             }
           });
-          resolve(race);
+          resolve(results);
         })
         .catch(reject);
     });

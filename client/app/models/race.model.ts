@@ -3,7 +3,9 @@ export class Race {
   createdBy?: {userId: string, email: string};
   name?: string;
   dateStart?: Date;
+  hourStart?: string;
   dateEnd?: Date;
+  hourEnd?: string;
   results: {
     position: number,
     time: number,

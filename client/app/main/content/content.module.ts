@@ -12,6 +12,10 @@ const routes: Route[] = [
     loadChildren: './chat/chat.module#AppChatModule'
   },
   {
+    path: 'calendar',
+    loadChildren: './calendar/calendar.module#AppCalendarModule'
+  },
+  {
     path: 'profile',
     loadChildren: './profile/profile.module#ProfileModule'
   },

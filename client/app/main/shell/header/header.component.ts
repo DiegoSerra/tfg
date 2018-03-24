@@ -44,7 +44,9 @@ export class AppHeaderComponent implements OnInit {
   openDialog() {
     const component = this.getDialogComponent();
 
-    const dialogRef = this.matDialog.open(component);
+    const dialogRef = this.matDialog.open(component,
+      {width: '600px'}
+    );
 
     dialogRef.afterClosed().subscribe(data => {
       if (data) {

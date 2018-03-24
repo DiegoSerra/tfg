@@ -10,11 +10,13 @@ import {MessageRoutes} from '../api/chat/messages.route';
 import {ErrorHandler} from '../config/error-handler.config';
 import {RaceRoutes} from '../api/race/race.route';
 import {MapRoutes} from '../api/map/map.route';
+import { BadgesRoutes } from '../api/badge/badge.route';
 
 export class Routes {
   static init(app: express.Application, router: express.Router) {
 
     UserRoutes.init(router);
+    BadgesRoutes.init(router);
     AuthRoutes.init(router);
     
     MessageRoutes.init(router);

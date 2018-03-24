@@ -3,20 +3,15 @@ import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class EmojisService {
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
   }
 
   all(): Observable<any> {
-    return this.http.get(`assets/emojis/emoji.json`)
-      .map((result: Response) => {
-        return result.json();
-      })
-      .catch((error: any) => {
-        return error;
-      });
+    return this.http.get(`assets/emojis/emoji.json`);
   }
 
   /* 
@@ -32,92 +27,38 @@ export class EmojisService {
   */
 
   getByCategory(category): Observable<any> {
-    return this.http.get(`assets/emojis/${category}.json`)
-      .map((result: Response) => {
-        return result.json();
-      })
-      .catch((error: any) => {
-        return error;
-      });
+    return this.http.get(`assets/emojis/${category}.json`);
   }
 
   animals(): Observable<any> {
-    return this.http.get(`assets/emojis/animals.json`)
-      .map((result: Response) => {
-        return result.json();
-      })
-      .catch((error: any) => {
-        return error;
-      });
+    return this.http.get(`assets/emojis/animals.json`);
   }
 
   arrows(): Observable<any> {
-    return this.http.get(`assets/emojis/arrows.json`)
-      .map((result: Response) => {
-        return result.json();
-      })
-      .catch((error: any) => {
-        return error;
-      });
+    return this.http.get(`assets/emojis/arrows.json`);
   }
 
   flags(): Observable<any> {
-    return this.http.get(`assets/emojis/flags.json`)
-      .map((result: Response) => {
-        return result.json();
-      })
-      .catch((error: any) => {
-        return error;
-      });
+    return this.http.get(`assets/emojis/flags.json`);
   }
 
   others(): Observable<any> {
-    return this.http.get(`assets/emojis/others.json`)
-      .map((result: Response) => {
-        return result.json();
-      })
-      .catch((error: any) => {
-        return error;
-      });
+    return this.http.get(`assets/emojis/others.json`);
   }
 
   smiles(): Observable<any> {
-    return this.http.get(`assets/emojis/smiles.json`)
-      .map((result: Response) => {
-        return result.json();
-      })
-      .catch((error: any) => {
-        return error;
-      });
+    return this.http.get(`assets/emojis/smiles.json`);
   }
 
   stars(): Observable<any> {
-    return this.http.get(`assets/emojis/stars.json`)
-      .map((result: Response) => {
-        return result.json();
-      })
-      .catch((error: any) => {
-        return error;
-      });
+    return this.http.get(`assets/emojis/stars.json`);
   }
 
   technology(): Observable<any> {
-    return this.http.get(`assets/emojis/technology.json`)
-      .map((result: Response) => {
-        return result.json();
-      })
-      .catch((error: any) => {
-        return error;
-      });
+    return this.http.get(`assets/emojis/technology.json`);
   }
 
   vehicles(): Observable<any> {
-    return this.http.get(`assets/emojis/vehicles.json`)
-      .map((result: Response) => {
-        return result.json();
-      })
-      .catch((error: any) => {
-        return error;
-      });
+    return this.http.get(`assets/emojis/vehicles.json`);
   }
 }

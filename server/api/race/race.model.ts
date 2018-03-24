@@ -11,8 +11,8 @@ const CreatedBy = new mongoose.Schema({
 
 const ResultSchema = new mongoose.Schema(<any>{
   position: Number,
-  time: String,
-  rhythm: String,
+  time: Number,
+  rhythm: Number,
   dorsal: Number,
   runnerName: String,
   positionCategory: Number,

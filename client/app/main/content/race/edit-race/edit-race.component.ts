@@ -46,7 +46,7 @@ export class EditRaceComponent implements OnInit {
 
   ngOnInit() {
     this.raceService.getOne(this.route.snapshot.params['id'])
-      .subscribe(race => {
+      .subscribe((race: any) => {
         this.race = race;
       });
   }

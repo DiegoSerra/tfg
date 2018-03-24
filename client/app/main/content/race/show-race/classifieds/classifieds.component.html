@@ -1,3 +1,87 @@
-<pre>
-  {{race.results | json}}
-</pre>
+<div fxFlex="1 0 100" fxLayout="row wrap" class="p-12">
+
+  <!-- WIDGET -->
+  <app-widget class="widget" fxLayout="row" fxFlex="100">
+    <!-- Front -->
+    <div class="app-widget-front mat-white-bg mat-elevation-z2">
+
+      <div class="p-24 mb-8 border-bottom" fxLayout="row"
+          fxLayoutAlign="space-between center">
+          <div class="h2"> Corredores </div>
+          <div fxLayoutAlign="end center" fxLayoutGap="1.5em">
+            <mat-form-field floatPlaceholder="never" [style.width.px]="'110'">
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar corredores">
+            </mat-form-field>
+            <div class="text-boxed red-bg white-fg m-0 mr-8">
+              {{race?.results?.length || 0}}
+              {{race?.results?.length > 1 ? 'corredores' : 'corredor'}}
+            </div>
+          </div>
+      </div>
+
+      <mat-table #table [dataSource]="dataSource" matSort>
+
+        <!-- Avatar Column -->
+        <!-- <ng-container matColumnDef="profileImageUrl">
+          <mat-header-cell fxFlex="64px" *matHeaderCellDef></mat-header-cell>
+          <mat-cell fxFlex="64px" *matCellDef="let element">
+              <img class="avatar" [alt]="element.name"
+                    [src]="element.profileImageUrl"/>
+          </mat-cell>
+        </ng-container> -->
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="position">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Posición </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="runnerName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.runnerName}} </mat-cell>
+        </ng-container>
+
+        <!-- Time Column -->
+        <ng-container matColumnDef="time">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Tiempo </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.time | secondsToTime}} </mat-cell>
+        </ng-container>
+
+        <!-- Rhythm Column -->
+        <ng-container matColumnDef="rhythm">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Ritmo </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.rhythm | secondsToTime}} </mat-cell>
+        </ng-container>
+
+        <!-- Action Column -->
+        <!-- <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef> Acciones</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-around center">
+              <button mat-icon-button>
+                <mat-icon class="md-24" aria-label="Ver perfil público" [routerLink]="['/app/profile/', element._id]">account_circle</mat-icon>
+              </button>
+              <button mat-icon-button>
+                <mat-icon class="md-24" aria-label="Eliminar miembros" (click)="deleteMember(entity, element)">delete</mat-icon>
+              </button>
+            </div>
+          </mat-cell>
+        </ng-container> -->
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+
+      <mat-paginator #paginator
+           [pageSize]="10"
+           [pageSizeOptions]="[5, 10, 25, 100]"
+           [showFirstLastButtons]="true">
+      </mat-paginator>
+
+    </div>  
+    <!-- / Front -->
+  </app-widget>
+  <!-- / WIDGET -->
+
+</div>

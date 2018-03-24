@@ -18,7 +18,7 @@ export class PublicProfileComponent implements OnInit {
       .subscribe((params: any) => {
         const userId = params.userId;
         userService.getUserProfile(userId)
-          .subscribe(userInfo => {
+          .subscribe((userInfo: any) => {
             this.user = userInfo;
           });
       });

@@ -35,14 +35,14 @@ export class AllRacesComponent implements OnInit {
 
   ngOnInit() {
     this.raceService.all()
-      .subscribe(races => {
+      .subscribe((races: any) => {
         this.races = races;
       });
   }
 
   updateRaces() {
     this.raceService.all()
-      .subscribe(races => {
+      .subscribe((races: any) => {
         this.races = races;
       });
   }

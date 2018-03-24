@@ -4,7 +4,7 @@
 
         <!-- TOOLBAR: Above -->
         <ng-container *ngIf="appSettings.layout.toolbar === 'above'">
-            <app-toolbar class="above" [class]="appSettings.colorClasses.toolbar"></app-toolbar>
+            <app-toolbar class="above" [ngClass]="appSettings.colorClasses.toolbar"></app-toolbar>
         </ng-container>
         <!-- / TOOLBAR: Above -->
 
@@ -13,14 +13,14 @@
             <app-navbar [folded]="false"
                          class="left-navbar"
                          *ngIf="appSettings.layout.navigation === 'left'"
-                         [class]="appSettings.colorClasses.navbar">
+                         [ngClass]="appSettings.colorClasses.navbar">
             </app-navbar>
 
             <div class="content-wrapper">
 
                 <!-- TOOLBAR: Below -->
                 <ng-container *ngIf="appSettings.layout.toolbar === 'below'">
-                    <app-toolbar class="below" [class]="appSettings.colorClasses.toolbar"></app-toolbar>
+                    <app-toolbar class="below" [ngClass]="appSettings.colorClasses.toolbar"></app-toolbar>
                 </ng-container>
                 <!-- / TOOLBAR: Below -->
                 
@@ -28,7 +28,7 @@
 
                 <!-- FOOTER: Below -->
                 <ng-container *ngIf="appSettings.layout.footer === 'below'">
-                    <app-footer class="below" [class]="appSettings.colorClasses.footer"></app-footer>
+                    <app-footer class="below" [ngClass]="appSettings.colorClasses.footer"></app-footer>
                 </ng-container>
                 <!-- / FOOTER: Below -->
 
@@ -40,7 +40,7 @@
 
         <!-- FOOTER: Above -->
         <ng-container *ngIf="appSettings.layout.footer === 'above'">
-            <app-footer class="above" [class]="appSettings.colorClasses.footer"></app-footer>
+            <app-footer class="above" [ngClass]="appSettings.colorClasses.footer"></app-footer>
         </ng-container>
         <!-- FOOTER: Above -->
 

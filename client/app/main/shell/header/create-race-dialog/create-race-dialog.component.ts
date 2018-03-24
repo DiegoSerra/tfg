@@ -25,7 +25,7 @@ export class CreateRaceDialogComponent implements OnInit {
               private mapService: MapService,
               private formBuilder: FormBuilder) {
     this.mapService.getMapNames()
-      .subscribe(files => {
+      .subscribe((files: any) => {
         this.tracks = files;
       });
 

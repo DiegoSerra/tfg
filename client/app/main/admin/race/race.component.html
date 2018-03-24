@@ -1,11 +1,11 @@
 <div class="page-layout simple tabbed"  fxLayout="row wrap" fxLayoutAlign="center start">
   <app-header title="Mis Carreras" icon="directions_run" headerColor="#03a9f4" dialog="CreateRace" (update)="dataChange($event)">
   </app-header>
-  <div fxFlex.gt-sm="0 0 85" fxFlex.sm="0 0 95" fxFlex="0 0 100" fxLayout="row wrap" class.gt-xs="content"
-  class.xs="content-xs" fxLayoutAlign="center stretch">
+  <div fxFlex.gt-sm="0 0 85" fxFlex.sm="0 0 95" fxFlex="0 0 100" fxLayout="row wrap" ngClass.gt-xs="content"
+  ngClass.xs="content-xs" fxLayoutAlign="center stretch">
     <mat-progress-bar *ngIf="loading" mode="indeterminate" color="accent"></mat-progress-bar>
-    <div fxFlex="0 0 100" fxLayout="row wrap" class.xs="content-card content-card-xs mat-elevation-z4"
-    class.gt-xs="content-card content-card-gt-xs mat-elevation-z4" fxLayoutAlign="center start">
+    <div fxFlex="0 0 100" fxLayout="row wrap" ngClass.xs="content-card content-card-xs mat-elevation-z4"
+    ngClass.gt-xs="content-card content-card-gt-xs mat-elevation-z4" fxLayoutAlign="center start">
           <div id="price-tables" class="page-layout simple fullwidth"
 
           fxLayout="row wrap"
@@ -21,31 +21,31 @@
               </div>
 
               <mat-form-field floatPlaceholder="never">
-                <input matInput #filter placeholder="Filtrar carreras">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar carreras">
               </mat-form-field>
 
-              <mat-table #table [dataSource]="dataSource">
+              <mat-table #table [dataSource]="dataSource" matSort>
                   <!-- Name Column -->
                   <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
                   </ng-container>
 
                   <!-- CreatedBy Column -->
                   <ng-container matColumnDef="createdBy">
-                    <mat-header-cell *matHeaderCellDef> Creado por </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Creado por </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.createdBy.name}} </mat-cell>
                   </ng-container>
 
                   <!-- When Column -->
                   <ng-container matColumnDef="when">
-                    <mat-header-cell *matHeaderCellDef> Creado el </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Creado el </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.createdBy.when | date: 'dd/MM/yyyy'}} </mat-cell>
                   </ng-container>
 
                   <!-- Participants Column -->
                   <ng-container matColumnDef="participants">
-                    <mat-header-cell *matHeaderCellDef> Participantes </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Participantes </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.results.length}} </mat-cell>
                   </ng-container>
 
@@ -66,10 +66,9 @@
                 </mat-table>
 
                 <mat-paginator #paginator
-                  [length]="totalRaces?.length"
-                  [pageIndex]="0"
-                  [pageSize]="25"
-                  [pageSizeOptions]="[5, 10, 25, 100]">
+                              [pageSize]="10"
+                              [pageSizeOptions]="[5, 10, 25, 100]"
+                              [showFirstLastButtons]="true">
                 </mat-paginator>
               </div>
             </div>

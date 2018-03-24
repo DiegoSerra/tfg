@@ -12,6 +12,7 @@ import { LastWeekPipe } from './last-week.pipe';
 import { TodayPipe } from './today.pipe';
 import { FileStateFormatPipe } from './file-state-format.pipe';
 import { EmojiFilterPipe } from './emoji-filter.pipe';
+import { SecondsToTimePipe } from './secondsToTime.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { EmojiFilterPipe } from './emoji-filter.pipe';
     TodayPipe,
     FileStateFormatPipe,
     EmojiFilterPipe,
+    SecondsToTimePipe
   ],
   imports: [],
   exports: [
@@ -42,6 +44,7 @@ import { EmojiFilterPipe } from './emoji-filter.pipe';
     TodayPipe,
     FileStateFormatPipe,
     EmojiFilterPipe,
+    SecondsToTimePipe
   ]
 })
 

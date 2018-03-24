@@ -2,7 +2,7 @@ import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {RaceService} from '../../../core/services/race.service';
 import {MapService} from '../../../core/services/map.service';
 import {Observable} from 'rxjs/Observable';
-import {MatPaginator} from '@angular/material';
+import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 import {DataSource} from '@angular/cdk/collections';
@@ -14,6 +14,7 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/merge';
+import { Race } from '../../../models/race.model';
 
 @Component({
   selector: 'app-race',
@@ -23,10 +24,10 @@ import 'rxjs/add/observable/merge';
 export class RaceComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild('filter') filter: ElementRef;
+  @ViewChild(MatSort) sort: MatSort;
   
   displayedColumns = ['name', 'createdBy', 'when', 'participants', 'actions'];
-  dataSource: RaceDataSource | null;
+  dataSource = new MatTableDataSource<Race>(races);
   loading = false;
 
   totalRaces: any;
@@ -35,6 +36,11 @@ export class RaceComponent implements OnInit {
     this.updateRaces();
   }
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
 
   ngOnInit() {
   }
@@ -42,20 +48,21 @@ export class RaceComponent implements OnInit {
   updateRaces() {
     this.loading = true;
     this.raceService.getAll()
-      .subscribe(currentRaces => {
+      .subscribe((currentRaces: any) => {
         this.loading = false;
         races = currentRaces;
         this.totalRaces = races;
-        this.dataSource = new RaceDataSource(this.paginator);
-        Observable.fromEvent(this.filter.nativeElement, 'keyup')
-          .debounceTime(150)
-          .distinctUntilChanged()
-          .subscribe(() => {
-            if (!this.dataSource) {
-              return;
-            }
-            this.dataSource.filter = this.filter.nativeElement.value;
-          });
+        this.dataSource = new MatTableDataSource<Race>(races);    
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sortingDataAccessor = (item: any, property) => {
+          switch (property) {
+            case 'createdBy': return item.createdBy.name;
+            case 'when': return item.createdBy.when;
+            case 'participants': return item.results.length;
+            default: return item[property];
+          }
+        };
+        this.dataSource.sort = this.sort;
       });
   }
 
@@ -68,40 +75,4 @@ export class RaceComponent implements OnInit {
       });
   }
 
-}
-
-export class RaceDataSource extends DataSource<any> {
-  _filterChange = new BehaviorSubject('');
-
-  get filter(): string {
-    return this._filterChange.value;
-  }
-
-  set filter(filter: string) {
-    this._filterChange.next(filter);
-  }
-
-  constructor(private _paginator: MatPaginator) {
-    super();
-  }
-
-  connect(): Observable<any[]> {
-    return Observable
-      .merge(races, this._paginator.page, this._filterChange)
-      .map(() => {
-        const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-
-        let data = races.slice().filter((item: any) => {
-          const searchStr = (item.name || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          return searchStr.indexOf((this.filter || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')) !== -1;
-        });
-
-        data = data.splice(startIndex, this._paginator.pageSize);
-
-        return data;
-      });
-  }
-
-  disconnect() {
-  }
 }

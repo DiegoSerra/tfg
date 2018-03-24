@@ -5,66 +5,43 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import {Race} from '../../models/race.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class RaceService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
   getAll() {
-    return this.http.get(`api/race`)
-      .map((result: Response) => {
-        return result.json();
-      });
+    return this.http.get(`api/race`);
   }
 
   all() {
-    return this.http.get(`api/race/me`)
-      .map((result: Response) => {
-        return result.json();
-      });
+    return this.http.get(`api/race/me`);
   }
 
   getOne(raceId) {
-    return this.http.get(`api/race/${raceId}`)
-      .map((result: Response) => {
-        return result.json();
-      });
+    return this.http.get(`api/race/${raceId}`);
   }
 
   create(race: Race): Observable<any> {
-    return this.http.post(`api/race`, race)
-      .map((result: Response) => {
-        return result.json();
-      });
+    return this.http.post(`api/race`, race);
   }
 
   update(race: Race): Observable<any> {
-    return this.http.put(`api/race/${race._id}`, race)
-      .map((result: Response) => {
-        return result.json();
-      });
+    return this.http.put(`api/race/${race._id}`, race);
   }
 
   getOpportumeeties(raceId: string) {
-    return this.http.get(`api/race/${raceId}/opportumeeties`)
-      .map((result: Response) => {
-        return result.json();
-      });
+    return this.http.get(`api/race/${raceId}/opportumeeties`);
   }
 
   requestMatch(participantId: string, fromRace: string, toRace: string, pts: Object) {
-    return this.http.post(`api/race/request`, {participants: [participantId], fromRace, toRace, pts })
-      .map((result: Response) => {
-        return result.json();
-      });
+    return this.http.post(`api/race/request`, {participants: [participantId], fromRace, toRace, pts });
   }
 
   remove(raceId: string) {
-    return this.http.delete(`api/race/${raceId}`)
-      .map((result: Response) => {
-        return result;
-      });
+    return this.http.delete(`api/race/${raceId}`);
   }
 
 }

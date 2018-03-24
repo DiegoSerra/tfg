@@ -6,8 +6,8 @@ export class Race {
   dateEnd?: Date;
   results: {
     position: number,
-    time: string,
-    rhythm: string,
+    time: number,
+    rhythm: number,
     dorsal: number,
     runnerName: string,
     positionCategory: number,

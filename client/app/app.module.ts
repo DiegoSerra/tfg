@@ -22,6 +22,7 @@ import {BadgesService} from './core/services/badges.service';
 import {RaceService} from './core/services/race.service';
 import {MapService} from './core/services/map.service';
 import {TrackService} from './core/services/track.service';
+import { HttpClientModule } from '@angular/common/http';
 
 const appRoutes: Routes = [
   {
@@ -53,6 +54,7 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule.withServerTransition({appId: 'tfg.com'}),
     HttpModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     // RouterModule.forRoot(appRoutes, { preloadingStrategy: PreloadAllModules }),
     RouterModule.forRoot(appRoutes),

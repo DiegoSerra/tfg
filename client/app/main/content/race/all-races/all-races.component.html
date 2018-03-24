@@ -2,10 +2,10 @@
   <app-header title="Mis Carreras" icon="directions_run" headerColor="#03a9f4" [create]="['..', 'create']">
   </app-header>
 
-  <div fxFlex.gt-sm="0 0 85" fxFlex.sm="0 0 95" fxFlex="0 0 100" fxLayout="row wrap" class.gt-xs="content"
-       class.xs="content-xs" fxLayoutAlign="center stretch">
-    <div fxFlex="0 0 100" fxLayout="row wrap" class.xs="content-card content-card-xs mat-elevation-z4"
-         class.gt-xs="content-card content-card-gt-xs mat-elevation-z4" fxLayoutAlign="center start">
+  <div fxFlex.gt-sm="0 0 85" fxFlex.sm="0 0 95" fxFlex="0 0 100" fxLayout="row wrap" ngClass.gt-xs="content"
+       ngClass.xs="content-xs" fxLayoutAlign="center stretch">
+    <div fxFlex="0 0 100" fxLayout="row wrap" ngClass.xs="content-card content-card-xs mat-elevation-z4"
+         ngClass.gt-xs="content-card content-card-gt-xs mat-elevation-z4" fxLayoutAlign="center start">
       <mat-nav-list fxFlex="0 0 100">
         <h3 mat-subheader>Carreras</h3>
         <mat-list-item *ngFor="let race of races">

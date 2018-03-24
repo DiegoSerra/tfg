@@ -1,10 +1,10 @@
 <div class="page-layout simple tabbed"  fxLayout="row wrap" fxLayoutAlign="center start">
   <app-header title="Usuarios" icon="group" headerColor="#03a9f4"></app-header>
-  <div fxFlex.gt-sm="0 0 85" fxFlex.sm="0 0 95" fxFlex="0 0 100" fxLayout="row wrap" class.gt-xs="content"
-  class.xs="content-xs" fxLayoutAlign="center stretch">
+  <div fxFlex.gt-sm="0 0 85" fxFlex.sm="0 0 95" fxFlex="0 0 100" fxLayout="row wrap" ngClass.gt-xs="content"
+  ngClass.xs="content-xs" fxLayoutAlign="center stretch">
     <mat-progress-bar *ngIf="loading" mode="indeterminate" color="accent"></mat-progress-bar>
-    <div fxFlex="0 0 100" fxLayout="row wrap" class.xs="content-card content-card-xs mat-elevation-z4"
-    class.gt-xs="content-card content-card-gt-xs mat-elevation-z4" fxLayoutAlign="center start">
+    <div fxFlex="0 0 100" fxLayout="row wrap" ngClass.xs="content-card content-card-xs mat-elevation-z4"
+    ngClass.gt-xs="content-card content-card-gt-xs mat-elevation-z4" fxLayoutAlign="center start">
           <div id="price-tables" class="page-layout simple fullwidth"
 
           fxLayout="row wrap"
@@ -22,7 +22,7 @@
               <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
                 <div fxFlex="0 0 100" fxFlex.gt-sm="50" fxLayoutAlign="start center">
                   <mat-form-field floatPlaceholder="never">
-                    <input matInput #filter placeholder="Filtrar usuarios">
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar usuarios">
                   </mat-form-field>
                 </div>
                 <div [formGroup]="checkboxGroup" fxFlex="0 0 100" fxFlex.gt-sm="50" fxLayoutAlign="end center" fxLayoutGap="2em">
@@ -40,34 +40,34 @@
               </div>
 
 
-              <mat-table #table [dataSource]="dataSource">
+              <mat-table #table [dataSource]="dataSource" matSort>
                   <!-- Name Column -->
                   <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
                   </ng-container>
 
                   <!-- Email Column -->
                   <ng-container matColumnDef="email">
-                    <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
                   </ng-container>
 
                   <!-- Provider Column -->
                   <ng-container matColumnDef="provider">
-                    <mat-header-cell *matHeaderCellDef> Provider </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Provider </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.provider}} </mat-cell>
                   </ng-container>
 
                   <!-- Role Column -->
                   <ng-container matColumnDef="role">
-                    <mat-header-cell *matHeaderCellDef> Rol </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Rol </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.role}} </mat-cell>
                   </ng-container>
 
                   <!-- CreatedOn Column -->
                   <ng-container matColumnDef="createdOn">
-                    <mat-header-cell *matHeaderCellDef> Creado en </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Creado en </mat-header-cell>
                     <mat-cell *matCellDef="let element"> {{element.createdOn | date: 'dd/MM/yyyy'}} </mat-cell>
                   </ng-container>
 
@@ -88,10 +88,9 @@
                 </mat-table>
 
                 <mat-paginator #paginator
-                  [length]="totalUsers?.length"
-                  [pageIndex]="0"
-                  [pageSize]="25"
-                  [pageSizeOptions]="[5, 10, 25, 100]">
+                              [pageSize]="10"
+                              [pageSizeOptions]="[5, 10, 25, 100]"
+                              [showFirstLastButtons]="true">
                 </mat-paginator>
               </div>
             </div>

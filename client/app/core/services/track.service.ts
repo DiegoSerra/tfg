@@ -60,7 +60,7 @@ export class TrackService {
   }
 
   initializeRaceVars(race) {
-    const totalTimes = race.results.map((result) => this.timeService.stringDateToFullSeconds(result.time, true));
+    const totalTimes = race.results.map((result) => result.time);
     const lastClassifiedTime = Math.max(...totalTimes);
     const _race = {...race};
     _race.finishTime = lastClassifiedTime;
@@ -125,7 +125,7 @@ export class TrackService {
       if (timeFromStart < 0) {
         timeFromStart = 0;
       }
-      runner.vel = 1000 / this.timeService.stringRhythmToFullSeconds(runner.rhythm);
+      runner.vel = 1000 / runner.rhythm;
       dist[index] = (runner.dist || 0) + timeFromStart * runner.vel;
       runner.dist = dist[index];
     });

@@ -51,7 +51,7 @@ export class AppResetPasswordComponent implements OnInit {
   resetPassword() {
     const queryParams = this.activatedRoute.snapshot.queryParams;
     this.userService.resetPassword(queryParams.token, this.resetPasswordForm.value.password)
-      .subscribe(result => {
+      .subscribe((result: any) => {
         this.userService.me();
         window.location.href = result.redirectPath;
       });

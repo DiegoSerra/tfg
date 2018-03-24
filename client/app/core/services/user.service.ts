@@ -11,6 +11,7 @@ import {User} from '../../models/user.model';
 import 'rxjs/add/operator/map';
 import {Badges} from '../../models/badges.model';
 import {BadgesService} from './badges.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class UserService {
@@ -23,7 +24,7 @@ export class UserService {
   private JwtHelper = new JwtHelper();
   private userDecoded;
 
-  constructor(private http: Http,
+  constructor(private http: HttpClient,
               private cookieService: CookieService,
               private badgesService: BadgesService) {
     this.me();
@@ -49,17 +50,11 @@ export class UserService {
   }
 
   getUserProfile(userId: string) {
-    return this.http.get(`api/user/${userId}`)
-      .map((res: Response) => {
-        return res.json();
-      });
+    return this.http.get(`api/user/${userId}`);
   }
 
   login(user: any, paramsString: string = ''): Observable<any> {
-    return this.http.post(`api/authenticate${paramsString}`, user)
-      .map((res: Response) => {
-        return res.json();
-      });
+    return this.http.post(`api/authenticate${paramsString}`, user);
   }
 
   logout(funct?: Function) {
@@ -71,19 +66,13 @@ export class UserService {
   }
 
   create(user: any, queryParams?: {[key: string]: string}) {
-    const observer: Observable<any> = this.http.post('api/user', user, {params: queryParams})
-      .map((res: Response) => {
-        return res.json();
-      });
+    const observer: Observable<any> = this.http.post('api/user', user, {params: queryParams});
 
     return observer;
   }
 
   activate(user: any) {
-    return this.http.put(`api/user/${user._id}`, {active: true})
-      .map((res: Response) => {
-        return res.json();
-      });
+    return this.http.put(`api/user/${user._id}`, {active: true});
   }
 
   deactivate(user: any) {
@@ -112,52 +101,38 @@ export class UserService {
   }
 
   all(filter?) {
-    return this.http.get(`api/user`, {params: {filter}})
-      .map(result => {
-        return result.json();
-      });
+    if (filter) {
+      return this.http.get(`api/user`, {params: {filter}});
+    } else {
+      return this.http.get(`api/user`);
+    }
   }
 
   getChats() {
-    return this.http.get(`api/user/chats`)
-      .map(result => {
-        return result.json();
-      });
+    return this.http.get(`api/user/chats`);
   }
 
   forgotPassword(email) {
     return this.http.post(`api/user/forgotPassword`, {email})
       .map(result => {
-        return result.json();
+        return result;
       });
   }
 
   resetPassword(passwordToken, newPassword) {
-    return this.http.post(`api/user/passwordReset`, {newPassword}, {params: {passwordToken}})
-      .map(result => {
-        return result.json();
-      });
+    return this.http.post(`api/user/passwordReset`, {newPassword}, {params: {passwordToken}});
   }
 
   changeEmail(newEmail) {
-    return this.http.put(`api/user/email`, {email: newEmail})
-      .map(result => {
-        return result.json();
-      });
+    return this.http.put(`api/user/email`, {email: newEmail});
   }
 
   changeName(newName) {
-    return this.http.put(`api/user/name`, {name: newName})
-      .map(result => {
-        return result.json();
-      });
+    return this.http.put(`api/user/name`, {name: newName});
   }
 
   updateUser(user) {
-    return this.http.put(`api/user`, {user: user})
-      .map(result => {
-        return result.json();
-      });
+    return this.http.put(`api/user`, {user: user});
   }
 
   exportExternalUsers() {

@@ -1,7 +1,7 @@
 import {UserService} from '../../../core/services/user.service';
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
-import {MatPaginator} from '@angular/material';
+import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 import {DataSource} from '@angular/cdk/collections';
@@ -14,6 +14,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/merge';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { User } from '../../../models/user.model';
 
 @Component({
   selector: 'app-user',
@@ -22,11 +23,11 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class UserComponent implements OnInit {
 
-  @ViewChild('filter') filter: ElementRef;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   
   displayedColumns = ['name', 'email', 'provider', 'role', 'createdOn'];
-  dataSource: UserDataSource | null;
+  dataSource = new MatTableDataSource<User>(users);
   loading = false;
 
   exportedUrl: string;
@@ -38,6 +39,11 @@ export class UserComponent implements OnInit {
     this.updateUsers();
   }
 
+  applyFilter(filterValue: string) {
+    filterValue = filterValue.trim(); // Remove whitespace
+    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = filterValue;
+  }
 
   ngOnInit() {
     this.checkboxGroup = this.formBuilder.group({
@@ -46,8 +52,7 @@ export class UserComponent implements OnInit {
     });
 
     this.checkboxGroup.valueChanges.subscribe((data) => {
-      this.dataSource.checkbox = data;
-      this.totalUsers = users.filter(
+      this.dataSource.data = users.filter(
         (user) =>
           ((user.active || user.active === undefined) && data.activeUsers) ||
           (!user.active && data.deactiveUsers && user.active !== undefined)
@@ -58,20 +63,13 @@ export class UserComponent implements OnInit {
   updateUsers() {
     this.loading = true;
     this.userService.all()
-      .subscribe(currentUsers => {
+      .subscribe((currentUsers: any) => {
         this.loading = false;
         users = currentUsers;
         this.totalUsers = users;
-        this.dataSource = new UserDataSource(this.paginator);
-        Observable.fromEvent(this.filter.nativeElement, 'keyup')
-          .debounceTime(150)
-          .distinctUntilChanged()
-          .subscribe(() => {
-            if (!this.dataSource) {
-              return;
-            }
-            this.dataSource.filter = this.filter.nativeElement.value;
-          });
+        this.dataSource = new MatTableDataSource<User>(users);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       });
   }
 
@@ -86,57 +84,4 @@ export class UserComponent implements OnInit {
       });
   }
 
-}
-
-export class UserDataSource extends DataSource<any> {
-  _filterChange = new BehaviorSubject('');
-  _checkBoxChange = new BehaviorSubject('');
-
-  get filter(): string {
-    return this._filterChange.value;
-  }
-
-  set filter(filter: string) {
-    this._filterChange.next(filter);
-  }
-
-  get checkbox(): any {
-    return this._checkBoxChange.value;
-  }
-
-  set checkbox(filter: any) {
-    this._checkBoxChange.next(filter);
-  }
-
-  constructor(private _paginator: MatPaginator) {
-    super();
-  }
-
-  connect(): Observable<any[]> {
-    return Observable
-      .merge(users, this._paginator.page, this._filterChange, this._checkBoxChange)
-      .map(() => {
-        const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-
-        let data = users.slice().filter((item: any) => {
-          const searchStr = (item.name || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-          return searchStr.indexOf((this.filter || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')) !== -1;
-        });
-
-        if (this.checkbox) {
-          data = users.slice().filter(
-            (user) =>
-              (((user.active || user.active === undefined) && this.checkbox.activeUsers) ||
-              (!user.active && this.checkbox.deactiveUsers && user.active !== undefined))
-          );
-        }
-
-        data = data.splice(startIndex, this._paginator.pageSize);
-
-        return data;
-      });
-  }
-
-  disconnect() {
-  }
 }

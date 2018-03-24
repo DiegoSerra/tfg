@@ -28,56 +28,56 @@ export class AnalysisComponent implements OnInit {
         'name': '< 4:00',
         'value': 
           this.race.results.filter(result => 
-            this.timeService.stringRhythmToFullSeconds(result.rhythm) < 240
+            result.rhythm < 240
           ).length
       },
       {
         'name': '4:00 - 4:30',
         'value': 
           this.race.results.filter(result => 
-            this.timeService.stringRhythmToFullSeconds(result.rhythm) >= 240 && this.timeService.stringRhythmToFullSeconds(result.rhythm) < 270
+            result.rhythm >= 240 && result.rhythm < 270
           ).length
       },
       {
         'name': '4:30 - 5:00',
         'value': 
           this.race.results.filter(result => 
-            this.timeService.stringRhythmToFullSeconds(result.rhythm) >= 270 && this.timeService.stringRhythmToFullSeconds(result.rhythm) < 300
+            result.rhythm >= 270 && result.rhythm < 300
           ).length
       },
       {
         'name': '5:00 - 5:30',
         'value': 
           this.race.results.filter(result => 
-            this.timeService.stringRhythmToFullSeconds(result.rhythm) >= 300 && this.timeService.stringRhythmToFullSeconds(result.rhythm) < 330
+            result.rhythm >= 300 && result.rhythm < 330
           ).length
       },
       {
         'name': '5:30 - 6:00',
         'value': 
           this.race.results.filter(result => 
-            this.timeService.stringRhythmToFullSeconds(result.rhythm) >= 330 && this.timeService.stringRhythmToFullSeconds(result.rhythm) < 360
+            result.rhythm >= 330 && result.rhythm < 360
           ).length
       },
       {
         'name': '6:00 - 6:30',
         'value': 
           this.race.results.filter(result => 
-            this.timeService.stringRhythmToFullSeconds(result.rhythm) >= 360 && this.timeService.stringRhythmToFullSeconds(result.rhythm) < 390
+            result.rhythm >= 360 && result.rhythm < 390
           ).length
       },
       {
         'name': '6:30 - 7:00',
         'value': 
           this.race.results.filter(result => 
-            this.timeService.stringRhythmToFullSeconds(result.rhythm) >= 390 && this.timeService.stringRhythmToFullSeconds(result.rhythm) < 420
+            result.rhythm >= 390 && result.rhythm < 420
           ).length
       },
       {
         'name': '> 7:00',
         'value': 
           this.race.results.filter(result => 
-            this.timeService.stringRhythmToFullSeconds(result.rhythm) >= 450
+            result.rhythm >= 450
           ).length
       },
     ];
@@ -114,5 +114,4 @@ export class AnalysisComponent implements OnInit {
       }
     ];
   }
-
 }

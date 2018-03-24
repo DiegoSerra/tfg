@@ -18,7 +18,7 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.mapService.getOneByRace(this.race._id)
-      .subscribe(map => {
+      .subscribe((map: any) => {
         this.map = map;
         this.trackService.plotActivity(this.map, this.race);
       });

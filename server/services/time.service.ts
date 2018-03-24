@@ -78,4 +78,20 @@ export class TimeService {
     return seconds >= 10 ? `${seconds}` : `0${seconds}`;
   }
 
+  public static stringRhythmToFullSeconds(date: string) {
+    const minutes = new Date(date).getHours() - 1;
+    const minutesToSeconds = minutes * 60;
+    const seconds = new Date(date).getMinutes();
+    return (minutesToSeconds + seconds);
+  }
+
+  public static stringDateToFullSeconds(date: string) {
+    const hours = new Date(date).getHours() - 1;
+    const hoursToSeconds = hours * 60 * 60;
+    const minutes = new Date(date).getMinutes();
+    const minutesToSeconds = minutes * 60;
+    const seconds = new Date(date).getSeconds();
+    return (hoursToSeconds + minutesToSeconds + seconds);
+  }
+
 }

@@ -73,7 +73,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, AfterViewChe
       this.router.queryParams
         .subscribe(queryParams => {
           if (queryParams.fragment) {
-            // this.goToFragment(queryParams.fragment);
+            this.goToFragment(queryParams.fragment);
           }
         });
     });
@@ -90,7 +90,7 @@ export class LandingPageComponent implements OnInit, AfterViewInit, AfterViewChe
 
   goToFragment(fragment, speed = 1500) {
     try {
-      this.myScrollContainer.nativeElement.scrollTop = document.getElementById(fragment).offsetTop;
+      this.myScrollContainer['_element'].nativeElement.scrollTop = document.getElementById(fragment).offsetTop;
     } catch (err) {
       console.log(err);
     }  

@@ -37,7 +37,7 @@
 
         @each $prop, $abbrev in (margin: m, padding: p) {
 
-            @for $index from 0 through 64 {
+            @for $index from 0 through 128 {
                 $size: $index * 4;
                 $length: #{$size}px;
 
@@ -46,7 +46,7 @@
                 }
             }
 
-            @for $index from 0 through 64 {
+            @for $index from 0 through 128 {
                 $size: $index * 4;
                 $length: #{$size}px;
 
@@ -61,7 +61,7 @@
                 }
             }
 
-            @for $index from 0 through 64 {
+            @for $index from 0 through 128 {
                 $size: $index * 4;
                 $length: #{$size}px;
 
@@ -83,7 +83,7 @@
             }
 
             @if ($abbrev == m) {
-                @for $index from 0 through 64 {
+                @for $index from 0 through 128 {
                     $size: $index * 4;
                     $length: #{$size}px;
 

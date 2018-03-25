@@ -44,3 +44,27 @@
 .pointer {
   cursor: pointer;
 }
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+@include media-breakpoint-down('md') {
+  .container {
+      width: 100%;
+  }
+}
+@include media-breakpoint-down('sm') {
+  .container {
+      width: 100%;
+  }
+}
+@include media-breakpoint-down('xs') {
+  .container {
+      width: 100%;
+      padding-left: 16px;
+      padding-right: 16px;
+  }
+}

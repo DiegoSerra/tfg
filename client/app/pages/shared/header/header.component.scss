@@ -4,8 +4,14 @@
     flex: 1;
 }
 
-.mat-toolbar.mat-primary {
-    background: rgba(60, 66, 82, 0.4);
+mat-toolbar {
+    position: fixed;
+    z-index: 1500;
+
+    .top-bar {
+        margin-bottom: 0;
+        z-index: 0;
+    }
 }
 
 .nav-bar-container {
@@ -30,7 +36,6 @@ mat-toolbar {
   }
 
 }
-
 
 .main-nav-header a {
   padding: 0 20px;

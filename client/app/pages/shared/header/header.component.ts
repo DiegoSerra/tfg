@@ -1,5 +1,5 @@
 import { AppSplashScreenService } from '../../../core/services/splash-screen.service';
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, Input, ViewEncapsulation} from '@angular/core';
 import {LandingScrollService} from '../../../landing-page/services/landing-scroll.service';
 import {environment} from '../../../../environments/environment';
 import {UserService} from '../../../core/services/user.service';
@@ -9,14 +9,15 @@ import {User} from '../../../models/user.model';
   selector: 'app-landing-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [LandingScrollService]
 })
 export class LandingHeaderComponent implements OnInit {
   user: User;
   hideAccessPanel = environment.hideAccessPanel;
   isSideNavOpen = false;
-
   @Output('onGoToFragment') onGoToFragment = new EventEmitter<string>();
+  @Output('onToggleSidenav') onToggleSidenav = new EventEmitter<any>();
 
   isLogedIn;
 
@@ -39,6 +40,7 @@ export class LandingHeaderComponent implements OnInit {
 
   toggleSidenav() {
     this.isSideNavOpen = !this.isSideNavOpen;
+    this.onToggleSidenav.emit();
   }
 
   showLoading() {

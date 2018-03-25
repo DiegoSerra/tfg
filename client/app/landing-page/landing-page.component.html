@@ -1,37 +1,175 @@
-<mat-sidenav-container fxLayout="row wrap" fxLayoutAlign="start start" fxFlex="1 0 100">
+<mat-sidenav-container #scrollMe detect-scroll (onScroll)="handleScroll($event)" [bottomOffset]="bottomOffset" [topOffset]="topOffset" id="landing-page" fxLayout="row wrap" fxLayoutAlign="start start" fxFlex="1 0 100">
   <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex="1 0 100" class="main-landing-content">
-    <app-landing-header (onGoToFragment)="goToFragment($event)"></app-landing-header>
-    <div #scrollMe fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start start" class="landing-container">
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae cumque dolorum nostrum atque molestias ipsum assumenda, nemo, enim neque quam temporibus eius fuga laborum rerum fugit id repellendus autem quae?</p>
-      <p>Similique doloremque magni quis iusto eos neque est, possimus dolore rem libero pariatur quos expedita. Inventore, molestiae officia? Aut voluptas cumque quaerat sed aliquam harum voluptatibus est atque eos doloribus.</p>
-      <p>Fugit iste sint illum minima dignissimos quod ut accusamus, laudantium quidem maiores quam explicabo, perferendis voluptates voluptatem consectetur ullam odio harum? Molestiae tenetur id recusandae officiis dolores possimus corrupti incidunt!</p>
-      <p>Reprehenderit exercitationem, laborum alias iste recusandae corrupti aliquam ad officia? Quibusdam, aliquid. Odio, animi dolorum facilis aliquam quibusdam voluptatem deserunt magni sit fuga. Eos sed, dicta nostrum cumque quis voluptates?</p>
-      <p>Ducimus nisi omnis esse, eveniet vel sint iste quibusdam nostrum totam praesentium nihil incidunt, fuga labore dolor! Dolores voluptatem amet vel laborum optio culpa provident repellat ducimus. Nobis, eveniet sunt.</p>
-      <p>Neque nobis voluptatum accusantium consectetur laborum, distinctio quae fuga possimus hic labore nemo veritatis, veniam facilis animi ipsa magnam. Maiores tempora, qui eius aliquid asperiores veritatis laborum dolorem enim? Eos?</p>
-      <p>Veniam nulla, expedita est praesentium eius accusamus vel fugit iusto sint quis quidem repellendus ipsum, nam velit enim blanditiis amet magni reiciendis tenetur voluptatibus nobis eveniet? Numquam quas sit obcaecati!</p>
-      <p>Cupiditate quo enim fugit unde adipisci eius hic officiis optio eaque facilis! Molestiae modi aliquid maiores minus nemo doloribus velit soluta assumenda blanditiis enim, eligendi sequi laboriosam fugiat vero veritatis!</p>
-      <p>Adipisci dolores quidem quam amet saepe, expedita velit laborum, similique officia dicta nostrum consectetur commodi, vero tempore quos eius autem reprehenderit consequatur totam! Harum libero voluptas, est officia labore soluta.</p>
-      <p>Atque, sint nam. Modi recusandae labore mollitia itaque impedit fuga, explicabo aspernatur dolorem deserunt minima provident, reiciendis commodi animi, asperiores autem sit. Molestias rerum cumque modi quis a adipisci? Repudiandae!</p>
-      <p>Minima quam ad molestiae, delectus repellendus necessitatibus non officiis sunt doloribus ab! In repudiandae harum quas aperiam? Harum tempore possimus ratione ipsum assumenda, fugiat adipisci non dolore nam repudiandae facilis.</p>
-      <p>Sapiente recusandae architecto sunt veniam quam et repellendus, voluptates doloribus neque molestias dolorem voluptatem voluptatum repellat. Ipsam dolores fuga excepturi sunt corrupti repudiandae, hic, necessitatibus assumenda, reprehenderit nisi non quisquam.</p>
-      <p>Cumque distinctio beatae dignissimos necessitatibus tempore, debitis numquam, possimus, sed asperiores doloribus fuga totam vel! Necessitatibus natus modi officia, labore, culpa nihil tempora laboriosam, quam quidem vero fuga eaque totam?</p>
-      <p>Exercitationem quibusdam perferendis ab! Sequi voluptatibus nihil debitis cumque facilis magnam quam, dolore ullam quia ex tempora, nobis doloribus dolores accusantium mollitia ratione cupiditate, vitae excepturi in accusamus itaque. Molestiae.</p>
-      <p>Id quos officia labore quasi explicabo quo, maxime ab fugiat eveniet, at architecto accusantium aperiam doloremque odit ducimus veniam pariatur sunt aspernatur, porro libero possimus repudiandae aut exercitationem. Quos, perferendis.</p>
-      <p>Velit rerum deserunt consectetur! Necessitatibus in magni corporis. Ad perferendis nulla neque. Cupiditate, tempora aliquam? Optio eius aspernatur minima fugiat dolore repellendus, voluptatem saepe blanditiis harum labore sint at consequuntur.</p>
-      <p>Suscipit accusamus nemo aperiam consequuntur ducimus veritatis, voluptates et impedit quasi ut nihil odit veniam consectetur temporibus aspernatur assumenda necessitatibus unde recusandae commodi vitae ea fuga voluptate? Debitis, quod ex.</p>
-      <p>Voluptas vitae magnam eos unde, blanditiis, quis eveniet, maiores sit tenetur neque magni recusandae culpa? Illo dolore et harum velit excepturi deserunt saepe, vitae cum rerum? Dolorum maiores architecto quam.</p>
-      <p>Asperiores exercitationem fugiat sed iure explicabo ab pariatur provident. Ut facere laudantium voluptate molestias blanditiis nesciunt! Eius reprehenderit dolor autem qui molestias cupiditate cum iste sunt, nam labore exercitationem numquam?</p>
-      <p>Neque accusantium voluptatibus, ratione aperiam ipsum magnam cum ex odit omnis dolores dolorem laudantium distinctio a illo. Iusto dicta sit, fugit, exercitationem enim in vel impedit, soluta recusandae voluptatum voluptate.</p>
-      <p>Quod aut odit iusto magni, ipsa nihil ipsum? Autem tempora praesentium repellat facere vitae delectus quis iste iusto officiis nisi dolore quo illum architecto labore doloribus eaque, alias ab laboriosam!</p>
-      <p>Tempora beatae tempore dolor numquam, assumenda praesentium ad commodi perferendis? Cupiditate blanditiis deserunt, alias rem aliquid delectus minus excepturi recusandae atque molestias dignissimos omnis nostrum sapiente tempora et, ipsa eveniet.</p>
-      <p>Magni debitis blanditiis dicta iste eius atque vitae perspiciatis ipsum fugit, laboriosam excepturi doloribus molestiae architecto voluptatum facere deserunt ipsam impedit? Sapiente odio fuga molestias quidem aut rem nam quam.</p>
-      <p>Aliquid ipsum dolores officiis consequatur, dolorem perspiciatis ullam, esse fuga sequi iste et magnam? Quos mollitia quisquam quia, quas, et sapiente delectus impedit, unde beatae voluptatibus temporibus optio amet ullam!</p>
-      <p>Ex unde illum itaque delectus modi officiis perspiciatis, explicabo, dolores dolore pariatur accusantium eaque nam reiciendis saepe quas sed facere natus cum harum fugiat! Provident, necessitatibus! Saepe praesentium sapiente eius.</p>
-      <p>Ducimus, unde voluptatum! Corporis impedit ipsa, blanditiis explicabo ab iste, optio sequi consequatur natus error porro voluptate corrupti? Blanditiis ipsa, dolorum iure illo at temporibus? Perferendis quam facere labore maxime!</p>
-      <p>Beatae totam molestias molestiae amet quo consectetur velit odio accusamus aspernatur reiciendis quaerat placeat nemo est provident magnam rem sint porro commodi aliquid et, voluptatem, blanditiis voluptates eius vero? Officia.</p>
-      <p>Numquam quia ex iste nesciunt qui fugiat, vitae tempora blanditiis pariatur fugit nihil sit illo maiores ut sequi consequatur quis reiciendis minus accusantium dolores molestiae! Sint, exercitationem nam? Officia, facere!</p>
-      <p>Nihil accusantium, consequatur quae veniam ex vitae dolores ipsa atque animi minima sequi quo quisquam temporibus eos consectetur repellendus libero labore eligendi nisi ad incidunt reiciendis. Praesentium quae quisquam aut!</p>
-      <p>Voluptate corrupti aliquam fugiat numquam culpa necessitatibus repellat qui exercitationem, illum dignissimos asperiores, autem porro facere molestias, quod expedita nihil esse vel voluptas optio? Omnis aliquam sunt harum accusamus reprehenderit?</p>
+    <app-sidebar (onGoToFragment)="goToFragment($event)" [open]="isSideNavOpen"></app-sidebar>
+    <app-landing-header *ngIf="navIsFixed" (onGoToFragment)="goToFragment($event)" (onToggleSidenav)="toggleSidenav()"></app-landing-header>
+    <div fxFlex="100" fxLayout="row wrap" fxLayoutAlign="start start" class="landing-container">
+      <!-- HOME SECTION -->
+      <section class="mat-primary-700-bg pt-32 pb-0 white-fg" id="home" fxFlex="1 0 100" fxLayout="row wrap">
+        <!-- NAVIGATION -->
+        <div *ngIf="!navIsFixed" fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center center">
+          <div class="container top-bar animated" ngStyle.gt-md="width: 1280px">
+            <div class="px-16" fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+              <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
+                <div fxFlex.lt-sm="0 1 180px" fxFlex.sm="0 1 230px" fxFlex.gt-sm="0 1 300px" fxLayout="row wrap"
+                     fxLayoutAlign="space-between center"
+                     class="logo-home-container">
+                  <div fxFlex="0 0 15">
+                    <img src="assets/images/brand/brand-white.png" alt="Logo">
+                  </div>
+                  <div fxFlex="0 0 80">
+                    TFG
+                  </div>
+                </div>
+                <nav class="navigation-desktop" fxHide fxShow.gt-sm>
+                  <ul>
+                    <li class="pointer">
+                      <a (click)="goToFragment('about')">Sobre nosotros</a>
+                    </li>
+                    <li class="pointer">
+                      <a (click)="goToFragment('contact')">Contacto</a>
+                    </li>
+                    <li class="mr-0">
+                      <button mat-raised-button color="primary" routerLink="/auth/login" (click)="isLogedIn ? showLoading() : null">
+                        {{isLogedIn ? 'Ir a mi cuenta' : 'Iniciar Sesion'}}
+                      </button>
+                    </li>
+                    <li>
+                      <button mat-raised-button
+                              color="accent"
+                              routerLink="/auth/register"
+                              [fxHide]="isLogedIn"
+                              style="margin-left: 5px;">Registrate
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+                <div fxHide.gt-sm class="mobile-menu-trigger">
+                  <button mat-icon-button (click)="toggleSidenav()">
+                    <mat-icon class="md-24" aria-label="Abrir Menu de Navegación">menu</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- / NAVIGATION -->
+
+        <!-- MAIN CONTENT -->
+        <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center center">
+          <div class="container" fxLayout="row wrap">
+            <div fxFlex="100" fxFlex.gt-sm="50" class="py-80" ngClass.lt-md="text-center">
+              <div class="p-16" ngClass.gt-md="pl-64">           
+                <h2>Asdsadas</h2>
+                <h6>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptas, recusandae.</h6>
+                <button class="red-bg white-fg" mat-button>Action</button>
+              </div>
+            </div>
+            <div fxFlex="100" fxFlex.gt-sm="50" class="text-center" style="position: relative">
+              <img class="img-responsive layer" src="assets/images/landing/phone1.png" alt="Teléfono 1">
+              <img class="img-responsive layer" src="assets/images/landing/phone2.png" alt="Teléfono 2">
+              <img class="img-responsive dummy" src="assets/images/landing/blanc.png" alt="Blanco">
+            </div>
+          </div>
+        </div>
+        <!-- / MAIN CONTENT -->
+      </section>
+      <!-- / HOME SECTION -->
+
+      <!-- ABOUT SECTION -->
+      <section class="white-bg subsection text-center" id="about" fxFlex="1 0 100" fxLayout="row wrap">
+        <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center center">
+          <div class="container" fxLayout="row wrap" ngStyle.gt-md="width: 1280px">
+            <div fxFlex="66" fxFlexOffset="17" fxLayout="column" fxLayoutAlign="center center" class="mb-80">
+              <h3>Lorem, ipsum dolor.</h3>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque eum laboriosam deleniti magnam natus maxime!</p>
+            </div>
+            <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between stretch" class="mb-32">
+              <div fxFlex="50" fxFlex.gt-sm="25" class="mb-32">
+                <mat-icon class="font-size-50 red-fg">airplay</mat-icon>
+                <h5>Lorem.</h5>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus hic distinctio reiciendis nobis blanditiis nisi dolore vitae deserunt deleniti in!</p>
+              </div>
+              <div fxFlex="50" fxFlex.gt-sm="25" class="mb-32">
+                <mat-icon class="font-size-50 red-fg">star</mat-icon>
+                <h5>Lorem.</h5>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus hic distinctio reiciendis nobis blanditiis nisi dolore vitae deserunt deleniti in!</p>
+              </div>
+              <div fxFlex="50" fxFlex.gt-sm="25" class="mb-32">
+                <mat-icon class="font-size-50 red-fg">cloud</mat-icon>
+                <h5>Lorem.</h5>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus hic distinctio reiciendis nobis blanditiis nisi dolore vitae deserunt deleniti in!</p>
+              </div>
+              <div fxFlex="50" fxFlex.gt-sm="25" class="mb-32">
+                <mat-icon class="font-size-50 red-fg">help</mat-icon>
+                <h5>Lorem.</h5>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus hic distinctio reiciendis nobis blanditiis nisi dolore vitae deserunt deleniti in!</p>
+              </div>
+            </div>
+            <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center center">
+              <img src="assets/images/landing/mac.png" alt="PC" class="img-responsive">
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- / ABOUT SECTION -->
+
+      <!-- CONTACT SECTION -->
+      <section class="fafafa-bg subsection text-center" id="contact" fxFlex="1 0 100" fxLayout="row wrap">
+        <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center center">
+          <div class="container" fxLayout="row wrap" ngStyle.gt-md="width: 1280px">
+            <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between stretch" class="mb-32">
+              <div fxFlex="100" fxFlex.gt-sm="42" class="text-left px-16">
+                <h4>Formulario de contacto</h4>
+                <form>
+                  <mat-form-field class="my-8 w-100-p">
+                    <input matInput placeholder="Email">
+                  </mat-form-field>
+
+                  <mat-form-field class="my-8 w-100-p">
+                    <input matInput placeholder="Nombre">
+                  </mat-form-field>
+
+                  <mat-form-field class="my-8 w-100-p">
+                    <textarea matInput placeholder="Mensaje" rows="3"></textarea>
+                  </mat-form-field>
+
+                  <button mat-raised-button class="submit-button" class="red-bg white-fg" (click)="alert('Implement')"
+                        aria-label="ENVIAR">
+                    ENVIAR
+                  </button>
+                </form>
+              </div>
+              <div fxFlex="100" fxFlex.gt-sm="42" fxFlexOffset.gt-sm="7" class="px-16">
+                <h4>Información de contacto</h4>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Atque qui dolore, blanditiis autem eius voluptatibus recusandae iste veniam officia tempore?</p>
+                <ul class="list-icons">
+                  <li>
+                    <mat-icon class="red-fg font-size-24">phone</mat-icon>
+                    <span>
+                      <a>Lorem, ipsum dolor.</a>
+                    </span>
+                  </li>
+                  <li>
+                    <mat-icon class="red-fg font-size-24">mail</mat-icon>
+                    <span>
+                      <a>Lorem, ipsum dolor.</a>
+                    </span>
+                  </li>
+                  <li>
+                    <mat-icon class="red-fg font-size-24">location_on</mat-icon>
+                    <span>
+                      <a>Lorem, ipsum dolor.</a>
+                    </span>
+                  </li>
+                </ul>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis nostrum ducimus soluta? Iste, dicta culpa!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- CONTACT SECTION -->
+
       <app-footer (onGoToFragment)="goToFragment($event)"></app-footer>
     </div>
   </div>

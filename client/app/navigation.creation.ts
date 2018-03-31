@@ -33,6 +33,11 @@ export class AppNavigationCreation {
                     type: 'nav-item',
                     title: 'Carreras',
                     url: '/app/admin/races'
+                  },
+                  {
+                    type: 'nav-item',
+                    title: 'Mapas',
+                    url: '/app/admin/maps'
                   }
                 ]
               }
@@ -46,12 +51,12 @@ export class AppNavigationCreation {
               icon: 'directions_run',
               url: '/app/race/all',
             },
-            {
-              title: 'Nueva Carrera',
-              type: 'nav-item',
-              icon: 'add_box',
-              url: '/app/race/create',
-            },
+            // {
+            //   title: 'Nueva Carrera',
+            //   type: 'nav-item',
+            //   icon: 'add_box',
+            //   url: '/app/race/create',
+            // },
             {
               title: 'Chat',
               type: 'nav-item',

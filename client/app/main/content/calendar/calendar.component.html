@@ -11,7 +11,7 @@
 
           <mat-icon class="logo-icon">today</mat-icon>
 
-          <span class="logo-text">Calendario de Viajes</span>
+          <span class="logo-text">Calendario</span>
 
         </div>
 
@@ -81,27 +81,17 @@
       <!-- / HEADER BOTTOM -->
     </div>
 
-    <!-- MENU BUTTON -->
-    <mat-menu [overlapTrigger]="false" class="calendar-menu" #rootMenu="matMenu">
-      <!-- MENU ITEM   -->
-      <div fxFlex="row wrap" fxLayoutAlign="space-between center">
-        <span class="pointer mat-elevation-z3 label">Nuevo viaje</span>
-        <button mat-mini-fab routerLink="/app/trip/create">
-          <mat-icon>add_box</mat-icon>
-        </button>
-      </div>
-      <!-- / MENU ITEM -->
-    </mat-menu>
-
-    <button mat-fab class="add-event-button mat-warn" [matMenuTriggerFor]="rootMenu">
+    <!-- ADD EVENT BUTTON -->
+    <button mat-fab class="add-event-button mat-warn" (click)="addEvent()" aria-label="Add event"
+        *appIfOnDom [@animate]="{value:'*',params:{delay:'300ms',scale:'0.2'}}">
       <mat-icon>add</mat-icon>
     </button>
-    <!-- / MENU BUTTON -->
+    <!-- / ADD EVENT BUTTON -->
   </div>
   <!-- / HEADER -->
 
   <!-- CONTENT -->
-  <div class="content  m-t-200" *appIfOnDom [@animate]="{value:'*',params:{delay:'200ms',y:'40px'}}">
+  <div class="content mt-200" *appIfOnDom [@animate]="{value:'*',params:{delay:'200ms',y:'40px'}}">
     <div [ngSwitch]="view">
       <mwl-calendar-month-view
         *ngSwitchCase="'month'"
@@ -110,7 +100,7 @@
         [refresh]="refresh"
         [activeDayIsOpen]="activeDayIsOpen"
         (dayClicked)="dayClicked($event.day)"
-        (eventClicked)="editEvent('edit', $event.event)"
+        (eventClicked)="editEvent('view', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)"
         (beforeViewRender)="beforeMonthViewRender($event)">
       </mwl-calendar-month-view>
@@ -121,7 +111,7 @@
         [events]="events"
         [refresh]="refresh"
         (dayClicked)="dayClicked($event.day)"
-        (eventClicked)="editEvent('edit', $event.event)"
+        (eventClicked)="editEvent('view', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-week-view>
       <mwl-calendar-day-view
@@ -131,7 +121,7 @@
         [events]="events"
         [refresh]="refresh"
         (dayClicked)="dayClicked($event.day)"
-        (eventClicked)="editEvent('edit', $event.event)"
+        (eventClicked)="editEvent('view', $event.event)"
         (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-day-view>
     </div>

@@ -37,6 +37,10 @@ const RaceSchema = new mongoose.Schema(<any>{
     default: true,
   },
   results: [ResultSchema],
+  custom: {
+    type: Boolean,
+    default: false
+  }
 });
 
 export default (RaceSchema);

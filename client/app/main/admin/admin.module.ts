@@ -6,6 +6,7 @@ import {SharedModule} from '../../core/modules/shared.module';
 
 import {UserComponent} from './user/user.component';
 import {RaceComponent} from './race/race.component';
+import {MapComponent} from './maps/map.component';
 import {FileUploadModule} from 'ng2-file-upload';
 
 const routes: Route[] = [
@@ -23,6 +24,10 @@ const routes: Route[] = [
         component: RaceComponent
       },
       {
+        path: 'maps',
+        component: MapComponent
+      },
+      {
         path: '',
         pathMatch: 'full',
         redirectTo: '/admin/sample'
@@ -36,7 +41,7 @@ const routes: Route[] = [
     AdminComponent,
     UserComponent,
     RaceComponent,
-
+    MapComponent,
   ],
   entryComponents: [
 

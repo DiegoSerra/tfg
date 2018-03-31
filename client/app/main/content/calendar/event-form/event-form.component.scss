@@ -20,3 +20,35 @@
         flex-direction: column;
     }
 }
+
+// Profile boxes
+.profile-box {
+    margin-bottom: 16px;
+
+    footer {
+        padding: 8px;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        background-color: rgba(0, 0, 0, 0.06);
+    }
+
+    &.info-box {
+
+        .info-line {
+            margin-bottom: 24px;
+
+            .title {
+                font-size: 15px;
+                font-weight: 500;
+                padding-bottom: 4px;
+            }
+
+            .info {
+
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}

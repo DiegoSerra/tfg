@@ -16,20 +16,33 @@ export class AppProfileAboutComponent implements OnInit {
   url: string;
 
   form: FormGroup;
+  percentage: Number;
 
   constructor(private userService: UserService) {
     userService.user$.subscribe((user: User) => {
       this.user = user;
       this.form = new FormGroup({
         name: new FormControl(user.name, Validators.required),
-        description: new FormControl(user.description, Validators.required),
+        description: new FormControl(user.description),
         email: new FormControl(user.email, Validators.required),
-        gender: new FormControl(user.gender, Validators.required),
+        gender: new FormControl(user.gender),
         phone: new FormControl(user.phone),
         birthdate: new FormControl(user.birthdate),
         occupation: new FormControl(user.occupation)
       });
     });
+
+    // CALCULATE COMPLETE PERCENTAGE
+    const keys = Object.keys(this.form.controls);
+    const length = keys.length;
+    let valid = keys.filter(control => !!this.form.controls[control].value);
+    this.percentage = valid.length / length;
+
+    this.form.valueChanges.subscribe(val => {
+      valid = keys.filter(control => !!this.form.controls[control].value);
+      this.percentage = valid.length / length;
+    });
+    // END CALCULATE COMPLETE PERCENTAGE
   }
 
   ngOnInit() {

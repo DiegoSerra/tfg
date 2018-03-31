@@ -40,6 +40,15 @@ export class CalendarService implements Resolve<any> {
     this.events = events;
   }
 
+  createEvent(event) {
+    return new Promise((resolve, reject) => {
+      this.http.post(`api/race`, event)
+        .subscribe((response: any) => {
+          this.getEvents();
+        }, reject);
+    });
+  }
+
   deleteEvent(event) {
     return new Promise((resolve, reject) => {
       this.http.delete(`api/race/${event.info._id}`)

@@ -50,12 +50,12 @@ export class CalendarEventModel
 
   constructor(data?) {
     data = data || {};
-    this.start = new Date(data.dateStart) || startOfDay(new Date());
-    this.end = new Date(data.dateEnd) || endOfDay(new Date());
+    this.start = new Date(data.dateStart) || new Date(data.start) || startOfDay(new Date());
+    this.end = new Date(data.dateEnd) || new Date(data.end) || endOfDay(new Date());
     this.title = data.name || '';
     this.color = {
-      primary  : data.color && data.color.primary || this.start > new Date() ? '#0288d1' : '#b5dcf2',
-      secondary: data.color && data.color.secondary || this.start > new Date() ? '#b3e5fc' : '#d9f1fe'
+      primary  : data.color && data.color.primary || this.getPrimaryColor(data),
+      secondary: data.color && data.color.secondary || this.getSecondaryColor(data)
     };
     this.draggable = data.draggable || false;
     this.resizable = {
@@ -70,6 +70,22 @@ export class CalendarEventModel
       notes   : data.meta && data.meta.notes || ''
     };
     this.info = {...data};
+  }
+
+  getPrimaryColor(data) {
+    if (data.custom) {
+      return '#e3bc08';
+    }
+
+    return data.classified ? '#0288d1' : '#b5dcf2';
+  }
+
+  getSecondaryColor(data) {
+    if (data.custom) {
+      return '#FDF1BA';
+    }
+
+    return this.start > new Date() ? '#b3e5fc' : '#d9f1fe';
   }
 
 }

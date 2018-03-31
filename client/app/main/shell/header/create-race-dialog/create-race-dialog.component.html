@@ -91,20 +91,6 @@
 				</mat-error>
 			</mat-form-field>
 		</div>
-
-		<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center" style="margin: 1em auto">
-			<span style="font-weight: 500">Importar resultados de la carrera</span>
-		</div>
-		<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
-			<div fxLayout="row wrap" fxLayoutAlign="start center">
-				<span [ngStyle]="{'color': fileState === 'e' ? 'red' : 'gray'}">{{fileState | fileStateFormat: file}}</span>
-			</div>
-			<button mat-raised-button color="accent" (click)="fileInput.click()">
-				{{fileState === 'n' ? 'Cargar Archivo' : 'Reemplazar Archivo'}}
-				<input #fileInput type="file" ng2FileSelect [uploader]="uploaderImportFile" (change)="importFile()"
-								style="display:none">
-			</button>     
-		</div>
 	</form>
 </div>
 

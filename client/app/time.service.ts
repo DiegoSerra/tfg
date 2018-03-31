@@ -113,6 +113,24 @@ export class TimeService {
   }
 
   dateToFullHourString(date: Date) {
-    return this.fullHourString(date.getHours(), date.getMinutes());
+    try {   
+      return this.fullHourString(date.getHours(), date.getMinutes());
+    } catch (error) {
+      return '00:00';
+    }
+  }
+
+  timeFullHourStringToSeconds(timeHour: any) {
+    const hourSplit = timeHour.split(':'); // split it at the colons
+    // minutes are worth 60 seconds. Hours are worth 60 minutes.
+    const seconds = (+hourSplit[0]) * 60 * 60 + (+hourSplit[1]) * 60 + (+hourSplit[2]); 
+    return seconds;
+  }
+
+  rhtyhmFullHourStringToSeconds(rhtyhmHour: any) {
+    const hourSplit = rhtyhmHour.split(':'); // split it at the colons
+    // minutes are worth 60 seconds.
+    const seconds = (+hourSplit[0]) * 60 + (+hourSplit[1]); 
+    return seconds;
   }
 }

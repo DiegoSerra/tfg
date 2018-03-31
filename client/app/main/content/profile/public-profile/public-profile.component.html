@@ -6,13 +6,13 @@
 
         <div class="user-info" fxLayout="column" fxLayoutAlign="center center" fxLayout.gt-sm="row"
              fxLayoutAlign.gt-sm="start center">
-            <img class="profile-image avatar huge" [src]="user?.profileImageUrl">
+            <div class="profile-image avatar huge" [style.background-image]="'url('+ user?.profileImageUrl +')'"></div>
             <div class="name">{{user?.name}}</div>
         </div>
 
         <div class="actions" fxLayout="row" fxLayoutAlign="end center">
-<!--            <button mat-raised-button color="accent" aria-label="Follow">Follow</button>
-            <button mat-raised-button color="primary" aria-label="Send Message">Send Message</button>-->
+            <!--<button mat-raised-button color="accent" aria-label="Follow">Follow</button>-->
+            <button mat-raised-button color="primary" aria-label="Enviar mensaje">Enviar mensaje</button>
         </div>
 
     </div>
@@ -20,21 +20,40 @@
 
     <!-- CONTENT -->
     <div class="content-profile" class="p-24">
-        <div class="public-content" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="65" fxLayoutGap="20px">
+        <div class="public-content" fxLayout="column" fxFlex="100">
             <div fxLayout="row wrap">
                 <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start start" class="public-view-mode">
                     <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
-                        <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
-                            <h3><b>Nombre:</b></h3>
-                            {{user?.name}}
+
+                        <div class="profile-box info-box general" fxFlex="1 0 100">
+                            <header class="mat-accent-bg">
+                            <div class="title">Información general</div>
+                            </header>
+
+                            <div class="content">
+                                <div class="info-line">
+                                    <div class="title">Nombre</div>
+                                    <div class="info">{{user?.name}}</div>
+                                </div>
+
+                                <div class="info-line">
+                                    <div class="title">Descripción</div>
+                                    <div class="info">{{user?.description}}</div>
+                                </div>                               
+                            </div>
                         </div>
-                        <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
-                            <h3><b>Descripción:</b></h3>
-                            {{user?.description}}
-                        </div>
-                        <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
-                            <h3><b>Profesión:</b></h3>
-                            {{user?.occupation | occupationFormat}}
+
+                        <div class="profile-box info-box general" fxFlex="1 0 100">
+                            <header class="mat-accent-bg">
+                            <div class="title">Trabajo</div>
+                            </header>
+
+                            <div class="content">
+                                <div class="info-line">
+                                    <div class="title">Profesión</div>
+                                    <div class="info">{{user?.occupation | occupationFormat}}</div>
+                                </div>                             
+                            </div>
                         </div>
                     </div>
                 </div>

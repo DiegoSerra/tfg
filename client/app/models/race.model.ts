@@ -16,4 +16,5 @@ export class Race {
     category: string,
     club: string,
   };
+  custom: boolean;
 }

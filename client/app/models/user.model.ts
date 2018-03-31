@@ -15,6 +15,7 @@ export declare interface User {
   profileImageUrl: string;
   coverImageUrl: string;
   messageConversations: any[];
+  races: any[];
   status: string;
   active: boolean;
 }

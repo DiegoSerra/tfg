@@ -1,11 +1,11 @@
-<div id="about" class="p-24" fxLayout="row" fxLayoutWrap>
-
-  <div class="about-content p-24" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="75">
+<div id="about" class="p-24" fxLayout="row wrap">
+  <div class="about-content p-24" fxLayout="column" fxFlex="1 0 100">
+    <mat-progress-bar *ngIf="saving" mode="indeterminate" color="accent"></mat-progress-bar>
     <form [formGroup]="form">
       <div fxLayout="row wrap">
         <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start start" class="about-view-mode">
           <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
-            <h2 fxFlex="100" fxFlex.gt-xs="50">Detalles de perfil</h2>
+            <h2 fxFlex="100" fxFlex.gt-xs="50">Detalles de perfil - {{ percentage | percent }}</h2>
             <div fxFlex="100" fxFlex.gt-xs="50" fxLayout="row wrap" fxLayoutAlign="end center">
               <button *ngIf="!this.editing" mat-button (click)="edit()">
                 <mat-icon class="md-24">mode_edit</mat-icon>
@@ -21,199 +21,106 @@
               </button>
             </div>
           </div>
-          <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
-            <h3><b>Nombre:</b></h3>
-            <span *ngIf="!this.editing"> {{ user.name }}</span>
-            <mat-form-field *ngIf="this.editing">
-              <input matInput placeholder="Nombre" formControlName="name">
-            </mat-form-field>
+          <div class="profile-box info-box general" fxFlex="1 0 100">
+            <header class="mat-accent-bg">
+            <div class="title">Información general</div>
+            </header>
+
+            <div class="content">
+              <div class="info-line">
+                <div class="title">Nombre</div>
+                <div class="info" *ngIf="!this.editing">{{user?.name}}</div>
+                <mat-form-field *ngIf="this.editing">
+                  <input matInput placeholder="Nombre" formControlName="name" required="required">
+                  <mat-error *ngIf="form.get('name').hasError('required')">
+                    El Nombre es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="info-line">
+                <div class="title">Descripción</div>
+                <div class="info" *ngIf="!this.editing">{{user?.description}}</div>
+                <mat-form-field *ngIf="this.editing">
+                  <input matInput #description formControlName="description" maxlength="350" placeholder="Descripcion">
+                  <mat-hint align="start"><strong>Añada una descripción</strong> </mat-hint>
+                  <mat-hint align="end">{{description.value.length}} / 350</mat-hint>
+                </mat-form-field>
+              </div> 
+
+              <div class="info-line">
+                <div class="title">Fecha de nacimiento</div>
+                <div class="info" *ngIf="!this.editing">{{user.birthdate | date: 'dd/MM/yyyy'}}</div>
+                <mat-form-field *ngIf="this.editing">
+                  <input matInput
+                         [matDatepicker]="dateStartPicker"
+                         placeholder="Fecha de nacimiento"
+                         (focus)="fromToggle._open($event)"
+                         formControlName="birthdate">
+                  <mat-datepicker-toggle #fromToggle matSuffix [for]="dateStartPicker"></mat-datepicker-toggle>
+                  <mat-datepicker #dateStartPicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              
+              <div class="info-line">
+                <div class="title">Género</div>
+                <div class="info" *ngIf="!this.editing">{{user?.gender | genderFormat}}</div>
+                <mat-radio-group *ngIf="this.editing" formControlName="gender">
+                  <mat-radio-button value="m"> Hombre</mat-radio-button>
+                  <mat-radio-button value="f"> Mujer</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
           </div>
-          <!-- <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
-            <h3><b>Apellido:</b></h3>
-            <span> {{ user.name }}</span>
-          </div> -->
-          <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
-            <h3><b>Descripción personal:</b></h3>
-            <span *ngIf="!this.editing"> {{ user.description }}</span>
-            <mat-form-field *ngIf="this.editing">
-              <input matInput #description formControlName="description" maxlength="350" placeholder="Descripcion">
-              <mat-hint align="start"><strong>Añada una descripción</strong> </mat-hint>
-              <mat-hint align="end">{{description.value.length}} / 350</mat-hint>
-            </mat-form-field>
+          
+          <div class="profile-box info-box general" fxFlex="1 0 100">
+            <header class="mat-accent-bg">
+            <div class="title">Trabajo</div>
+            </header>
+
+            <div class="content">
+              <div class="info-line">
+                <div class="title">Profesión</div>
+                <div class="info" *ngIf="!this.editing">{{user?.occupation | occupationFormat}}</div>
+                <mat-radio-group *ngIf="this.editing" formControlName="occupation">
+                  <mat-radio-button value="Student"> Estudiante</mat-radio-button>
+                  <mat-radio-button value="Businessman"> Empresario</mat-radio-button>
+                  <mat-radio-button value="Entrepreneur"> Emprendedor</mat-radio-button>
+                  <mat-radio-button value="Employee"> Empleado</mat-radio-button>
+                  <mat-radio-button value="Unemployed"> Desempleado</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
           </div>
-          <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
-            <h3><b>Email:</b></h3>
-            <span *ngIf="!this.editing"> {{ user.email }}</span>
-            <mat-form-field *ngIf="this.editing">
-              <input matInput placeholder="Nombre" formControlName="email">
-            </mat-form-field>
-          </div>
-          <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
-            <h3><b>Género:</b></h3>
-            <span *ngIf="!this.editing"> {{ user.gender | genderFormat }}</span>
-            <mat-radio-group *ngIf="this.editing" formControlName="gender">
-              <mat-radio-button value="m"> Hombre</mat-radio-button>
-              <mat-radio-button value="f"> Mujer</mat-radio-button>
-            </mat-radio-group>
-          </div>
-          <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
-            <h3><b>Teléfono:</b></h3>
-            <span *ngIf="!this.editing"> {{ user.phone }}</span>
-            <mat-form-field *ngIf="this.editing">
-              <input type="tel" matInput placeholder="Télefono" formControlName="phone">
-            </mat-form-field>
-          </div>
-          <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
-            <h3><b>Fecha de nacimiento:</b></h3>
-            <span *ngIf="!this.editing"> {{ user.birthdate | date: 'dd/MM/yyyy' }}</span>
-            <mat-form-field *ngIf="this.editing">
-              <input matInput
-                     [matDatepicker]="dateStartPicker"
-                     placeholder="Fecha de nacimiento"
-                     (focus)="fromToggle._open($event)"
-                     formControlName="birthdate">
-              <mat-datepicker-toggle #fromToggle matSuffix [for]="dateStartPicker"></mat-datepicker-toggle>
-              <mat-datepicker #dateStartPicker></mat-datepicker>
-            </mat-form-field>
-          </div>
-          <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
-            <h3><b>Profesión:</b></h3>
-            <span *ngIf="!this.editing">{{ user.occupation | occupationFormat }}</span>
-            <mat-radio-group *ngIf="this.editing" formControlName="occupation">
-              <mat-radio-button value="Student"> Estudiante</mat-radio-button>
-              <mat-radio-button value="Businessman"> Empresario</mat-radio-button>
-              <mat-radio-button value="Entrepreneur"> Emprendedor</mat-radio-button>
-              <mat-radio-button value="Employee"> Empleado</mat-radio-button>
-              <mat-radio-button value="Unemployed"> Desempleado</mat-radio-button>
-            </mat-radio-group>
+
+          <div class="profile-box info-box general" fxFlex="1 0 100">
+            <header class="mat-accent-bg">
+            <div class="title">Contacto</div>
+            </header>
+
+            <div class="content">
+              <div class="info-line">
+                <div class="title">Email</div>
+                <div class="info" *ngIf="!this.editing">{{user.email}}</div>
+                <mat-form-field *ngIf="this.editing">
+                  <input matInput placeholder="Email" formControlName="email" required="required">
+                  <mat-error *ngIf="form.get('email').hasError('required')">
+                    El Email es <strong>requerido</strong>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="info-line">
+                <div class="title">Teléfono</div>
+                <div class="info" *ngIf="!this.editing">{{user.phone}}</div>
+                <mat-form-field *ngIf="this.editing">
+                  <input type="tel" matInput placeholder="Télefono" formControlName="phone">
+                </mat-form-field>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </form>
-
-
-    <!--<div class="profile-box info-box general" fxLayout="column">-->
-
-    <!--<header class="mat-accent-bg">-->
-    <!--<div class="title">General Information</div>-->
-    <!--</header>-->
-
-    <!--<div class="content">-->
-    <!--<div class="info-line">-->
-    <!--<div class="title">Gender</div>-->
-    <!--<div class="info">{{user.gender}}</div>-->
-    <!--</div>-->
-
-    <!--<div class="info-line">-->
-    <!--<div class="title">Birthday</div>-->
-    <!--<div class="info">{{user.birthday}}</div>-->
-    <!--</div>-->
-
-    <!--<div class="info-line">-->
-    <!--<div class="title">Locations</div>-->
-    <!--<div class="info location" fxLayout="row" fxLayoutAlign="start center"-->
-    <!--*ngFor="let location of user.locations">-->
-    <!--<span>{{location}}</span>-->
-    <!--<mat-icon class="s-16 ml-4">location_on</mat-icon>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<div class="info-line">-->
-    <!--<div class="title">About Me</div>-->
-    <!--<div class="info">{{user.about}}</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
-    <!--<div class="profile-box info-box contact" fxLayout="column">-->
-
-    <!--<header class="mat-accent-bg">-->
-    <!--<div class="title">Contact</div>-->
-    <!--</header>-->
-
-    <!--<div class="content">-->
-    <!--<div class="info-line">-->
-    <!--<div class="title">Address</div>-->
-    <!--<div class="info">{{user.contact.address}}</div>-->
-    <!--</div>-->
-    <!--<div class="info-line">-->
-    <!--<div class="title">Tel.</div>-->
-    <!--<div class="info" *ngFor="let tel of user.contact.tel">-->
-    <!--<span>{{tel}}</span>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="info-line">-->
-    <!--<div class="title">Website</div>-->
-    <!--<div class="info" *ngFor="let website of user.contact.websites">-->
-    <!--<span>{{website}}</span>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--<div class="info-line">-->
-    <!--<div class="title">Emails</div>-->
-    <!--<div class="info" *ngFor="let email of user.contact.emails">-->
-    <!--<span>{{email}}</span>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
   </div>
-
-
-  <div class="about-sidebar" fxLayout="column" fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="35">
-
-    <!--<div class="profile-box friends" fxLayout="column">-->
-
-    <!--<header class="mat-accent-bg" fxLayout="row" fxLayoutAlign="space-between center">-->
-    <!--<div class="title">Friends</div>-->
-    <!--<div class="more secondary-text">-->
-    <!--<span>See 454 more...</span>-->
-    <!--</div>-->
-    <!--</header>-->
-
-    <!--<div class="content" fxLayout="row" fxLayoutWrap>-->
-    <!--<div class="friend" fxFlex="20" *ngFor="let friend of user.friends">-->
-    <!--<img [src]="friend.avatar">-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
-    <!--<div class="profile-box groups" fxLayout="column">-->
-
-    <!--<header class="mat-accent-bg" fxLayout="row" fxLayoutAlign="space-between center">-->
-    <!--<div class="title">Joined Groups</div>-->
-    <!--<div class="more secondary-text">-->
-    <!--<span>See 6 more...</span>-->
-    <!--</div>-->
-    <!--</header>-->
-
-    <!--<div class="content">-->
-
-    <!--<div class="group" *ngFor="let group of user.groups" fxLayout="row"-->
-    <!--fxLayoutAlign="space-between center">-->
-
-    <!--<div fxLayout="row" fxLayoutAlign="start center">-->
-
-    <!--<img [src]="group.logo" class="logo" alt="{{group.name}}"/>-->
-
-    <!--<div>-->
-    <!--<div class="name">{{group.name}}</div>-->
-    <!--<div class="category">{{group.category}}</div>-->
-    <!--<div class="members">{{group.members}} people</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--<button mat-icon-button aria-label="More">-->
-    <!--<mat-icon>more_vert</mat-icon>-->
-    <!--</button>-->
-    <!--</div>-->
-    <!--</div>-->
-
-    <!--</div>-->
-
-  </div>
-
 </div>

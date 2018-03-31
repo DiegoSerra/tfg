@@ -16,6 +16,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/merge';
 import { Race } from '../../../models/race.model';
 import { TimeService } from '../../../time.service';
+import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 
 @Component({
   selector: 'app-race',
@@ -33,6 +34,8 @@ export class RaceComponent implements OnInit {
 
   totalRaces: any;
 
+  uploaderImportFile: FileUploader;
+
   constructor(private raceService: RaceService, private mapService: MapService, private timeService: TimeService) {
     this.updateRaces();
   }
@@ -44,6 +47,17 @@ export class RaceComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.uploaderImportFile = new FileUploader({url: `api/race/byId/import`});
+    this.uploaderImportFile.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
+      this.updateRaces();        
+    };
+  }
+
+  importFile(raceId) {
+    this.uploaderImportFile.setOptions({url: `api/race/${raceId}/import`});
+    setTimeout(() => {
+      this.uploaderImportFile.uploadAll();
+    });
   }
 
   updateRaces() {

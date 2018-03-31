@@ -14,6 +14,10 @@ import { Animations } from '../../../core/animations';
 import { AppConfirmDialogComponent } from '../../../core/components/confirm-dialog/confirm-dialog.component';
 import { AppCalendarEventFormDialogComponent } from './event-form/event-form.component';
 import { FormGroup } from '@angular/forms';
+import { User } from '../../../models/user.model';
+import { UserService } from '../../../core/services/user.service';
+import { Router } from '@angular/router';
+import { TimeService } from '../../../time.service';
 
 @Component({
   selector: 'app-calendar',
@@ -23,6 +27,8 @@ import { FormGroup } from '@angular/forms';
   animations: [Animations.animate]
 })
 export class CalendarComponent implements OnInit {
+
+  user: User;
 
   view: string;
   viewDate: Date;
@@ -38,25 +44,33 @@ export class CalendarComponent implements OnInit {
   confirmDialogRef: MatDialogRef<AppConfirmDialogComponent>;
   dialogRef: any;
 
-  constructor(public dialog: MatDialog, private calendarService: CalendarService) {
+  constructor(public dialog: MatDialog, private calendarService: CalendarService, private userService: UserService, private router: Router, private timeService: TimeService) {
+    userService.user$.subscribe((user: User) => this.user = user);
+
     this.view = 'month';
     this.viewDate = new Date();
     this.activeDayIsOpen = true;
     this.selectedDay = {date: startOfDay(new Date())};
 
     this.actions = [
-        {
-            label  : '<i class="material-icons s-16">edit</i>',
-            onClick: ({event}: { event: CalendarEvent }): void => {
-                this.editEvent('edit', event);
-            }
-        },
-        {
-            label  : '<i class="material-icons s-16">delete</i>',
-            onClick: ({event}: { event: CalendarEvent }): void => {
-                this.deleteEvent(event);
-            }
-        }
+        // {
+        //     label  : '<i class="material-icons s-16">forward</i>',
+        //     onClick: ({event}: { event: any }): void => {
+        //         this.router.navigate(['/app/race/view', event.info._id]);
+        //     }
+        // },
+        // {
+        //     label  : '<i class="material-icons s-16">edit</i>',
+        //     onClick: ({event}: { event: CalendarEvent }): void => {
+        //         this.editEvent('edit', event);
+        //     }
+        // },
+        // {
+        //     label  : '<i class="material-icons s-16">delete</i>',
+        //     onClick: ({event}: { event: CalendarEvent }): void => {
+        //         this.deleteEvent(event);
+        //     }
+        // }
     ];
 
     /**
@@ -87,6 +101,9 @@ export class CalendarComponent implements OnInit {
     if (this.calendarService.events) {
       this.events = this.calendarService.events.map(item => {
         item.actions = this.actions;
+        if (item.results && item.results.findIndex(result => result.runnerName === this.user.name ) !== -1) {
+            item.classified = true;
+        }
         return new CalendarEventModel(item);
       });
     }
@@ -168,7 +185,7 @@ export class CalendarComponent implements OnInit {
           disableClose: false
       });
 
-      this.confirmDialogRef.componentInstance.confirmMessage = '¿Estás seguro que deseas borrar el viaje?';
+      this.confirmDialogRef.componentInstance.confirmMessage = '¿Estás seguro que deseas borrar la carrera?';
 
       this.confirmDialogRef.afterClosed().subscribe(result => {
           if ( result )
@@ -215,7 +232,7 @@ export class CalendarComponent implements OnInit {
                    */
                   case 'save':
 
-                      this.events[eventIndex] = Object.assign(this.events[eventIndex], formData.getRawValue());
+                      this.events[eventIndex] = Object.assign(this.events[eventIndex], formData.value);
                       this.refresh.next(true);
 
                       break;
@@ -230,5 +247,54 @@ export class CalendarComponent implements OnInit {
               }
           });
   }
+
+    /**
+     * Add Event
+     */
+    addEvent(): void
+    {
+        this.dialogRef = this.dialog.open(AppCalendarEventFormDialogComponent, {
+            panelClass: 'event-form-dialog',
+            data      : {
+                action: 'new',
+                date  : this.selectedDay.date
+            }
+        });
+        this.dialogRef.afterClosed()
+            .subscribe((response: any) => {
+                if ( !response )
+                {
+                    return;
+                }
+                const newEvent = response.value;
+                newEvent.name = newEvent.title;
+                newEvent.dateStart = this.createDateSystem(newEvent.start, newEvent.startTime);
+                newEvent.dateEnd = this.createDateSystem(newEvent.end, newEvent.endTime);
+                newEvent.hourStart = newEvent.startTime;
+                newEvent.hourEnd = newEvent.endTime;
+                newEvent.actions = this.actions;
+                newEvent.results = [{
+                    runnerName: this.user.name,
+                    time: this.timeService.timeFullHourStringToSeconds(newEvent.time),
+                    rhythm: this.timeService.rhtyhmFullHourStringToSeconds(newEvent.rhythm)
+                }];
+                newEvent.custom = true;
+                this.events.push(new CalendarEventModel(newEvent));
+                this.calendarService.createEvent(newEvent);
+                this.refresh.next(true);
+            });
+    }
+
+    createDateSystem(date, hour) {
+        const splitHour = hour.split(':');
+    
+        return this.timeService.createSystemMoment(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          splitHour[0],
+          splitHour[1]
+        );
+      }
 }
 

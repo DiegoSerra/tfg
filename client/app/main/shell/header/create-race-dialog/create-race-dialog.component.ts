@@ -61,22 +61,6 @@ export class CreateRaceDialogComponent implements OnInit {
         FormService.onFormValuesChanged(this.raceForm, this.raceFormErrors);
     });
 
-    this.uploaderImportFile = new FileUploader({url: `api/race/import`});
-    this.uploaderImportFile.onSuccessItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-      this.fileState = 'c';
-      this.file = item.file.name;
-      this.raceForm.get('race').get('results').patchValue(JSON.parse(response));
-    };
-    this.uploaderImportFile.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
-      this.fileState = 'e';
-    };
-  }
-
-  importFile() {
-    this.uploaderImportFile.setOptions({url: `api/race/import`});
-    setTimeout(() => {
-      this.uploaderImportFile.uploadAll();
-    });
   }
 
   isDate(control: AbstractControl): ValidationErrors | null {

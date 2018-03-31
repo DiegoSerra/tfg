@@ -266,7 +266,7 @@ userSchema.static('updateOneByToken', (token, query) => {
   });
 });
 
-userSchema.static('updateEventsOnDeleteEvent', (userId, eventId) => {
+userSchema.static('updateRacesOnDeleteRace', (userId, eventId) => {
   return new Promise((resolve, reject) => {
     User
       .update(

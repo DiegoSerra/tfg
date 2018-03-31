@@ -11,7 +11,7 @@
         <mat-list-item *ngFor="let race of races">
 
           <div fxLayout="row wrap" mat-line>
-            <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center" [routerLink]="['..', 'view', race._id]">
+            <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center" [routerLink]="!race.custom ? ['..', 'view', race._id] : null">
               <h3><b>{{ race.name }}</b></h3>
               <span fxHide.lt-md fxFlex="1 1 20"
                     fxFlex.lt-md="0 0 100">Fecha: {{race.dateStart  | date: 'dd/MM/yyyy'}}</span>

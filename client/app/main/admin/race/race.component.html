@@ -1,5 +1,5 @@
 <div class="page-layout simple tabbed"  fxLayout="row wrap" fxLayoutAlign="center start">
-  <app-header title="Mis Carreras" icon="directions_run" headerColor="#03a9f4" dialog="CreateRace" (update)="dataChange($event)">
+  <app-header title="Carreras" icon="directions_run" headerColor="#03a9f4" dialog="CreateRace" (update)="dataChange($event)">
   </app-header>
   <div fxFlex.gt-sm="0 0 85" fxFlex.sm="0 0 95" fxFlex="0 0 100" fxLayout="row wrap" ngClass.gt-xs="content"
   ngClass.xs="content-xs" fxLayoutAlign="center stretch">
@@ -46,18 +46,24 @@
                   <!-- Participants Column -->
                   <ng-container matColumnDef="participants">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Participantes </mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.results.length}} </mat-cell>
+                    <mat-cell *matCellDef="let element"> {{element.results?.length || 'No hay resultados'}} </mat-cell>
                   </ng-container>
 
                   <!-- Action Column -->
                   <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                      <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-around center">
-                        <button mat-icon-button>
-                          <mat-icon class="md-24" aria-label="Ir a la carrera" [routerLink]="['/app/race/view', element._id]">forward</mat-icon>
+                      <div *ngIf="!element.custom" fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-around center">
+                        <button mat-icon-button (click)="fileInput.click()" matTooltip="Importar resultados">
+                          <mat-icon class="md-24" aria-label="Importar resultados">list</mat-icon>
+                          <input #fileInput type="file" ng2FileSelect [uploader]="uploaderImportFile" (change)="importFile(element._id)"
+                                  style="display:none">
+                        </button>
+                        <button mat-icon-button matTooltip="Ir a la carrera" [routerLink]="['/app/race/view', element._id]">
+                          <mat-icon class="md-24" aria-label="Ir a la carrera">forward</mat-icon>
                         </button>
                       </div>
+                      <div *ngIf="element.custom">{{'Carrera personalizada'}}</div>
                     </mat-cell>
                   </ng-container>
 

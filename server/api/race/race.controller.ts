@@ -19,7 +19,7 @@ export class RaceController {
   static getAllMe(req: express.Request, res: express.Response) {
     const myId = req['user']._id;
     RaceDao
-      ['getAll']({'createdBy.userId': myId})
+      ['getAll']({$or: [{'createdBy.userId': myId}, {custom: {$ne: true}}]})      
       .then(races => res.status(200).json(races))
       .catch(error => res.status(400).json(error));
   }
@@ -94,10 +94,13 @@ export class RaceController {
   static importRaces(req: express.Request, res: express.Response) {
     const user = req['user'];
     const file = req['files'].file;
+    const raceId = req.params.id;
 
     ExcelService.getRaceFromExcel(file.path)
-      .then((result: any) => {
-        res.status(201).json(result);
+      .then((results: any) => {
+        RaceDao['updateOne'](raceId, {results})
+          .then(races => res.status(200).json(races))
+          .catch(error => res.status(400).json(error));
       })
       .catch(error => res.status(400).json(error));
   }

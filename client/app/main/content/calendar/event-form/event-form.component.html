@@ -10,17 +10,49 @@
         </div>
     </mat-toolbar>
 
-    <div mat-dialog-content class="p-24 m-0">
+    <div mat-dialog-content class="p-24 m-0" [ngSwitch]="action">
 
-        <form name="eventForm" [formGroup]="eventForm" class="event-form w-100-p" fxLayout="column" fxFlex>
+        <form name="eventForm" [formGroup]="eventForm" class="event-form w-100-p" fxLayout="column" fxFlex *ngSwitchCase="'new'">
 
-            <mat-form-field class="w-100-p">
-                <input matInput
-                       name="title"
-                       formControlName="title"
-                       placeholder="Nombre"
-                       required>
-            </mat-form-field>
+            <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row" fxLayoutAlign="space-between center">
+                <mat-form-field fxFlex="0 0 65">
+                    <input matInput
+                           name="title"
+                           formControlName="title"
+                           placeholder="Nombre"
+                           required>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="0 0 25">
+                    <input matInput
+                           name="kms"
+                           formControlName="kms"
+                           placeholder="Kilómetros"
+                           required>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
+
+                <mat-form-field class="mr-sm-24" fxFlex>
+                    <input matInput
+                           name="time"
+                           formControlName="time"
+                           placeholder="Tiempo"
+                           [textMask]="{mask: timeMask}"
+                           required>
+                </mat-form-field>
+
+                <mat-form-field class="no-errors-spacer" fxFlex mat-no-float>
+                    <input matInput
+                           name="rhythm"
+                           formControlName="rhythm"
+                           placeholder="Ritmo"
+                           [textMask]="{mask: rhythmMask}"
+                           required>
+                </mat-form-field>
+
+            </div>
 
             <div fxFlex="1 0 auto" fxLayout="column" fxLayout.gt-xs="row">
 
@@ -56,29 +88,60 @@
 
         </form>
 
+        <div class="profile-box info-box general" fxFlex="1 0 100" *ngSwitchCase="'view'">
+            <div class="content">
+                <div class="info-line">
+                    <div class="title">Kilómetros</div>
+                    <div class="info" *ngIf="!this.editing">{{event?.info?.kms}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Fecha de salida</div>
+                    <div class="info" *ngIf="!this.editing">{{event?.info?.hourStart}}</div>
+                </div>
+
+                <div class="info-line">
+                    <div class="title">Nº de participantes</div>
+                    <div class="info" *ngIf="!this.editing">{{event?.info?.results?.length || 'Aún no se ha disputado'}}</div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
-    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="space-between center">
+    <div mat-dialog-actions class="m-0 p-16" fxLayout="row" fxLayoutAlign="end center">
 
-        <!-- <button *ngIf="action !=='edit'"
+        <button *ngIf="action === 'new'"
                 mat-raised-button
+                color="accent"
                 (click)="dialogRef.close(eventForm)"
-                class="save-button mat-accent"
+                class="save-button"
                 [disabled]="eventForm.invalid"
-                aria-label="SAVE">
-            SAVE
+                aria-label="GUARDAR">
+            GUARDAR
+        </button>
+
+        <button *ngIf="action ==='view' && alreadyDone && !event?.info.custom"
+                mat-raised-button
+                color="accent"
+                [routerLink]="['/app/race/view', event?.info?._id]"
+                (click)="dialogRef.close()"
+                class="save-button"
+                aria-label="VER">
+            VER
         </button>
 
         <button *ngIf="action ==='edit'"
                 mat-raised-button
+                color="accent"
                 (click)="dialogRef.close(['save',eventForm])"
-                class="save-button mat-accent"
+                class="save-button"
                 [disabled]="eventForm.invalid"
-                aria-label="SAVE">
-            SAVE
-        </button> -->
+                aria-label="GUARDAR">
+            GUARDAR
+        </button>
 
-        <button *ngIf="action ==='edit'"
+        <button *ngIf="event?.info.custom"
                 mat-button
                 class="mat-icon-button"
                 (click)="dialogRef.close(['delete',eventForm])"

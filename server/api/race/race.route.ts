@@ -30,7 +30,7 @@ export class RaceRoutes {
       .delete(AuthService.needAuthenticate, RaceController.removeById);
 
     router
-      .route('/api/race/import')
+      .route('/api/race/:id/import')
       .post(
         AuthService.needAuthenticate,
         multipartMiddleware,

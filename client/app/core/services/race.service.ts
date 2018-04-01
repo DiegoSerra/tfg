@@ -20,6 +20,10 @@ export class RaceService {
     return this.http.get(`api/race/me`);
   }
 
+  myCalendar() {
+    return this.http.get(`api/race/calendar`);
+  }
+
   getOne(raceId) {
     return this.http.get(`api/race/${raceId}`);
   }

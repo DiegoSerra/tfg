@@ -20,6 +20,10 @@ export class RaceRoutes {
       .get(AuthService.needAuthenticate, RaceController.getAllMe);
 
     router
+      .route('/api/race/calendar')
+      .get(AuthService.needAuthenticate, RaceController.getMyCalendar);
+
+    router
       .route('/api/race/search')
       .get(RaceController.search);
 

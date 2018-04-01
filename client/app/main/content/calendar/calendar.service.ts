@@ -27,7 +27,7 @@ export class CalendarService implements Resolve<any> {
   getEvents() {
     return new Promise((resolve, reject) => {
 
-      this.http.get('api/race/me')
+      this.http.get('api/race/calendar')
         .subscribe((response: any) => {
           this.events = response.json();
           this.onEventsUpdated.next(this.events);

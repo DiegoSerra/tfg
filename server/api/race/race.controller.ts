@@ -17,6 +17,14 @@ export class RaceController {
   }
 
   static getAllMe(req: express.Request, res: express.Response) {
+    const me = req['user'];
+    RaceDao
+      ['getAll']({'results.runnerName': {'$regex': me.name, '$options': 'i'}})      
+      .then(races => res.status(200).json(races))
+      .catch(error => res.status(400).json(error));
+  }
+
+  static getMyCalendar(req: express.Request, res: express.Response) {
     const myId = req['user']._id;
     RaceDao
       ['getAll']({$or: [{'createdBy.userId': myId}, {custom: {$ne: true}}]})      

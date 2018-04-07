@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import {MatSnackBar} from '@angular/material';
 import {environment} from '../../../environments/environment';
 import {TimeService} from '../../time.service';
+import { HttpClient } from '@angular/common/http';
 
 const apiToken = environment.mapbox;
 declare const omnivore: any;
@@ -21,14 +22,27 @@ const timeRaceSliderOptions: any = {
   showValue: false
 };
 
+const trackElevationControl = L.control.elevation({
+  position: 'topright',
+  useHeightIndicator: true,
+  interpolation: 'linear',
+  collapsed: true,
+  theme: 'steelblue-theme'
+});
+
 let prevLayerIndex: any = -1;
 let currentLayer = '';
 
 const heatDesc = {};
 
+const points = [];
+const cumdist = [];
+const trackLayer = [];
+let numTracks = 0;
+
 @Injectable()
 export class TrackService {
-  constructor(private snackBar: MatSnackBar, private timeService: TimeService) { }
+  constructor(private snackBar: MatSnackBar, private timeService: TimeService, private http: HttpClient) { }
 
   plotActivity(_map, race) {
     const { googleSatellite, googleStreets, mapboxDark, baseMaps } = this.setLayersOnMap();
@@ -38,25 +52,54 @@ export class TrackService {
     
     const layersControl = L.control.layers(baseMaps, null, {collapsed: false, position: 'bottomright'}).addTo(map);
 
-    const gpxLayer = omnivore.gpx(_map.gpx, null, null)
-      .on('ready', (data) => {
-        map.fitBounds(gpxLayer.getBounds());
-        try {       
-          const layerAtr = Object.keys(data.sourceTarget._layers)[0];
-          const _latlngs = data.sourceTarget._layers[layerAtr]._latlngs;
-          const cumdist = this.fillCumdist(_latlngs);
-          const { _race, numSteps } = this.initializeRaceVars(race);
-          this.simulateRace(_race, numSteps, _latlngs, cumdist);
+    this.http.get(_map.gpx)
+      .subscribe(
+        (gpx) => {
+          trackElevationControl.addTo(map);
 
+          this.extractPoints(gpx);
+          
+          trackLayer[numTracks++] = new L.Polyline(points, {
+            weight: 3,
+            smoothFactor: 1
+          });
+          layersControl.addOverlay(trackLayer[numTracks - 1], race.name);
+          map.addLayer(trackLayer[numTracks - 1]);
+          map.fitBounds(trackLayer[numTracks - 1].getBounds());
+          
+          const { _race, numSteps } = this.initializeRaceVars(race);
+          
+          this.simulateRace(_race, numSteps);
+          
           const timeRaceSlider = L.control.slider((value) => {
             const offset = Math.floor(_race.finishTime / (numSteps - 1));
             this.changeOfSliderLayer(map, value, offset);
           }, timeRaceSliderOptions).addTo(map);
-        } catch (error) {
+          
+        },
+        (error) => {
           this.snackBar.open('Parece que hubo un problema con el mapa de calor, por favor recargue la página si desea verlo', '', {duration: 5000});
         }
-      }).addTo(map);
+      );
+  }
 
+  extractPoints(gpx) {
+    L.geoJson(gpx, {
+      onEachFeature: (feature, layer) => {
+        trackElevationControl.addData(feature, layer);
+        trackElevationControl.addData.bind(trackElevationControl);
+      },
+      coordsToLatLng: (coords) => {
+        const newPoint = new L.LatLng(coords[1], coords[0], coords[2]);
+        if (points.length === 0) {
+          points.push(newPoint);
+          cumdist.push(0);
+        } else {
+          cumdist.push(cumdist[cumdist.length - 1] + newPoint.distanceTo(points[points.length - 1]));
+          points.push(newPoint);
+        }
+      }
+    });
   }
 
   initializeRaceVars(race) {
@@ -102,14 +145,14 @@ export class TrackService {
     return { googleSatellite, googleStreets, mapboxDark, baseMaps };
   }
 
-  simulateRace(race, numSteps, _latlngs, cumdist) {
+  simulateRace(race, numSteps) {
     const offset = Math.floor(race.finishTime / (numSteps - 1));
-    const startCoord = Array(race.results.length).fill(_latlngs[0]);
+    const startCoord = Array(race.results.length).fill(points[0]);
     heatDesc[this.format(0)] = this.createHeatLayer(startCoord);
     for (let index = offset; index <= race.finishTime; index += offset) {
       const {dist, runnerList} = this.calculateRunnerLocation(race.results, offset);
-      const posInCumDist = this.calculateRunnerPositions(runnerList, cumdist);
-      const runnerCoords = this.indexToCoord(posInCumDist, dist, _latlngs, cumdist);
+      const posInCumDist = this.calculateRunnerPositions(runnerList);
+      const runnerCoords = this.indexToCoord(posInCumDist, dist);
       heatDesc[this.format(index)] = this.createHeatLayer(runnerCoords);
     }
   }
@@ -132,14 +175,14 @@ export class TrackService {
     return {dist, runnerList};
   }
 
-  calculateRunnerPositions(runnerList, cumdist) {
+  calculateRunnerPositions(runnerList) {
     runnerList.forEach(runner => {
-      this.moveRunnerToNextPos(runner, cumdist);
+      this.moveRunnerToNextPos(runner);
     });
     return runnerList.map((runner) => runner.pos);
   }
   
-  moveRunnerToNextPos(runner, cumdist) {
+  moveRunnerToNextPos(runner) {
     let i = runner.pos || 0;
     while (i < cumdist.length - 1 && cumdist[i] < runner.dist) {
       i++;
@@ -147,15 +190,15 @@ export class TrackService {
     runner.pos = i;
   }
 
-  indexToCoord(index, dist, points, cumdist) {
+  indexToCoord(index, dist) {
     const coords = [];
     for (let i = 0; i < index.length; i++) {
-      coords[i] = this.interpolate(points, index[i], dist[i] - cumdist[index[i]], cumdist);
+      coords[i] = this.interpolate(points, index[i], dist[i] - cumdist[index[i]]);
     }
     return coords;
   }
 
-  interpolate (p, i, d, cumdist) {
+  interpolate (p, i, d) {
     let interpolatedDist = p[i];
     if (d === 0 || i >= cumdist.length - 1) {
       return interpolatedDist;
@@ -221,15 +264,15 @@ export class TrackService {
     return new L.LatLng(this.toDeg(lat2), this.toDeg(lon2));
   }
 
-  fillCumdist(_latlngs) {
-    const cumdist = [];
-    _latlngs.forEach((lat, index) => {
-      if (cumdist.length === 0) {
-        cumdist.push(0);
-      } else {
-        cumdist.push(cumdist[cumdist.length - 1] + lat.distanceTo(_latlngs[index - 1]));
-      }
-    });
-    return cumdist;
-  }
+  // fillCumdist(_latlngs) {
+  //   const cumdist = [];
+  //   _latlngs.forEach((lat, index) => {
+  //     if (cumdist.length === 0) {
+  //       cumdist.push(0);
+  //     } else {
+  //       cumdist.push(cumdist[cumdist.length - 1] + lat.distanceTo(_latlngs[index - 1]));
+  //     }
+  //   });
+  //   return cumdist;
+  // }
 }

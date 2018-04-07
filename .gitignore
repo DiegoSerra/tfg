@@ -36,6 +36,7 @@ testem.log
 # client
 client/**/*.js
 client/**/*.map
+!client/assets/js/*.js
 !client/app/pages/shared/highlightjs/highlight.pack.js
 
 # server

@@ -111,7 +111,7 @@ mapSchema.static('createNew', (map) => {
     }
 
     if (map.gpx) {
-      map.gpx = `../../assets/tracks/${map.gpx}`;
+      map.gpx = `assets/tracks/${map.gpx}`;
     }
 
     const _something = new Map(map);

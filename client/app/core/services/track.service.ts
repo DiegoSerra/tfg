@@ -76,6 +76,26 @@ export class TrackService {
             this.changeOfSliderLayer(map, value, offset);
           }, timeRaceSliderOptions).addTo(map);
           
+          const centerOnTrackButton = L.easyButton({
+            states: [
+              {
+                stateName: 'located',
+                icon: 'fa-dot-circle-o fa-lg',
+                title: 'Centrar',
+                onClick: (control) => {
+                  control.state('loading');
+                  if (typeof trackLayer[0] !== 'undefined') {
+                    map.flyToBounds(trackLayer[0].getBounds());
+                  } else {
+                    map.locate({setView: true, maxZoom: 15});
+                  }
+                  control.state('located');
+                }
+              }, {
+                stateName: 'loading',
+                icon: 'fa-circle-o-notch fa-spin fa-lg'
+              }]
+          }).addTo(map);
         },
         (error) => {
           this.snackBar.open('Parece que hubo un problema con el mapa de calor, por favor recargue la página si desea verlo', '', {duration: 5000});

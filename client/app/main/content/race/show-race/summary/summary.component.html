@@ -1,1 +1,29 @@
-<app-map [race]="race" style="min-height: 400px"></app-map>
+<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between start" class="p-24">
+  <mat-card fxFlex="100" fxFlex.gt-sm="78">
+    <app-map [race]="race" style="min-height: 470px"></app-map>
+  </mat-card>
+  <mat-card fxFlex="100" fxFlex.gt-sm="18" ngClass.lt-md="mt-24" ngClass.md="px-0">
+    <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between start">
+      <div class="px-24 py-16">
+        <div class="mat-display-1 m-0">{{race.kms}}</div>
+        <div class="h3 secondary-text">Kilómetros</div>
+      </div>
+      <div class="px-24 py-16">
+        <div class="mat-display-1 m-0">{{race.results?.length}}</div>
+        <div class="h3 secondary-text">Participantes</div>
+      </div>
+      <div class="px-24 py-16">
+        <div class="mat-display-1 m-0">{{clubTypes?.length}}</div>
+        <div class="h3 secondary-text">Clubes</div>
+      </div>
+      <div class="px-24 py-16">
+        <div class="mat-display-1 m-0">{{race.results[0]?.time | secondsToTime}}</div>
+        <div class="h3 secondary-text">Mejor tiempo</div>
+      </div>
+      <div class="px-24 py-16">
+        <div class="mat-display-1 m-0">{{race.results[0]?.rhythm | secondsToTime}}</div>
+        <div class="h3 secondary-text">Mejor ritmo</div>
+      </div>
+    </div>
+  </mat-card>
+</div>

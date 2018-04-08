@@ -1,45 +1,110 @@
-<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">
-  <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center">   
-    <ngx-charts-number-card
-      [scheme]="'cool'"
-      [results]="info">
-    </ngx-charts-number-card>
-  </div>
+<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between start" class="p-24">
+  <mat-card fxFlex="100" fxFlex.gt-sm="49" class="mb-24">
+    <mat-card-header>
+      <mat-card-title>Ritmo</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
+      <ngx-charts-bar-vertical
+        [scheme]="colorScheme"
+        [results]="rhythm"
+        [gradient]="gradient"
+        [legend]="'true'"
+        legendTitle=""
+        [xAxis]="'true'"
+        [yAxis]="'true'"
+        [showXAxisLabel]="'true'"
+        [showYAxisLabel]="'true'"
+        (select)="onSelect($event)">
+      </ngx-charts-bar-vertical>
+    </mat-card-content>
+  </mat-card>
+  <mat-card fxFlex="100" fxFlex.gt-sm="49" class="mb-24">
+    <mat-card-header>
+      <mat-card-title>Ritmo por género</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
+      <ngx-charts-bar-vertical-2d
+        [scheme]="colorScheme"
+        [results]="genderRhythm"
+        [gradient]="gradient"
+        [legend]="'true'"
+        legendTitle=""
+        [xAxis]="'true'"
+        [yAxis]="'true'"
+        [showXAxisLabel]="'true'"
+        [showYAxisLabel]="'true'"
+        (select)="onSelect($event)">
+      </ngx-charts-bar-vertical-2d>
+    </mat-card-content>
+  </mat-card>
 
-  <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between center" ngStyle.gt-sm="max-height: 500px">
-    <ngx-charts-bar-vertical
-      [scheme]="colorScheme"
-      [results]="rhythm"
-      [gradient]="gradient"
-      [legend]="'true'"
-      [legendTitle]="'Ritmo'"
-      [xAxis]="'true'"
-      [yAxis]="'true'"
-      [showXAxisLabel]="'true'"
-      [showYAxisLabel]="'true'"
-      (select)="onSelect($event)">
-    </ngx-charts-bar-vertical>
-  </div>
-  
+  <mat-card fxFlex="100" fxFlex.gt-sm="49" class="mb-24">
+    <mat-card-header>
+      <mat-card-title>Ritmo por categoría</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
+      <ngx-charts-bar-vertical-2d
+        [scheme]="colorScheme"
+        [results]="categoryRhythm"
+        [gradient]="gradient"
+        [legend]="'true'"
+        legendTitle=""
+        [xAxis]="'true'"
+        [yAxis]="'true'"
+        [showXAxisLabel]="'true'"
+        [showYAxisLabel]="'true'"
+        (select)="onSelect($event)">
+      </ngx-charts-bar-vertical-2d>
+    </mat-card-content>
+  </mat-card>
+  <mat-card fxFlex="100" fxFlex.gt-sm="49" class="mb-24">
+    <mat-card-header>
+      <mat-card-title>Ritmo por categoría y género</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
+      <ngx-charts-bar-vertical-2d
+        [scheme]="colorScheme"
+        [results]="categoryGenderRhythm"
+        [gradient]="gradient"
+        [xAxis]="'true'"
+        [yAxis]="'true'"
+        [showXAxisLabel]="'true'"
+        [showYAxisLabel]="'true'"
+        (select)="onSelect($event)">
+      </ngx-charts-bar-vertical-2d>
+    </mat-card-content>
+  </mat-card>
 
-  <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutAlign.gt-sm="space-between center" ngStyle.gt-sm="max-height: 500px"> 
-    <div fxFlex="100" fxFlex.gt-sm="50">
+  <mat-card fxFlex="100" fxFlex.gt-sm="49" ngClass.lt-md="mb-24">
+    <mat-card-header>
+      <mat-card-title>Categorías</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
       <ngx-charts-pie-chart
         [scheme]="colorScheme"
         [results]="categorys"
-        [legend]="'true'"
-        [legendTitle]="'Categorías'"
+        [labels]="true"
         [gradient]="gradient">
       </ngx-charts-pie-chart>
-    </div>
-    <div fxFlex="100" fxFlex.gt-sm="50">
+    </mat-card-content>
+  </mat-card>
+  <mat-card fxFlex="100" fxFlex.gt-sm="49">
+    <mat-card-header>
+      <mat-card-title>Género</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
       <ngx-charts-pie-chart
         [scheme]="colorScheme"
         [results]="genders"
-        [legend]="'true'"
-        [legendTitle]="'Género'"
+        [labels]="true"
         [gradient]="gradient">
       </ngx-charts-pie-chart>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>
 </div>

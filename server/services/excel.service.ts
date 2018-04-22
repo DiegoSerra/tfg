@@ -36,7 +36,7 @@ export class ExcelService {
       return workbook.xlsx.readFile(file)
         .then(() => {
           // Fill Basic Race Result info
-          const worksheet = workbook.getWorksheet('Results');
+          const worksheet = workbook.getWorksheet(1);
 
           // Iterate all Rows (Stations)
           worksheet.eachRow((row, rowNumber: number) => {

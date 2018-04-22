@@ -6,6 +6,7 @@ import { ObservableMedia } from '@angular/flex-layout';
 import { AppMainComponent } from '../../main.component';
 import { NavigationEnd, Router } from '@angular/router';
 import { AppNavigationService } from '../../../core/components/navigation/navigation.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
     selector     : 'app-navbar',
@@ -27,6 +28,7 @@ export class AppNavbarComponent implements OnInit, OnDestroy
         private appMainComponentEl: AppMainComponent,
         private appMatchMedia: AppMatchMedia,
         private appNavigationService: AppNavigationService,
+        private userService: UserService,
         private navBarService: AppNavbarService,
         public media: ObservableMedia,
         private router: Router
@@ -178,6 +180,13 @@ export class AppNavbarComponent implements OnInit, OnDestroy
             this.appMainComponentEl.addClass('app-nav-bar-closed');
             this.appMainComponentEl.removeClass('app-nav-bar-opened');
         }
+    }
+
+    logout() 
+    {
+        this.userService.logout(() => {
+          this.router.navigate(['/auth/login']);
+        });
     }
 
     ngOnDestroy()

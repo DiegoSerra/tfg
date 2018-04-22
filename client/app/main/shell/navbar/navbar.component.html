@@ -19,6 +19,16 @@
 
 </div>
 
-<div class="navbar-content" >
+<div class="navbar-content">
     <app-navigation></app-navigation>
+</div>
+
+<div class="navbar-options nav">
+
+    <div class="nav-item" (click)="logout()">
+        <a class="nav-link" mat-ripple>
+            <mat-icon class="nav-link-icon">exit_to_app</mat-icon>
+            <span class="nav-link-title">Desconectar</span>
+        </a>
+    </div>
 </div>

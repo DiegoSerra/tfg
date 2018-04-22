@@ -57,13 +57,13 @@ export class AppNavigationCreation {
             //   icon: 'add_box',
             //   url: '/app/race/create',
             // },
-            {
-              title: 'Chat',
-              type: 'nav-item',
-              icon: 'chat',
-              url: '/app/chat',
-              badge: badges.chat
-            },
+            // {
+            //   title: 'Chat',
+            //   type: 'nav-item',
+            //   icon: 'chat',
+            //   url: '/app/chat',
+            //   badge: badges.chat
+            // },
             {
               title: 'Calendario',
               type: 'nav-item',

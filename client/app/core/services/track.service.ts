@@ -8,7 +8,6 @@ import {TimeService} from '../../time.service';
 import { HttpClient } from '@angular/common/http';
 
 const apiToken = environment.mapbox;
-declare const omnivore: any;
 declare const L: any;
 
 const timeRaceSliderOptions: any = {
@@ -42,20 +41,24 @@ let numTracks = 0;
 
 @Injectable()
 export class TrackService {
+  map: any;
+  geoJson: any;
+
   constructor(private snackBar: MatSnackBar, private timeService: TimeService, private http: HttpClient) { }
 
   plotActivity(_map, race) {
     const { googleSatellite, googleStreets, mapboxDark, baseMaps } = this.setLayersOnMap();
     
-    const map = L.map('map', {layers: [googleSatellite, googleStreets, mapboxDark]});
-    map.locate({setView: true, maxZoom: 100});
+    this.map = _map;
+    this.map = L.map('map', {layers: [googleSatellite, googleStreets, mapboxDark]});
+    this.map.locate({setView: true, maxZoom: 100});
     
-    const layersControl = L.control.layers(baseMaps, null, {collapsed: false, position: 'bottomright'}).addTo(map);
+    const layersControl = L.control.layers(baseMaps, null, {collapsed: false, position: 'bottomright'}).addTo(this.map);
 
     this.http.get(_map.gpx)
       .subscribe(
         (gpx) => {
-          trackElevationControl.addTo(map);
+          trackElevationControl.addTo(this.map);
 
           this.extractPoints(gpx);
           
@@ -64,8 +67,8 @@ export class TrackService {
             smoothFactor: 1
           });
           layersControl.addOverlay(trackLayer[numTracks - 1], race.name);
-          map.addLayer(trackLayer[numTracks - 1]);
-          map.fitBounds(trackLayer[numTracks - 1].getBounds());
+          this.map.addLayer(trackLayer[numTracks - 1]);
+          this.map.fitBounds(trackLayer[numTracks - 1].getBounds());
           
           const { _race, numSteps } = this.initializeRaceVars(race);
           
@@ -73,8 +76,8 @@ export class TrackService {
           
           const timeRaceSlider = L.control.slider((value) => {
             const offset = Math.floor(_race.finishTime / (numSteps - 1));
-            this.changeOfSliderLayer(map, value, offset);
-          }, timeRaceSliderOptions).addTo(map);
+            this.changeOfSliderLayer(value, offset);
+          }, timeRaceSliderOptions).addTo(this.map);
           
           const centerOnTrackButton = L.easyButton({
             states: [
@@ -85,9 +88,9 @@ export class TrackService {
                 onClick: (control) => {
                   control.state('loading');
                   if (typeof trackLayer[0] !== 'undefined') {
-                    map.flyToBounds(trackLayer[0].getBounds());
+                    this.map.flyToBounds(trackLayer[0].getBounds());
                   } else {
-                    map.locate({setView: true, maxZoom: 15});
+                    this.map.locate({setView: true, maxZoom: 15});
                   }
                   control.state('located');
                 }
@@ -95,7 +98,7 @@ export class TrackService {
                 stateName: 'loading',
                 icon: 'fa-circle-o-notch fa-spin fa-lg'
               }]
-          }).addTo(map);
+          }).addTo(this.map);
         },
         (error) => {
           this.snackBar.open('Parece que hubo un problema con el mapa de calor, por favor recargue la página si desea verlo', '', {duration: 5000});
@@ -104,7 +107,7 @@ export class TrackService {
   }
 
   extractPoints(gpx) {
-    L.geoJson(gpx, {
+    this.geoJson = L.geoJson(gpx, {
       onEachFeature: (feature, layer) => {
         trackElevationControl.addData(feature, layer);
         trackElevationControl.addData.bind(trackElevationControl);
@@ -254,14 +257,14 @@ export class TrackService {
     return new Date(secs * 1000).toUTCString().substring(17, 25);
   }
 
-  changeOfSliderLayer(map, value, offset) {
+  changeOfSliderLayer(value, offset) {
     const curLayerIndex = this.format(value * offset);
     if (prevLayerIndex !== -1) {
-      if (map.hasLayer(currentLayer)) {
-        map.removeLayer(currentLayer);
+      if (this.map.hasLayer(currentLayer)) {
+        this.map.removeLayer(currentLayer);
       }
     }
-    map.addLayer(heatDesc[curLayerIndex]);
+    this.map.addLayer(heatDesc[curLayerIndex]);
     prevLayerIndex = curLayerIndex;
     currentLayer = heatDesc[curLayerIndex];
   }
@@ -284,15 +287,7 @@ export class TrackService {
     return new L.LatLng(this.toDeg(lat2), this.toDeg(lon2));
   }
 
-  // fillCumdist(_latlngs) {
-  //   const cumdist = [];
-  //   _latlngs.forEach((lat, index) => {
-  //     if (cumdist.length === 0) {
-  //       cumdist.push(0);
-  //     } else {
-  //       cumdist.push(cumdist[cumdist.length - 1] + lat.distanceTo(_latlngs[index - 1]));
-  //     }
-  //   });
-  //   return cumdist;
-  // }
+  clearGeoJson() {
+    this.map.removeLayer(this.geoJson);
+  }
 }

@@ -33,8 +33,7 @@
 								formControlName="dateStart"
 								[matDatepicker]="dateStartPicker"
 								placeholder="Fecha de salida"
-								(focus)="fromToggle._open($event)"
-								[errorStateMatcher]="onSubmittedShowError">
+								(focus)="fromToggle._open($event)">
 				<mat-error *ngIf="raceFormErrors.dateStart.isNotADate">
 					<strong>No es una fecha valida</strong>
 				</mat-error>
@@ -51,7 +50,6 @@
 								placeholder="Hora de salida (hh:mm)"
 								formControlName="hourStart"
 								[textMask]="{mask: mask}"
-								[errorStateMatcher]="onSubmittedShowError"
 								required>
 				<mat-error *ngIf="raceFormErrors.hourStart.required">
 					Campo <strong>requerido</strong>
@@ -66,8 +64,7 @@
 								[matDatepicker]="dateEndPicker"
 								[min]="raceForm.get('race').get('dateStart').value"
 								placeholder="Fecha de finalización"
-								(focus)="toToggle._open($event)"
-								[errorStateMatcher]="onSubmittedShowError">
+								(focus)="toToggle._open($event)">
 				<mat-error *ngIf="raceFormErrors.dateEnd.isNotADate">
 					<strong>No es una fecha valida</strong>
 				</mat-error>
@@ -84,7 +81,6 @@
 								placeholder="Hora de finalización (hh:mm)"
 								formControlName="hourEnd"
 								[textMask]="{mask: mask}"
-								[errorStateMatcher]="onSubmittedShowError"
 								required>
 				<mat-error *ngIf="raceFormErrors.hourEnd.required">
 					Campo <strong>requerido</strong>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import _ = require('lodash');
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-summary',

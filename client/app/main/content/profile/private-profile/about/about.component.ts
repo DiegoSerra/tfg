@@ -12,6 +12,7 @@ import {Observable} from 'rxjs/Observable';
 export class AppProfileAboutComponent implements OnInit {
   user: User;
   editing = false;
+  saving = false;
   totalReferrals = 0;
   url: string;
 
@@ -67,6 +68,7 @@ export class AppProfileAboutComponent implements OnInit {
   }
 
   save() {
+    this.saving = true;
     const observables = [];
 
     const nameControl = this.form.get('name');
@@ -91,6 +93,7 @@ export class AppProfileAboutComponent implements OnInit {
       .subscribe(result => {
         this.userService.me();
         this.editing = false;
+        this.saving = false;
       });
   }
 }

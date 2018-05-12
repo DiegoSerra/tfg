@@ -8,14 +8,13 @@
       <ngx-charts-bar-vertical
         [scheme]="colorScheme"
         [results]="rhythm"
-        [gradient]="gradient"
+        [gradient]="true"
         [legend]="'true'"
         legendTitle=""
         [xAxis]="'true'"
         [yAxis]="'true'"
         [showXAxisLabel]="'true'"
-        [showYAxisLabel]="'true'"
-        (select)="onSelect($event)">
+        [showYAxisLabel]="'true'">
       </ngx-charts-bar-vertical>
     </mat-card-content>
   </mat-card>
@@ -28,14 +27,13 @@
       <ngx-charts-bar-vertical-2d
         [scheme]="colorScheme"
         [results]="genderRhythm"
-        [gradient]="gradient"
+        [gradient]="true"
         [legend]="'true'"
         legendTitle=""
         [xAxis]="'true'"
         [yAxis]="'true'"
         [showXAxisLabel]="'true'"
-        [showYAxisLabel]="'true'"
-        (select)="onSelect($event)">
+        [showYAxisLabel]="'true'">
       </ngx-charts-bar-vertical-2d>
     </mat-card-content>
   </mat-card>
@@ -49,14 +47,13 @@
       <ngx-charts-bar-vertical-2d
         [scheme]="colorScheme"
         [results]="categoryRhythm"
-        [gradient]="gradient"
+        [gradient]="true"
         [legend]="'true'"
         legendTitle=""
         [xAxis]="'true'"
         [yAxis]="'true'"
         [showXAxisLabel]="'true'"
-        [showYAxisLabel]="'true'"
-        (select)="onSelect($event)">
+        [showYAxisLabel]="'true'">
       </ngx-charts-bar-vertical-2d>
     </mat-card-content>
   </mat-card>
@@ -69,12 +66,11 @@
       <ngx-charts-bar-vertical-2d
         [scheme]="colorScheme"
         [results]="categoryGenderRhythm"
-        [gradient]="gradient"
+        [gradient]="true"
         [xAxis]="'true'"
         [yAxis]="'true'"
         [showXAxisLabel]="'true'"
-        [showYAxisLabel]="'true'"
-        (select)="onSelect($event)">
+        [showYAxisLabel]="'true'">
       </ngx-charts-bar-vertical-2d>
     </mat-card-content>
   </mat-card>
@@ -89,7 +85,7 @@
         [scheme]="colorScheme"
         [results]="categorys"
         [labels]="true"
-        [gradient]="gradient">
+        [gradient]="true">
       </ngx-charts-pie-chart>
     </mat-card-content>
   </mat-card>
@@ -103,7 +99,7 @@
         [scheme]="colorScheme"
         [results]="genders"
         [labels]="true"
-        [gradient]="gradient">
+        [gradient]="true">
       </ngx-charts-pie-chart>
     </mat-card-content>
   </mat-card>

@@ -2,7 +2,7 @@
 
 if (process.env.NEW_RELIC_ENABLED === 'true') require('newrelic');
 
-const PORT = process.env.PORT || 3333;
+const PORT = process.env.PORT || 5000;
 process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 
 

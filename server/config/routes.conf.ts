@@ -7,6 +7,7 @@ import * as bodyParser from 'body-parser';
 import * as helmet from 'helmet';
 import * as compression from 'compression';
 import * as zlib from 'zlib';
+import * as cool from 'cool-ascii-faces';
 
 export class RoutesConfig {
   static init(application: express.Application): void {
@@ -34,5 +35,7 @@ export class RoutesConfig {
     application.use(cookieParser());
     application.use(morgan('dev'));
     application.use(helmet());
+
+    application.get('/cool', (req, res) => res.send(cool()));
   }
 }

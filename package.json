@@ -2,6 +2,9 @@
   "name": "tfg",
   "version": "1.0.1",
   "license": "MIT",
+  "engines": {
+    "node": "8.9.4"
+  },
   "scripts": {
     "prestart": "ng build --prod",
     "start": "node server/server.js",
@@ -51,6 +54,7 @@
     "classlist.js": "^1.1.20150312",
     "connect-multiparty": "2.0.0",
     "cookie-parser": "1.4.3",
+    "cool-ascii-faces": "^1.3.4",
     "core-js": "^2.5.0",
     "d3": "^4.10.0",
     "exceljs": "^0.6.2",

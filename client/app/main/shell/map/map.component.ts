@@ -25,7 +25,7 @@ export class MapComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.trackService.clearGeoJson();
+    // this.trackService.clearGeoJson();
   }
 
 }

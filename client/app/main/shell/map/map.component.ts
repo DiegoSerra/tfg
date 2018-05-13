@@ -14,7 +14,7 @@ export class MapComponent implements OnInit, OnDestroy {
 
   map: Map;
 
-  constructor(private mapService: MapService, private trackService: TrackService) { }
+  constructor(private mapService: MapService, public trackService: TrackService) { }
 
   ngOnInit() {
     this.mapService.getOneByRace(this.race._id)

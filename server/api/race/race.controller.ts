@@ -19,7 +19,14 @@ export class RaceController {
   static getAllMe(req: express.Request, res: express.Response) {
     const me = req['user'];
     RaceDao
-      ['getAll']({'results.runnerName': {'$regex': me.name, '$options': 'i'}})      
+      ['getAll'](
+        {
+          $or: [
+            {'results.runnerName': {'$regex': me.name, '$options': 'i'}},
+            {$and: [{'createdBy.userId': me._id}, {custom: {$ne: true}}]}
+          ]
+        }
+      )      
       .then(races => res.status(200).json(races))
       .catch(error => res.status(400).json(error));
   }

@@ -107,6 +107,7 @@ export class TrackService {
             this.loading = false;
           } catch (error) {
             this.loading = false;
+            console.log(error);
             this.snackBar.open('Parece que hubo un problema con el mapa de calor, por favor recargue la página si desea verlo', '', {duration: 5000});
           }
         },
@@ -299,6 +300,8 @@ export class TrackService {
   }
 
   clearGeoJson() {
-    this.map.removeLayer(this.geoJson);
+    if (this.map) {
+      this.map.removeLayer(this.geoJson);
+    }
   }
 }

@@ -8,6 +8,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 
 import * as express from 'express';
 import * as os from 'os';
+import * as d3 from 'd3';
 import * as http from 'http';
 
 import {RoutesConfig} from './config/routes.conf';

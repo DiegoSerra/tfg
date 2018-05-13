@@ -44,9 +44,12 @@ export class TrackService {
   map: any;
   geoJson: any;
 
+  loading = false;
+
   constructor(private snackBar: MatSnackBar, private timeService: TimeService, private http: HttpClient) { }
 
   plotActivity(_map, race) {
+    this.loading = true;
     const { googleSatellite, googleStreets, mapboxDark, baseMaps } = this.setLayersOnMap();
     
     this.map = _map;
@@ -58,49 +61,57 @@ export class TrackService {
     this.http.get(_map.gpx)
       .subscribe(
         (gpx) => {
-          trackElevationControl.addTo(this.map);
-
-          this.extractPoints(gpx);
-          
-          trackLayer[numTracks++] = new L.Polyline(points, {
-            weight: 3,
-            smoothFactor: 1
-          });
-          layersControl.addOverlay(trackLayer[numTracks - 1], race.name);
-          this.map.addLayer(trackLayer[numTracks - 1]);
-          this.map.fitBounds(trackLayer[numTracks - 1].getBounds());
-          
-          const { _race, numSteps } = this.initializeRaceVars(race);
-          
-          this.simulateRace(_race, numSteps);
-          
-          const timeRaceSlider = L.control.slider((value) => {
-            const offset = Math.floor(_race.finishTime / (numSteps - 1));
-            this.changeOfSliderLayer(value, offset);
-          }, timeRaceSliderOptions).addTo(this.map);
-          
-          const centerOnTrackButton = L.easyButton({
-            states: [
-              {
-                stateName: 'located',
-                icon: 'fa-dot-circle-o fa-lg',
-                title: 'Centrar',
-                onClick: (control) => {
-                  control.state('loading');
-                  if (typeof trackLayer[0] !== 'undefined') {
-                    this.map.flyToBounds(trackLayer[0].getBounds());
-                  } else {
-                    this.map.locate({setView: true, maxZoom: 15});
+          try {
+            trackElevationControl.addTo(this.map);
+  
+            this.extractPoints(gpx);
+            
+            trackLayer[numTracks++] = new L.Polyline(points, {
+              weight: 3,
+              smoothFactor: 1
+            });
+            layersControl.addOverlay(trackLayer[numTracks - 1], race.name);
+            this.map.addLayer(trackLayer[numTracks - 1]);
+            this.map.fitBounds(trackLayer[numTracks - 1].getBounds());
+            
+            const { _race, numSteps } = this.initializeRaceVars(race);
+            
+            this.simulateRace(_race, numSteps);
+            
+            const timeRaceSlider = L.control.slider((value) => {
+              const offset = Math.floor(_race.finishTime / (numSteps - 1));
+              this.changeOfSliderLayer(value, offset);
+            }, timeRaceSliderOptions).addTo(this.map);
+            
+            const centerOnTrackButton = L.easyButton({
+              states: [
+                {
+                  stateName: 'located',
+                  icon: 'fa-dot-circle-o fa-lg',
+                  title: 'Centrar',
+                  onClick: (control) => {
+                    control.state('loading');
+                    if (typeof trackLayer[0] !== 'undefined') {
+                      this.map.flyToBounds(trackLayer[0].getBounds());
+                    } else {
+                      this.map.locate({setView: true, maxZoom: 15});
+                    }
+                    control.state('located');
                   }
-                  control.state('located');
-                }
-              }, {
-                stateName: 'loading',
-                icon: 'fa-circle-o-notch fa-spin fa-lg'
-              }]
-          }).addTo(this.map);
+                }, {
+                  stateName: 'loading',
+                  icon: 'fa-circle-o-notch fa-spin fa-lg'
+                }]
+            }).addTo(this.map);
+
+            this.loading = false;
+          } catch (error) {
+            this.loading = false;
+            this.snackBar.open('Parece que hubo un problema con el mapa de calor, por favor recargue la página si desea verlo', '', {duration: 5000});
+          }
         },
         (error) => {
+          this.loading = false;
           this.snackBar.open('Parece que hubo un problema con el mapa de calor, por favor recargue la página si desea verlo', '', {duration: 5000});
         }
       );

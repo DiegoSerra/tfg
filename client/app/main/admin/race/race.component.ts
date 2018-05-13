@@ -54,6 +54,7 @@ export class RaceComponent implements OnInit {
   }
 
   importFile(raceId) {
+    this.loading = true;
     this.uploaderImportFile.setOptions({url: `api/race/${raceId}/import`});
     setTimeout(() => {
       this.uploaderImportFile.uploadAll();

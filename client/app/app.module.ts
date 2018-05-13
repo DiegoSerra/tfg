@@ -22,7 +22,11 @@ import {BadgesService} from './core/services/badges.service';
 import {RaceService} from './core/services/race.service';
 import {MapService} from './core/services/map.service';
 import {TrackService} from './core/services/track.service';
-import { HttpClientModule } from '@angular/common/http';
+import {HttpClientModule} from '@angular/common/http';
+import {registerLocaleData} from '@angular/common';
+import localeES from '@angular/common/locales/es'; // to register spanish
+
+registerLocaleData(localeES);
 
 const appRoutes: Routes = [
   {

@@ -13,6 +13,6 @@
     "proxy": true,
     "proxyWhen": "/api/*",
 
-    "proxyTarget": "https://localhost:3333"
+    "proxyTarget": "https://localhost:5000"
 
 }

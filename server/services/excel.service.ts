@@ -46,9 +46,9 @@ export class ExcelService {
               // Get Position (First Column)
               const position = +row.getCell(1).value;
               // Get Time (Second  Column)
-              const time = TimeService.stringDateToFullSeconds(row.getCell(2).value);
+              const time = row.getCell(2).value;
               // Get Rhythm (Third  Column)
-              const rhythm = TimeService.stringRhythmToFullSeconds(row.getCell(3).value);
+              const rhythm = row.getCell(3).value;
               // Get Dorsal (Fourth  Column)
               const dorsal = +row.getCell(4).value;
               // Get Runner Name (Fifth Column)
@@ -58,9 +58,9 @@ export class ExcelService {
               // Get Full category (Seventh Column)
               const fullCategory = row.getCell(7).value;
               // Get category
-              const category = fullCategory.split('-')[0];
+              const category = fullCategory.split('-')[0] || 'Anónimo';
               // Get gender
-              const gender = fullCategory.split('-')[1];
+              const gender = fullCategory.split('-')[1] || 'Anónimo';
               // Get Club (Eighth Column)       
               const club = row.getCell(8).value;  
               

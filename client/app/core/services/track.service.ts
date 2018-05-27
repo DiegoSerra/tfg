@@ -31,8 +31,15 @@ const trackElevationControl = L.control.elevation({
 
 let prevLayerIndex: any = -1;
 let currentLayer = '';
+let curLayerIndex = '';
 
 const heatDesc = {};
+const networkDesc = {};
+const VIEW = {
+  HEATMAP: 0,
+  NETWORK: 1
+};
+let runnerView = VIEW.HEATMAP;
 
 const points = [];
 const cumdist = [];
@@ -104,6 +111,8 @@ export class TrackService {
                 }]
             }).addTo(this.map);
 
+            const networkViewButton = this.getLayerButton(_race).addTo(this.map);
+
             this.loading = false;
           } catch (error) {
             this.loading = false;
@@ -116,6 +125,46 @@ export class TrackService {
           this.snackBar.open('Parece que hubo un problema con el mapa de calor, por favor recargue la página si desea verlo', '', {duration: 5000});
         }
       );
+  }
+
+  getLayerButton(race) {
+    const layerButton = L.easyButton({
+      states: [{
+        icon: 'fa-share-alt fa-lg',
+        stateName: 'network',
+        title: 'Ver corredores como red',
+        onClick: (control) => {
+          this.clickOnNetworkView(control);
+        }
+      }, {
+        icon: 'fa-users fa-lg',
+        stateName: 'heat',
+        title: 'Ver densidad de corredores como mapa de calor',
+        onClick: (control) => {
+          this.clickOnHeatmapView(control);
+        }
+      }]
+    });
+    if (race.results.length > 200) {
+      layerButton.disable();
+    }
+    return layerButton;
+  }
+
+  clickOnHeatmapView(control) {
+    runnerView = VIEW.HEATMAP;
+    control.state('network');
+    this.map.removeLayer(networkDesc[curLayerIndex]);
+    this.map.addLayer(heatDesc[curLayerIndex]);
+    currentLayer = heatDesc[curLayerIndex];
+  }
+  
+  clickOnNetworkView(control) {
+    runnerView = VIEW.NETWORK;
+    control.state('heat');
+    this.map.removeLayer(heatDesc[curLayerIndex]);
+    this.map.addLayer(networkDesc[curLayerIndex]);
+    currentLayer = networkDesc[curLayerIndex];
   }
 
   extractPoints(gpx) {
@@ -184,17 +233,52 @@ export class TrackService {
     const offset = Math.floor(race.finishTime / (numSteps - 1));
     const startCoord = Array(race.results.length).fill(points[0]);
     heatDesc[this.format(0)] = this.createHeatLayer(startCoord);
+    if (race.results.length <= 200) {
+      networkDesc[this.format(0)] = this.createNetworkLayer(startCoord, 20, true);
+    }
     for (let index = offset; index <= race.finishTime; index += offset) {
       const {dist, runnerList} = this.calculateRunnerLocation(race.results, offset);
       const posInCumDist = this.calculateRunnerPositions(runnerList);
       const runnerCoords = this.indexToCoord(posInCumDist, dist);
       heatDesc[this.format(index)] = this.createHeatLayer(runnerCoords);
+      if (race.results.length <= 200) {
+        networkDesc[this.format(index)] = this.createNetworkLayer(runnerCoords, 20, true);
+      }
     }
   }
 
   createHeatLayer(coords) {
     return L.heatLayer(coords, {radius: 10, blur: 0, maxZoom: 8});
   } 
+
+  createNetworkLayer(coords, maxDist, includeLinks) {
+    let node = new L.circleMarker(coords[0], {radius: 5});
+    const nodeList = [];
+    nodeList.push(node);
+    const linkList = [];
+    for (let id = 1; id < coords.length; id++) {
+      node = new L.circleMarker(this.noisy(coords[id]), {radius: 5});
+      if (includeLinks) {
+        let it = id - 1;
+        while (it >= 0 && node.getLatLng().distanceTo(nodeList[it].getLatLng()) <= maxDist) {
+          const link = [nodeList[it].getLatLng(), node.getLatLng()];
+          linkList.push(link);
+          it--;
+        }
+      }
+      nodeList.push(node);
+    }
+    const network = L.layerGroup(nodeList);
+    if (includeLinks) {
+      const groupedLinks = new L.polyline(linkList, {
+        color: 'black',
+        weight: 2,
+        smoothFactor: 1
+      });
+      network.addLayer(groupedLinks);
+    }
+    return network;
+  }
 
   calculateRunnerLocation(runnerList, t) {
     const dist = [];
@@ -231,6 +315,12 @@ export class TrackService {
       coords[i] = this.interpolate(points, index[i], dist[i] - cumdist[index[i]]);
     }
     return coords;
+  }
+
+  noisy(coords) {
+    const disp = (Math.random() * 2 - 1) / 1000000;
+    const modified = new L.latLng(coords.lat * (1 + disp), coords.lng * (1 + disp));
+    return modified;
   }
 
   interpolate (p, i, d) {
@@ -270,15 +360,21 @@ export class TrackService {
   }
 
   changeOfSliderLayer(value, offset) {
-    const curLayerIndex = this.format(value * offset);
+    curLayerIndex = this.format(value * offset);
     if (prevLayerIndex !== -1) {
       if (this.map.hasLayer(currentLayer)) {
         this.map.removeLayer(currentLayer);
       }
     }
-    this.map.addLayer(heatDesc[curLayerIndex]);
-    prevLayerIndex = curLayerIndex;
-    currentLayer = heatDesc[curLayerIndex];
+    if (runnerView === VIEW.HEATMAP) {
+      this.map.addLayer(heatDesc[curLayerIndex]);
+      prevLayerIndex = curLayerIndex;
+      currentLayer = heatDesc[curLayerIndex];
+    } else {
+      this.map.addLayer(networkDesc[curLayerIndex]);
+      prevLayerIndex = curLayerIndex;
+      currentLayer = networkDesc[curLayerIndex];
+    }
   }
 
   destinationPoint(lat, lng, bearingInDeg, distanceInMeters) {

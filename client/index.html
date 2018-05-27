@@ -13,7 +13,7 @@
   <!--<link href="assets/icons/meteocons/style.css" rel="stylesheet">-->
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
   <link href='https://api.mapbox.com/mapbox-gl-js/v0.44.1/mapbox-gl.css' rel='stylesheet' />
-  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
 
   <!-- APP Splash Screen CSS -->
   <style type="text/css">
@@ -268,17 +268,6 @@
 
 <app-root></app-root>
 
-<script>
-  var canvas = d3.select("body")
-                  .append("svg")
-                  .attr("width", 500)
-                  .attr("height", 500);
-  var circle = canvas.append("circle")
-                  .attr("cx",250)
-                  .attr("cy", 250)
-                  .attr("r", 50)
-                  .attr("fill", "red");
-</script>
 </body>
 
 </html>

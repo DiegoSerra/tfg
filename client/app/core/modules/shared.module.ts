@@ -35,6 +35,7 @@ import {RouterModule} from '@angular/router';
 import {FileUploadModule} from 'ng2-file-upload';
 import {MapComponent} from '../../main/shell/map/map.component';
 import { CreateRaceDialogComponent } from '../../main/shell/header/create-race-dialog/create-race-dialog.component';
+import { SelectRunnerDialogComponent } from '../../main/content/race/show-race/select-runner-dialog/select-runner-dialog.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { CreateRaceDialogComponent } from '../../main/shell/header/create-race-d
     EqualValidatorDirective,
     AppHeaderComponent,
     MapComponent,
-    CreateRaceDialogComponent
+    CreateRaceDialogComponent,
+    SelectRunnerDialogComponent
   ],
   imports: [
     RouterModule,
@@ -96,7 +98,8 @@ import { CreateRaceDialogComponent } from '../../main/shell/header/create-race-d
   ],
   entryComponents: [
     AppConfirmDialogComponent,
-    CreateRaceDialogComponent
+    CreateRaceDialogComponent,
+    SelectRunnerDialogComponent,
   ],
   providers: [
     AppNavigationService,

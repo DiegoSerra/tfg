@@ -1,0 +1,38 @@
+<h2 mat-dialog-title>Selecciona al corredor que deseas seguir</h2>
+
+<form name="form" [formGroup]="form" novalidate>
+    <div mat-dialog-content>
+        <!-- Autocomplete START -->
+      <mat-form-field fxFlex="1 0 100"> 
+        <input 
+          matInput 
+          formControlName="runner"
+          placeholder="Selecciona un corredor de la lista"
+          [matAutocomplete]="runnerAutocomplete">
+        <mat-error
+          *ngIf="!form.get('runner').hasError('required') && form.get('runner').hasError('isNotAnObject')">
+          <strong>Selecciona un corredor de la lista</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-autocomplete #runnerAutocomplete="matAutocomplete"
+                        [displayWith]="displayName">
+        <mat-option *ngFor="let item of filteredRunners | async" [value]="item">
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <span>{{ item.runnerName }}</span>
+          </div>
+        </mat-option>
+      </mat-autocomplete>
+      <!-- Autocomplete END -->
+        
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-button type="button" (click)="dialogRef.close()">Cancelar</button>
+
+        <button mat-raised-button type="submit" class="submit-button" color="accent" [mat-dialog-close]="form.value.runner"
+                aria-label="Aceptar" [disabled]="form.invalid">
+            Aceptar
+        </button>
+    </div>
+</form>

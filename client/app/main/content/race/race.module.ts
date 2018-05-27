@@ -13,11 +13,11 @@ import {EditRaceComponent} from './edit-race/edit-race.component';
 import {DeleteRaceDialogComponent} from './all-races/delete-race-dialog/delete-race-dialog.component';
 import {ReactiveAccountDialogComponent} from './all-races/reactive-account-dialog/reactive-account-dialog.component';
 import {AppMainModule} from '../../main.module';
-import { SummaryComponent } from './show-race/summary/summary.component';
-import { ClassifiedsComponent } from './show-race/classifieds/classifieds.component';
-import { AnalysisComponent } from './show-race/analysis/analysis.component';
+import {SummaryComponent} from './show-race/summary/summary.component';
+import {ClassifiedsComponent} from './show-race/classifieds/classifieds.component';
+import {AnalysisComponent} from './show-race/analysis/analysis.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
-import { AppWidgetModule } from '../../../core/components/widget/widget.module';
+import {AppWidgetModule} from '../../../core/components/widget/widget.module';
 
 const routes: Route[] = [
   {

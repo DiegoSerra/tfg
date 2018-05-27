@@ -2,10 +2,11 @@ import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import {MatSnackBar} from '@angular/material';
+import {MatSnackBar, MatDialog} from '@angular/material';
 import {environment} from '../../../environments/environment';
 import {TimeService} from '../../time.service';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
+import {SelectRunnerDialogComponent} from '../../main/content/race/show-race/select-runner-dialog/select-runner-dialog.component';
 
 const apiToken = environment.mapbox;
 declare const L: any;
@@ -15,10 +16,10 @@ const timeRaceSliderOptions: any = {
   min: 0,
   value: 0,
   step: 1,
+  logo: '',
   collapsed: false,
-  increment: false,
   syncSlider: true,
-  showValue: false
+  getValue: (value) => TrackService.format(value * 60)
 };
 
 const trackElevationControl = L.control.elevation({
@@ -35,9 +36,12 @@ let curLayerIndex = '';
 
 const heatDesc = {};
 const networkDesc = {};
+const runnerDesc = {};
+let myRunner = null;
 const VIEW = {
   HEATMAP: 0,
-  NETWORK: 1
+  NETWORK: 1,
+  RUNNER: 2
 };
 let runnerView = VIEW.HEATMAP;
 
@@ -53,7 +57,16 @@ export class TrackService {
 
   loading = false;
 
-  constructor(private snackBar: MatSnackBar, private timeService: TimeService, private http: HttpClient) { }
+  static format (secs) {
+    return new Date(secs * 1000).toUTCString().substring(17, 25);
+  }
+
+  constructor(private snackBar: MatSnackBar,
+              private dialog: MatDialog, 
+              private timeService: TimeService, 
+              private http: HttpClient) { }
+
+              
 
   plotActivity(_map, race) {
     this.loading = true;
@@ -113,6 +126,8 @@ export class TrackService {
 
             const networkViewButton = this.getLayerButton(_race).addTo(this.map);
 
+            const runnerButton = this.getRunnerButton(_race).addTo(this.map);
+
             this.loading = false;
           } catch (error) {
             this.loading = false;
@@ -151,6 +166,26 @@ export class TrackService {
     return layerButton;
   }
 
+  getRunnerButton(race) {
+    return L.easyButton({
+      states: [{
+        icon: 'fa-street-view fa-lg',
+        stateName: 'tie',
+        title: 'Seguir a un corredor',
+        onClick: (control) => {
+          this.clickOnLockRunner(control, race);
+        }
+      }, {
+        icon: 'fa-times fa-lg',
+        stateName: 'untie',
+        title: 'Dejar de seguir al corredor',
+        onClick: (control) => {
+          this.clickOnUnlockRunner(control);
+        }
+      }]
+    });
+  }
+
   clickOnHeatmapView(control) {
     runnerView = VIEW.HEATMAP;
     control.state('network');
@@ -165,6 +200,38 @@ export class TrackService {
     this.map.removeLayer(heatDesc[curLayerIndex]);
     this.map.addLayer(networkDesc[curLayerIndex]);
     currentLayer = networkDesc[curLayerIndex];
+  }
+  
+  clickOnLockRunner(control, race) {
+    this.openSelectRunnerDialog(control, race);
+  }
+  
+  clickOnUnlockRunner(control) {
+    runnerView = VIEW.HEATMAP;
+    control.state('tie');
+    this.map.removeLayer(runnerDesc[curLayerIndex]);
+    this.map.addLayer(heatDesc[curLayerIndex]);
+    currentLayer = heatDesc[curLayerIndex];
+  }
+
+  openSelectRunnerDialog(control, race) {
+    const dialogRef = this.dialog.open(SelectRunnerDialogComponent,
+      {data: { race }}
+    );
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        myRunner = data;
+        runnerView = VIEW.RUNNER;
+        control.state('untie');
+        Object.keys(heatDesc).forEach(key => {
+          runnerDesc[key] = this.createHeatLayer(heatDesc[key]._latlngs.filter((item, index) => index === myRunner.position));
+        });
+        this.map.removeLayer(currentLayer);
+        this.map.addLayer(runnerDesc[curLayerIndex]);
+        currentLayer = runnerDesc[curLayerIndex];
+      }
+    });
   }
 
   extractPoints(gpx) {
@@ -232,17 +299,17 @@ export class TrackService {
   simulateRace(race, numSteps) {
     const offset = Math.floor(race.finishTime / (numSteps - 1));
     const startCoord = Array(race.results.length).fill(points[0]);
-    heatDesc[this.format(0)] = this.createHeatLayer(startCoord);
+    heatDesc[TrackService.format(0)] = this.createHeatLayer(startCoord);
     if (race.results.length <= 200) {
-      networkDesc[this.format(0)] = this.createNetworkLayer(startCoord, 20, true);
+      networkDesc[TrackService.format(0)] = this.createNetworkLayer(startCoord, 20, true);
     }
     for (let index = offset; index <= race.finishTime; index += offset) {
       const {dist, runnerList} = this.calculateRunnerLocation(race.results, offset);
       const posInCumDist = this.calculateRunnerPositions(runnerList);
       const runnerCoords = this.indexToCoord(posInCumDist, dist);
-      heatDesc[this.format(index)] = this.createHeatLayer(runnerCoords);
+      heatDesc[TrackService.format(index)] = this.createHeatLayer(runnerCoords);
       if (race.results.length <= 200) {
-        networkDesc[this.format(index)] = this.createNetworkLayer(runnerCoords, 20, true);
+        networkDesc[TrackService.format(index)] = this.createNetworkLayer(runnerCoords, 20, true);
       }
     }
   }
@@ -355,12 +422,8 @@ export class TrackService {
     return numberInDegrees * Math.PI / 180;
   }
 
-  format (secs) {
-    return new Date(secs * 1000).toUTCString().substring(17, 25);
-  }
-
   changeOfSliderLayer(value, offset) {
-    curLayerIndex = this.format(value * offset);
+    curLayerIndex = TrackService.format(value * offset);
     if (prevLayerIndex !== -1) {
       if (this.map.hasLayer(currentLayer)) {
         this.map.removeLayer(currentLayer);
@@ -370,10 +433,14 @@ export class TrackService {
       this.map.addLayer(heatDesc[curLayerIndex]);
       prevLayerIndex = curLayerIndex;
       currentLayer = heatDesc[curLayerIndex];
-    } else {
+    } else if (runnerView === VIEW.NETWORK) {
       this.map.addLayer(networkDesc[curLayerIndex]);
       prevLayerIndex = curLayerIndex;
       currentLayer = networkDesc[curLayerIndex];
+    } else {
+      this.map.addLayer(runnerDesc[curLayerIndex]);
+      prevLayerIndex = curLayerIndex;
+      currentLayer = runnerDesc[curLayerIndex];
     }
   }
 

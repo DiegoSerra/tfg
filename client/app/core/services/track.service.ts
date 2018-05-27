@@ -225,7 +225,7 @@ export class TrackService {
         runnerView = VIEW.RUNNER;
         control.state('untie');
         Object.keys(heatDesc).forEach(key => {
-          runnerDesc[key] = this.createHeatLayer(heatDesc[key]._latlngs.filter((item, index) => index === myRunner.position));
+          runnerDesc[key] = this.createHeatLayer(heatDesc[key]._latlngs.filter((item, index) => index === myRunner.position - 1));
         });
         this.map.removeLayer(currentLayer);
         this.map.addLayer(runnerDesc[curLayerIndex]);

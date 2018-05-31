@@ -2,7 +2,7 @@ import {Component, OnInit, Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Validators, FormBuilder, FormGroup, ValidationErrors, AbstractControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
-import _ = require('lodash');
+import * as _ from 'lodash';
 
 
 @Component({

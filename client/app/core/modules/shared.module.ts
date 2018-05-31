@@ -35,7 +35,8 @@ import {RouterModule} from '@angular/router';
 import {FileUploadModule} from 'ng2-file-upload';
 import {MapComponent} from '../../main/shell/map/map.component';
 import { CreateRaceDialogComponent } from '../../main/shell/header/create-race-dialog/create-race-dialog.component';
-import { SelectRunnerDialogComponent } from '../../main/content/race/show-race/select-runner-dialog/select-runner-dialog.component';
+import { SelectRunnerDialogComponent } from '../../main/content/race/show-race/select-club-dialog/select-runner-dialog.component';
+import { SelectClubDialogComponent } from '../../main/content/race/show-race/select-runner-dialog/select-club-dialog.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { SelectRunnerDialogComponent } from '../../main/content/race/show-race/s
     AppHeaderComponent,
     MapComponent,
     CreateRaceDialogComponent,
-    SelectRunnerDialogComponent
+    SelectRunnerDialogComponent,
+    SelectClubDialogComponent,
   ],
   imports: [
     RouterModule,
@@ -100,6 +102,7 @@ import { SelectRunnerDialogComponent } from '../../main/content/race/show-race/s
     AppConfirmDialogComponent,
     CreateRaceDialogComponent,
     SelectRunnerDialogComponent,
+    SelectClubDialogComponent
   ],
   providers: [
     AppNavigationService,

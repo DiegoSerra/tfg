@@ -6,7 +6,8 @@ import {MatSnackBar, MatDialog} from '@angular/material';
 import {environment} from '../../../environments/environment';
 import {TimeService} from '../../time.service';
 import {HttpClient} from '@angular/common/http';
-import {SelectRunnerDialogComponent} from '../../main/content/race/show-race/select-runner-dialog/select-runner-dialog.component';
+import { SelectRunnerDialogComponent } from '../../main/content/race/show-race/select-club-dialog/select-runner-dialog.component';
+import { SelectClubDialogComponent } from '../../main/content/race/show-race/select-runner-dialog/select-club-dialog.component';
 
 const apiToken = environment.mapbox;
 declare const L: any;
@@ -38,6 +39,7 @@ const heatDesc = {};
 const networkDesc = {};
 const runnerDesc = {};
 let myRunner = null;
+let club = null;
 const VIEW = {
   HEATMAP: 0,
   NETWORK: 1,
@@ -127,6 +129,7 @@ export class TrackService {
             const networkViewButton = this.getLayerButton(_race).addTo(this.map);
 
             const runnerButton = this.getRunnerButton(_race).addTo(this.map);
+            const clubButton = this.getClubButton(_race).addTo(this.map);
 
             this.loading = false;
           } catch (error) {
@@ -152,7 +155,7 @@ export class TrackService {
           this.clickOnNetworkView(control);
         }
       }, {
-        icon: 'fa-users fa-lg',
+        icon: 'fa-creative-commons-sampling-plus fa-lg',
         stateName: 'heat',
         title: 'Ver densidad de corredores como mapa de calor',
         onClick: (control) => {
@@ -186,6 +189,26 @@ export class TrackService {
     });
   }
 
+  getClubButton(race) {
+    return L.easyButton({
+      states: [{
+        icon: 'fa-users fa-lg',
+        stateName: 'tie',
+        title: 'Seguir a un club',
+        onClick: (control) => {
+          this.clickOnLockClub(control, race);
+        }
+      }, {
+        icon: 'fa-times fa-lg',
+        stateName: 'untie',
+        title: 'Dejar de seguir al club',
+        onClick: (control) => {
+          this.clickOnUnlockClub(control);
+        }
+      }]
+    });
+  }
+
   clickOnHeatmapView(control) {
     runnerView = VIEW.HEATMAP;
     control.state('network');
@@ -214,6 +237,18 @@ export class TrackService {
     currentLayer = heatDesc[curLayerIndex];
   }
 
+  clickOnLockClub(control, race) {
+    this.openSelectClubDialog(control, race);
+  }
+  
+  clickOnUnlockClub(control) {
+    runnerView = VIEW.HEATMAP;
+    control.state('tie');
+    this.map.removeLayer(runnerDesc[curLayerIndex]);
+    this.map.addLayer(heatDesc[curLayerIndex]);
+    currentLayer = heatDesc[curLayerIndex];
+  }
+
   openSelectRunnerDialog(control, race) {
     const dialogRef = this.dialog.open(SelectRunnerDialogComponent,
       {data: { race }}
@@ -226,6 +261,30 @@ export class TrackService {
         control.state('untie');
         Object.keys(heatDesc).forEach(key => {
           runnerDesc[key] = this.createHeatLayer(heatDesc[key]._latlngs.filter((item, index) => index === myRunner.position - 1));
+        });
+        this.map.removeLayer(currentLayer);
+        this.map.addLayer(runnerDesc[curLayerIndex]);
+        currentLayer = runnerDesc[curLayerIndex];
+      }
+    });
+  }
+
+  openSelectClubDialog(control, race) {
+    const dialogRef = this.dialog.open(SelectClubDialogComponent,
+      {data: { race }}
+    );
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (data) {
+        club = data;
+        runnerView = VIEW.RUNNER;
+        control.state('untie');
+        const positionsOnClub = race.results
+          .filter(runner => runner.club === club)
+          .map(runner => runner.position);
+
+        Object.keys(heatDesc).forEach(key => {
+          runnerDesc[key] = this.createHeatLayer(heatDesc[key]._latlngs.filter((item, index) => positionsOnClub.includes(index - 1)));
         });
         this.map.removeLayer(currentLayer);
         this.map.addLayer(runnerDesc[curLayerIndex]);

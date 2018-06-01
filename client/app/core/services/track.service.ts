@@ -8,6 +8,7 @@ import {TimeService} from '../../time.service';
 import {HttpClient} from '@angular/common/http';
 import { SelectRunnerDialogComponent } from '../../main/content/race/show-race/select-club-dialog/select-runner-dialog.component';
 import { SelectClubDialogComponent } from '../../main/content/race/show-race/select-runner-dialog/select-club-dialog.component';
+import { Subject } from 'rxjs/Subject';
 
 const apiToken = environment.mapbox;
 declare const L: any;
@@ -33,7 +34,7 @@ const trackElevationControl = L.control.elevation({
 
 let prevLayerIndex: any = -1;
 let currentLayer = '';
-let curLayerIndex = '';
+let curLayerIndex = '00:00:00';
 
 const heatDesc = {};
 const networkDesc = {};
@@ -43,7 +44,8 @@ let club = null;
 const VIEW = {
   HEATMAP: 0,
   NETWORK: 1,
-  RUNNER: 2
+  RUNNER: 2,
+  CLUB: 3
 };
 let runnerView = VIEW.HEATMAP;
 
@@ -58,6 +60,11 @@ export class TrackService {
   geoJson: any;
 
   loading = false;
+  numSteps = -1;
+
+  onNumStepsChange = new Subject<any>();
+  onRunnerViewChange = new Subject<any>();
+  onRunnerValueChange = new Subject<any>();
 
   static format (secs) {
     return new Date(secs * 1000).toUTCString().substring(17, 25);
@@ -96,14 +103,14 @@ export class TrackService {
             this.map.addLayer(trackLayer[numTracks - 1]);
             this.map.fitBounds(trackLayer[numTracks - 1].getBounds());
             
-            const { _race, numSteps } = this.initializeRaceVars(race);
+            const _race = this.initializeRaceVars(race);
             
-            this.simulateRace(_race, numSteps);
+            this.simulateRace(_race);
             
-            const timeRaceSlider = L.control.slider((value) => {
-              const offset = Math.floor(_race.finishTime / (numSteps - 1));
-              this.changeOfSliderLayer(value, offset);
-            }, timeRaceSliderOptions).addTo(this.map);
+            // const timeRaceSlider = L.control.slider((value) => {
+            //   const offset = Math.floor(_race.finishTime / (this.numSteps - 1));
+            //   this.changeOfSliderLayer(value, offset);
+            // }, timeRaceSliderOptions).addTo(this.map);
             
             const centerOnTrackButton = L.easyButton({
               states: [
@@ -131,6 +138,7 @@ export class TrackService {
             const runnerButton = this.getRunnerButton(_race).addTo(this.map);
             const clubButton = this.getClubButton(_race).addTo(this.map);
 
+            currentLayer = heatDesc[curLayerIndex];
             this.loading = false;
           } catch (error) {
             this.loading = false;
@@ -215,6 +223,8 @@ export class TrackService {
     this.map.removeLayer(networkDesc[curLayerIndex]);
     this.map.addLayer(heatDesc[curLayerIndex]);
     currentLayer = heatDesc[curLayerIndex];
+    this.onRunnerViewChange.next(runnerView);
+    this.onRunnerValueChange.next();
   }
   
   clickOnNetworkView(control) {
@@ -223,6 +233,8 @@ export class TrackService {
     this.map.removeLayer(heatDesc[curLayerIndex]);
     this.map.addLayer(networkDesc[curLayerIndex]);
     currentLayer = networkDesc[curLayerIndex];
+    this.onRunnerViewChange.next(runnerView);
+    this.onRunnerValueChange.next();
   }
   
   clickOnLockRunner(control, race) {
@@ -235,6 +247,8 @@ export class TrackService {
     this.map.removeLayer(runnerDesc[curLayerIndex]);
     this.map.addLayer(heatDesc[curLayerIndex]);
     currentLayer = heatDesc[curLayerIndex];
+    this.onRunnerViewChange.next(runnerView);
+    this.onRunnerValueChange.next();
   }
 
   clickOnLockClub(control, race) {
@@ -247,6 +261,8 @@ export class TrackService {
     this.map.removeLayer(runnerDesc[curLayerIndex]);
     this.map.addLayer(heatDesc[curLayerIndex]);
     currentLayer = heatDesc[curLayerIndex];
+    this.onRunnerViewChange.next(runnerView);
+    this.onRunnerValueChange.next(); 
   }
 
   openSelectRunnerDialog(control, race) {
@@ -265,6 +281,8 @@ export class TrackService {
         this.map.removeLayer(currentLayer);
         this.map.addLayer(runnerDesc[curLayerIndex]);
         currentLayer = runnerDesc[curLayerIndex];
+        this.onRunnerViewChange.next(runnerView);
+        this.onRunnerValueChange.next(myRunner.runnerName);
       }
     });
   }
@@ -277,7 +295,7 @@ export class TrackService {
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         club = data;
-        runnerView = VIEW.RUNNER;
+        runnerView = VIEW.CLUB;
         control.state('untie');
         const positionsOnClub = race.results
           .filter(runner => runner.club === club)
@@ -289,6 +307,8 @@ export class TrackService {
         this.map.removeLayer(currentLayer);
         this.map.addLayer(runnerDesc[curLayerIndex]);
         currentLayer = runnerDesc[curLayerIndex];
+        this.onRunnerViewChange.next(runnerView);
+        this.onRunnerValueChange.next(club);
       }
     });
   }
@@ -317,9 +337,10 @@ export class TrackService {
     const lastClassifiedTime = Math.max(...totalTimes);
     const _race = {...race};
     _race.finishTime = lastClassifiedTime;
-    const numSteps = Math.ceil(lastClassifiedTime / 60);
-    timeRaceSliderOptions.max = numSteps - 1;
-    return { _race, numSteps };
+    this.numSteps = Math.ceil(lastClassifiedTime / 60);
+    this.onNumStepsChange.next(this.numSteps);
+    timeRaceSliderOptions.max = this.numSteps - 1;
+    return _race;
   }
 
   setLayersOnMap() {
@@ -355,8 +376,8 @@ export class TrackService {
     return { googleSatellite, googleStreets, mapboxDark, baseMaps };
   }
 
-  simulateRace(race, numSteps) {
-    const offset = Math.floor(race.finishTime / (numSteps - 1));
+  simulateRace(race) {
+    const offset = Math.floor(race.finishTime / (this.numSteps - 1));
     const startCoord = Array(race.results.length).fill(points[0]);
     heatDesc[TrackService.format(0)] = this.createHeatLayer(startCoord);
     if (race.results.length <= 200) {

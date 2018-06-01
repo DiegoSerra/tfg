@@ -2,6 +2,7 @@
   <app-header title="Mis carreras" icon="directions_run" headerColor="#03a9f4">
   </app-header>
 
+  <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
   <div fxFlex.gt-sm="0 0 85" fxFlex.sm="0 0 95" fxFlex="0 0 100" fxLayout="row wrap" ngClass.gt-xs="content"
        ngClass.xs="content-xs" fxLayoutAlign="center stretch">
     <div fxFlex="0 0 100" fxLayout="row wrap" ngClass.xs="content-card content-card-xs mat-elevation-z4"
@@ -22,7 +23,7 @@
             <!-- <button fxHide.xs mat-mini-fab color="accent" (click)="null">
               <mat-icon>group</mat-icon>
             </button> -->
-            <button fxHide.xs mat-mini-fab color="accent" (click)="null">
+            <!-- <button fxHide.xs mat-mini-fab color="accent" (click)="null">
               <mat-icon>open_in_new</mat-icon>
             </button>
             <button fxHide.xs mat-mini-fab [routerLink]="['..', 'edit', race._id]">
@@ -33,14 +34,14 @@
             </button>
             <button fxHide.gt-xs mat-icon-button (click)="null">
               <mat-icon class="button-color">more_vert</mat-icon>
-            </button>
+            </button> -->
           </div>
         </mat-list-item>
-        <mat-list-item [routerLink]="['..', 'create']">
+        <!-- <mat-list-item [routerLink]="['..', 'create']">
           <mat-icon mat-list-icon>add_circle</mat-icon>
           <h4 mat-line>Agregar nueva carrera...</h4>
 
-        </mat-list-item>
+        </mat-list-item> -->
       </mat-nav-list>
     </div>
 

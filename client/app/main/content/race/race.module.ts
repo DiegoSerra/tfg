@@ -18,6 +18,7 @@ import {ClassifiedsComponent} from './show-race/classifieds/classifieds.componen
 import {AnalysisComponent} from './show-race/analysis/analysis.component';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {AppWidgetModule} from '../../../core/components/widget/widget.module';
+import {TrackService} from '../../../core/services/track.service';
 
 const routes: Route[] = [
   {
@@ -76,7 +77,8 @@ const routes: Route[] = [
     NgxChartsModule
   ],
   providers: [
-    RaceResolve
+    RaceResolve,
+    TrackService
   ]
 })
 

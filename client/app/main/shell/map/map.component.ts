@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { MapService } from '../../../core/services/map.service';
 import { Map } from '../../../models/map.model';
 import { TrackService } from '../../../core/services/track.service';
@@ -8,7 +8,7 @@ import { TrackService } from '../../../core/services/track.service';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements OnInit, OnDestroy {
+export class MapComponent implements OnInit {
 
   @Input() race: any;
 
@@ -22,10 +22,6 @@ export class MapComponent implements OnInit, OnDestroy {
         this.map = map;
         this.trackService.plotActivity(this.map, this.race);
       });
-  }
-
-  ngOnDestroy() {
-    // this.trackService.clearGeoJson();
   }
 
 }

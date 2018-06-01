@@ -16,6 +16,8 @@ export class AllRacesComponent implements OnInit {
 
   races: Race[] = [];
 
+  loading = false;
+
   constructor(
     private raceService: RaceService,
     public dialog: MatDialog,
@@ -34,16 +36,15 @@ export class AllRacesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.raceService.all()
-      .subscribe((races: any) => {
-        this.races = races;
-      });
+    this.updateRaces();
   }
 
   updateRaces() {
+    this.loading = true;
     this.raceService.all()
       .subscribe((races: any) => {
         this.races = races;
+        this.loading = false;
       });
   }
 

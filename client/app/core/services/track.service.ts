@@ -13,16 +13,16 @@ import { Subject } from 'rxjs/Subject';
 const apiToken = environment.mapbox;
 declare const L: any;
 
-const timeRaceSliderOptions: any = {
-  position: 'bottomleft',
-  min: 0,
-  value: 0,
-  step: 1,
-  logo: '',
-  collapsed: false,
-  syncSlider: true,
-  getValue: (value) => TrackService.format(value * 60)
-};
+// const timeRaceSliderOptions: any = {
+//   position: 'bottomleft',
+//   min: 0,
+//   value: 0,
+//   step: 1,
+//   logo: '',
+//   collapsed: false,
+//   syncSlider: true,
+//   getValue: (value) => TrackService.format(value * 60)
+// };
 
 const trackElevationControl = L.control.elevation({
   position: 'topright',
@@ -49,11 +49,6 @@ const VIEW = {
 };
 let runnerView = VIEW.HEATMAP;
 
-const points = [];
-const cumdist = [];
-const trackLayer = [];
-let numTracks = 0;
-
 @Injectable()
 export class TrackService {
   map: any;
@@ -61,6 +56,12 @@ export class TrackService {
 
   loading = false;
   numSteps = -1;
+
+  points: any[] = [];
+  cumdist: any[] = [];
+  trackLayer: any[] = [];
+
+  numTracks = 0;
 
   onNumStepsChange = new Subject<any>();
   onRunnerViewChange = new Subject<any>();
@@ -73,7 +74,11 @@ export class TrackService {
   constructor(private snackBar: MatSnackBar,
               private dialog: MatDialog, 
               private timeService: TimeService, 
-              private http: HttpClient) { }
+              private http: HttpClient) {
+    this.points = [];
+    this.cumdist = [];
+    this.trackLayer = [];
+  }
 
               
 
@@ -81,7 +86,6 @@ export class TrackService {
     this.loading = true;
     const { googleSatellite, googleStreets, mapboxDark, baseMaps } = this.setLayersOnMap();
     
-    this.map = _map;
     this.map = L.map('map', {layers: [googleSatellite, googleStreets, mapboxDark]});
     this.map.locate({setView: true, maxZoom: 100});
     
@@ -93,45 +97,29 @@ export class TrackService {
           try {
             trackElevationControl.addTo(this.map);
   
-            this.extractPoints(gpx);
+            this.extractPoints(gpx);           
             
-            trackLayer[numTracks++] = new L.Polyline(points, {
+            this.trackLayer[this.numTracks++] = new L.Polyline(this.points, {
               weight: 3,
               smoothFactor: 1
             });
-            layersControl.addOverlay(trackLayer[numTracks - 1], race.name);
-            this.map.addLayer(trackLayer[numTracks - 1]);
-            this.map.fitBounds(trackLayer[numTracks - 1].getBounds());
+
+            layersControl.addOverlay(this.trackLayer[this.numTracks - 1], race.name);
+            this.map.addLayer(this.trackLayer[this.numTracks - 1]);
+            this.map.fitBounds(this.trackLayer[this.numTracks - 1].getBounds());
             
             const _race = this.initializeRaceVars(race);
             
             this.simulateRace(_race);
+            
+            this.map.flyToBounds(this.trackLayer[0].getBounds());
             
             // const timeRaceSlider = L.control.slider((value) => {
             //   const offset = Math.floor(_race.finishTime / (this.numSteps - 1));
             //   this.changeOfSliderLayer(value, offset);
             // }, timeRaceSliderOptions).addTo(this.map);
             
-            const centerOnTrackButton = L.easyButton({
-              states: [
-                {
-                  stateName: 'located',
-                  icon: 'fa-dot-circle-o fa-lg',
-                  title: 'Centrar',
-                  onClick: (control) => {
-                    control.state('loading');
-                    if (typeof trackLayer[0] !== 'undefined') {
-                      this.map.flyToBounds(trackLayer[0].getBounds());
-                    } else {
-                      this.map.locate({setView: true, maxZoom: 15});
-                    }
-                    control.state('located');
-                  }
-                }, {
-                  stateName: 'loading',
-                  icon: 'fa-circle-o-notch fa-spin fa-lg'
-                }]
-            }).addTo(this.map);
+            const centerOnTrackButton = this.getCenterButton().addTo(this.map);
 
             const networkViewButton = this.getLayerButton(_race).addTo(this.map);
 
@@ -153,6 +141,29 @@ export class TrackService {
       );
   }
 
+  getCenterButton() {
+    return L.easyButton({
+      states: [
+        {
+          stateName: 'located',
+          icon: 'fa-dot-circle-o fa-lg',
+          title: 'Centrar',
+          onClick: (control) => {
+            control.state('loading');
+            if (typeof this.trackLayer[0] !== 'undefined') {
+              this.map.flyToBounds(this.trackLayer[0].getBounds());
+            } else {
+              this.map.locate({setView: true, maxZoom: 15});
+            }
+            control.state('located');
+          }
+        }, {
+          stateName: 'loading',
+          icon: 'fa-circle-o-notch fa-spin fa-lg'
+        }]
+    });
+  }
+
   getLayerButton(race) {
     const layerButton = L.easyButton({
       states: [{
@@ -171,7 +182,7 @@ export class TrackService {
         }
       }]
     });
-    if (race.results.length > 200) {
+    if (race.results.length > 300) {
       layerButton.disable();
     }
     return layerButton;
@@ -314,6 +325,8 @@ export class TrackService {
   }
 
   extractPoints(gpx) {
+    this.points = [];
+    this.cumdist = [];
     this.geoJson = L.geoJson(gpx, {
       onEachFeature: (feature, layer) => {
         trackElevationControl.addData(feature, layer);
@@ -321,12 +334,12 @@ export class TrackService {
       },
       coordsToLatLng: (coords) => {
         const newPoint = new L.LatLng(coords[1], coords[0], coords[2]);
-        if (points.length === 0) {
-          points.push(newPoint);
-          cumdist.push(0);
+        if (this.points.length === 0) {
+          this.points.push(newPoint);
+          this.cumdist.push(0);
         } else {
-          cumdist.push(cumdist[cumdist.length - 1] + newPoint.distanceTo(points[points.length - 1]));
-          points.push(newPoint);
+          this.cumdist.push(this.cumdist[this.cumdist.length - 1] + newPoint.distanceTo(this.points[this.points.length - 1]));
+          this.points.push(newPoint);
         }
       }
     });
@@ -339,7 +352,7 @@ export class TrackService {
     _race.finishTime = lastClassifiedTime;
     this.numSteps = Math.ceil(lastClassifiedTime / 60);
     this.onNumStepsChange.next(this.numSteps);
-    timeRaceSliderOptions.max = this.numSteps - 1;
+    // timeRaceSliderOptions.max = this.numSteps - 1;
     return _race;
   }
 
@@ -378,9 +391,9 @@ export class TrackService {
 
   simulateRace(race) {
     const offset = Math.floor(race.finishTime / (this.numSteps - 1));
-    const startCoord = Array(race.results.length).fill(points[0]);
+    const startCoord = Array(race.results.length).fill(this.points[0]);
     heatDesc[TrackService.format(0)] = this.createHeatLayer(startCoord);
-    if (race.results.length <= 200) {
+    if (race.results.length <= 300) {
       networkDesc[TrackService.format(0)] = this.createNetworkLayer(startCoord, 20, true);
     }
     for (let index = offset; index <= race.finishTime; index += offset) {
@@ -388,14 +401,14 @@ export class TrackService {
       const posInCumDist = this.calculateRunnerPositions(runnerList);
       const runnerCoords = this.indexToCoord(posInCumDist, dist);
       heatDesc[TrackService.format(index)] = this.createHeatLayer(runnerCoords);
-      if (race.results.length <= 200) {
+      if (race.results.length <= 300) {
         networkDesc[TrackService.format(index)] = this.createNetworkLayer(runnerCoords, 20, true);
       }
     }
   }
 
-  createHeatLayer(coords) {
-    return L.heatLayer(coords, {radius: 10, blur: 0, maxZoom: 8});
+  createHeatLayer(coords, radius = 10) {
+    return L.heatLayer(coords, {radius, blur: 0, maxZoom: 8});
   } 
 
   createNetworkLayer(coords, maxDist, includeLinks) {
@@ -450,7 +463,7 @@ export class TrackService {
   
   moveRunnerToNextPos(runner) {
     let i = runner.pos || 0;
-    while (i < cumdist.length - 1 && cumdist[i] < runner.dist) {
+    while (i < this.cumdist.length - 1 && this.cumdist[i] < runner.dist) {
       i++;
     }
     runner.pos = i;
@@ -459,7 +472,7 @@ export class TrackService {
   indexToCoord(index, dist) {
     const coords = [];
     for (let i = 0; i < index.length; i++) {
-      coords[i] = this.interpolate(points, index[i], dist[i] - cumdist[index[i]]);
+      coords[i] = this.interpolate(this.points, index[i], dist[i] - this.cumdist[index[i]]);
     }
     return coords;
   }
@@ -472,7 +485,7 @@ export class TrackService {
 
   interpolate (p, i, d) {
     let interpolatedDist = p[i];
-    if (d === 0 || i >= cumdist.length - 1) {
+    if (d === 0 || i >= this.cumdist.length - 1) {
       return interpolatedDist;
     } else {
       // distance in km
@@ -544,7 +557,9 @@ export class TrackService {
 
   clearGeoJson() {
     if (this.map) {
-      this.map.removeLayer(this.geoJson);
+      this.map.eachLayer(layer => this.map.removeLayer(layer));
+      this.trackLayer = [];
+      this.numTracks = 0;
     }
   }
 }

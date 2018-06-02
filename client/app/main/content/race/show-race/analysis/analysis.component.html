@@ -4,12 +4,13 @@
       <mat-card-title>Ritmo</mat-card-title>
     </mat-card-header>
     <mat-divider></mat-divider>
-    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
+    <mat-card-content class="pt-12 h-400">
       <ngx-charts-bar-vertical
+        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="rhythm"
         [gradient]="true"
-        [legend]="'true'"
+        [legend]="!isMobile"
         legendTitle=""
         [xAxis]="'true'"
         [yAxis]="'true'"
@@ -23,12 +24,13 @@
       <mat-card-title>Ritmo por género</mat-card-title>
     </mat-card-header>
     <mat-divider></mat-divider>
-    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
+    <mat-card-content class="pt-12 h-400">
       <ngx-charts-bar-vertical-2d
+        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="genderRhythm"
         [gradient]="true"
-        [legend]="'true'"
+        [legend]="!isMobile"
         legendTitle=""
         [xAxis]="'true'"
         [yAxis]="'true'"
@@ -43,12 +45,13 @@
       <mat-card-title>Ritmo por categoría</mat-card-title>
     </mat-card-header>
     <mat-divider></mat-divider>
-    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
+    <mat-card-content class="pt-12 h-400">
       <ngx-charts-bar-vertical-2d
+        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="categoryRhythm"
         [gradient]="true"
-        [legend]="'true'"
+        [legend]="!isMobile"
         legendTitle=""
         [xAxis]="'true'"
         [yAxis]="'true'"
@@ -62,8 +65,9 @@
       <mat-card-title>Ritmo por categoría y género</mat-card-title>
     </mat-card-header>
     <mat-divider></mat-divider>
-    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
+    <mat-card-content class="pt-12 h-400">
       <ngx-charts-bar-vertical-2d
+        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="categoryGenderRhythm"
         [gradient]="true"
@@ -80,8 +84,9 @@
       <mat-card-title>Categorías</mat-card-title>
     </mat-card-header>
     <mat-divider></mat-divider>
-    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
+    <mat-card-content class="pt-12 h-400">
       <ngx-charts-pie-chart
+        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="categorys"
         [labels]="true"
@@ -94,8 +99,9 @@
       <mat-card-title>Género</mat-card-title>
     </mat-card-header>
     <mat-divider></mat-divider>
-    <mat-card-content class="pt-12" ngClass.gt-xs="h-400">
+    <mat-card-content class="pt-12 h-400">
       <ngx-charts-pie-chart
+        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="genders"
         [labels]="true"

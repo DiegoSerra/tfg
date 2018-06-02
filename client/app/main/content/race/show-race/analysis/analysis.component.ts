@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TimeService } from '../../../../../time.service';
 import * as _ from 'lodash';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-analysis',
@@ -27,7 +28,7 @@ export class AnalysisComponent implements OnInit {
   categorys = [];
   genders = [];
 
-  constructor(private timeService: TimeService) { }
+  constructor(private timeService: TimeService, private breakpointObserver: BreakpointObserver) { }
   
   ngOnInit() {
     this.genderTypes = _.uniq(this.race.results.map(result => result.gender));
@@ -47,6 +48,13 @@ export class AnalysisComponent implements OnInit {
     this.genders = this.getGenderResults();
   }
 
+  get isMobile() {
+    return this.breakpointObserver.isMatched('(max-width: 600px)');
+  }
+
+  get isTablet() {
+    return this.breakpointObserver.isMatched('(max-width: 876px)');
+  }
   
   getRhythmResults() {
     return [

@@ -174,7 +174,7 @@ export class TrackService {
           this.clickOnNetworkView(control);
         }
       }, {
-        icon: 'fa-creative-commons-sampling-plus fa-lg',
+        icon: 'fa-heartbeat fa-lg',
         stateName: 'heat',
         title: 'Ver densidad de corredores como mapa de calor',
         onClick: (control) => {

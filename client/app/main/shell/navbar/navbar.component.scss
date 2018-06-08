@@ -57,6 +57,15 @@ app-navbar {
             .navbar-header {
                 padding: 0 16px 0 16px;
             }
+
+            .nav-link {
+
+                > .nav-link-title,
+                > .nav-link-badge {
+                  opacity: 0;
+                  transition: opacity 200ms ease;
+                }
+            }
         }
 
         &.folded-open {

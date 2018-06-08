@@ -13,7 +13,7 @@ export class AnalysisComponent implements OnInit {
   @Input() race: any;
 
   colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#2196f3', '#e91e63', '#5AA454', '#A10A28', '#C7B42C', '#AAAAAA', '#ff9800', '#9c27b0']
   };
 
   genderTypes: any[];
@@ -106,40 +106,75 @@ export class AnalysisComponent implements OnInit {
     this.genderTypes.forEach(gender => {
       genderRhythm.push(
         {
-          name: gender, 
-          series: [
+          'name': '< 4:00',
+          'series': [
             {
-              'name': '< 4:00',
-              'value': this.race.results.filter(result => result.rhythm < 240 && result.gender === gender).length
-            },
+            'name': gender,
+            'value': this.race.results.filter(result => result.gender === gender && result.rhythm < 240).length
+            }
+          ]
+        },
+        {
+          'name': '4:00 - 4:30',
+          'series': [
             {
-              'name': '4:00 - 4:30',
-              'value': this.race.results.filter(result => result.rhythm >= 240 && result.rhythm < 270 && result.gender === gender).length
-            },
+            'name': gender,
+            'value': this.race.results.filter(result => result.rhythm >= 240 && result.rhythm < 270 && result.gender === gender).length
+            }
+          ]
+        },
+        {
+          'name': '4:30 - 5:00',
+          'series': [
             {
-              'name': '4:30 - 5:00',
-              'value': this.race.results.filter(result => result.rhythm >= 270 && result.rhythm < 300 && result.gender === gender).length
-            },
+            'name': gender,
+            'value': this.race.results.filter(result => result.rhythm >= 270 && result.rhythm < 300 && result.gender === gender).length
+            }
+          ]
+        },
+        {
+          'name': '5:00 - 5:30',
+          'series': [
             {
-              'name': '5:00 - 5:30',
-              'value': this.race.results.filter(result => result.rhythm >= 300 && result.rhythm < 330 && result.gender === gender).length
-            },
+            'name': gender,
+            'value': this.race.results.filter(result => result.rhythm >= 300 && result.rhythm < 330 && result.gender === gender).length
+            }
+          ]
+        },
+        {
+          'name': '5:30 - 6:00',
+          'series': [
             {
-              'name': '5:30 - 6:00',
-              'value': this.race.results.filter(result => result.rhythm >= 330 && result.rhythm < 360 && result.gender === gender).length
-            },
+            'name': gender,
+            'value': this.race.results.filter(result => result.rhythm >= 330 && result.rhythm < 360 && result.gender === gender).length
+            }
+          ]
+        },
+        {
+          'name': '6:00 - 6:30',
+          'series': [
             {
-              'name': '6:00 - 6:30',
-              'value': this.race.results.filter(result => result.rhythm >= 360 && result.rhythm < 390 && result.gender === gender).length
-            },
+            'name': gender,
+            'value': this.race.results.filter(result => result.rhythm >= 360 && result.rhythm < 390 && result.gender === gender).length
+            }
+          ]
+        },
+        {
+          'name': '6:30 - 7:00',
+          'series': [
             {
-              'name': '6:30 - 7:00',
-              'value': this.race.results.filter(result => result.rhythm >= 390 && result.rhythm < 420 && result.gender === gender).length
-            },
+            'name': gender,
+            'value': this.race.results.filter(result => result.rhythm >= 390 && result.rhythm < 420 && result.gender === gender).length
+            }
+          ]
+        },
+        {
+          'name': '> 7:00',
+          'series': [
             {
-              'name': '> 7:00',
-              'value': this.race.results.filter(result => result.rhythm >= 450 && result.gender === gender).length
-            },
+            'name': gender,
+            'value': this.race.results.filter(result => result.rhythm >= 450 && result.gender === gender).length
+            }
           ]
         }
       );
@@ -152,42 +187,77 @@ export class AnalysisComponent implements OnInit {
     this.categoryGenderTypes.forEach(fullCategory => {
       categoryGenderRhythm.push(
         {
-          name: fullCategory, 
-          series: [
+          'name': '< 4:00',
+          'series': [
             {
-              'name': '< 4:00',
-              'value': this.race.results.filter(result => result.rhythm < 240 && result.fullCategory === fullCategory).length
-            },
-            {
-              'name': '4:00 - 4:30',
-              'value': this.race.results.filter(result => result.rhythm >= 240 && result.rhythm < 270 && result.fullCategory === fullCategory).length
-            },
-            {
-              'name': '4:30 - 5:00',
-              'value': this.race.results.filter(result => result.rhythm >= 270 && result.rhythm < 300 && result.fullCategory === fullCategory).length
-            },
-            {
-              'name': '5:00 - 5:30',
-              'value': this.race.results.filter(result => result.rhythm >= 300 && result.rhythm < 330 && result.fullCategory === fullCategory).length
-            },
-            {
-              'name': '5:30 - 6:00',
-              'value': this.race.results.filter(result => result.rhythm >= 330 && result.rhythm < 360 && result.fullCategory === fullCategory).length
-            },
-            {
-              'name': '6:00 - 6:30',
-              'value': this.race.results.filter(result => result.rhythm >= 360 && result.rhythm < 390 && result.fullCategory === fullCategory).length
-            },
-            {
-              'name': '6:30 - 7:00',
-              'value': this.race.results.filter(result => result.rhythm >= 390 && result.rhythm < 420 && result.fullCategory === fullCategory).length
-            },
-            {
-              'name': '> 7:00',
-              'value': this.race.results.filter(result => result.rhythm >= 450 && result.fullCategory === fullCategory).length
-            },
+            'name': fullCategory,
+            'value': this.race.results.filter(result => result.fullCategory === fullCategory && result.rhythm < 240).length
+            }
           ]
-        }
+        },
+        {
+          'name': '4:00 - 4:30',
+          'series': [
+            {
+            'name': fullCategory,
+            'value': this.race.results.filter(result => result.rhythm >= 240 && result.rhythm < 270 && result.fullCategory === fullCategory).length
+            }
+          ]
+        },
+        {
+          'name': '4:30 - 5:00',
+          'series': [
+            {
+            'name': fullCategory,
+            'value': this.race.results.filter(result => result.rhythm >= 270 && result.rhythm < 300 && result.fullCategory === fullCategory).length
+            }
+          ]
+        },
+        {
+          'name': '5:00 - 5:30',
+          'series': [
+            {
+            'name': fullCategory,
+            'value': this.race.results.filter(result => result.rhythm >= 300 && result.rhythm < 330 && result.fullCategory === fullCategory).length
+            }
+          ]
+        },
+        {
+          'name': '5:30 - 6:00',
+          'series': [
+            {
+            'name': fullCategory,
+            'value': this.race.results.filter(result => result.rhythm >= 330 && result.rhythm < 360 && result.fullCategory === fullCategory).length
+            }
+          ]
+        },
+        {
+          'name': '6:00 - 6:30',
+          'series': [
+            {
+            'name': fullCategory,
+            'value': this.race.results.filter(result => result.rhythm >= 360 && result.rhythm < 390 && result.fullCategory === fullCategory).length
+            }
+          ]
+        },
+        {
+          'name': '6:30 - 7:00',
+          'series': [
+            {
+            'name': fullCategory,
+            'value': this.race.results.filter(result => result.rhythm >= 390 && result.rhythm < 420 && result.fullCategory === fullCategory).length
+            }
+          ]
+        },
+        {
+          'name': '> 7:00',
+          'series': [
+            {
+            'name': fullCategory,
+            'value': this.race.results.filter(result => result.rhythm >= 450 && result.fullCategory === fullCategory).length
+            }
+          ]
+        },
       );
     });
     return categoryGenderRhythm;
@@ -198,42 +268,77 @@ export class AnalysisComponent implements OnInit {
     this.categoryTypes.forEach(category => {
       categoryRhythm.push(
         {
-          name: category, 
-          series: [
+          'name': '< 4:00',
+          'series': [
             {
-              'name': '< 4:00',
-              'value': this.race.results.filter(result => result.rhythm < 240 && result.category === category).length
-            },
-            {
-              'name': '4:00 - 4:30',
-              'value': this.race.results.filter(result => result.rhythm >= 240 && result.rhythm < 270 && result.category === category).length
-            },
-            {
-              'name': '4:30 - 5:00',
-              'value': this.race.results.filter(result => result.rhythm >= 270 && result.rhythm < 300 && result.category === category).length
-            },
-            {
-              'name': '5:00 - 5:30',
-              'value': this.race.results.filter(result => result.rhythm >= 300 && result.rhythm < 330 && result.category === category).length
-            },
-            {
-              'name': '5:30 - 6:00',
-              'value': this.race.results.filter(result => result.rhythm >= 330 && result.rhythm < 360 && result.category === category).length
-            },
-            {
-              'name': '6:00 - 6:30',
-              'value': this.race.results.filter(result => result.rhythm >= 360 && result.rhythm < 390 && result.category === category).length
-            },
-            {
-              'name': '6:30 - 7:00',
-              'value': this.race.results.filter(result => result.rhythm >= 390 && result.rhythm < 420 && result.category === category).length
-            },
-            {
-              'name': '> 7:00',
-              'value': this.race.results.filter(result => result.rhythm >= 450 && result.category === category).length
-            },
+            'name': category,
+            'value': this.race.results.filter(result => result.category === category && result.rhythm < 240).length
+            }
           ]
-        }
+        },
+        {
+          'name': '4:00 - 4:30',
+          'series': [
+            {
+            'name': category,
+            'value': this.race.results.filter(result => result.rhythm >= 240 && result.rhythm < 270 && result.category === category).length
+            }
+          ]
+        },
+        {
+          'name': '4:30 - 5:00',
+          'series': [
+            {
+            'name': category,
+            'value': this.race.results.filter(result => result.rhythm >= 270 && result.rhythm < 300 && result.category === category).length
+            }
+          ]
+        },
+        {
+          'name': '5:00 - 5:30',
+          'series': [
+            {
+            'name': category,
+            'value': this.race.results.filter(result => result.rhythm >= 300 && result.rhythm < 330 && result.category === category).length
+            }
+          ]
+        },
+        {
+          'name': '5:30 - 6:00',
+          'series': [
+            {
+            'name': category,
+            'value': this.race.results.filter(result => result.rhythm >= 330 && result.rhythm < 360 && result.category === category).length
+            }
+          ]
+        },
+        {
+          'name': '6:00 - 6:30',
+          'series': [
+            {
+            'name': category,
+            'value': this.race.results.filter(result => result.rhythm >= 360 && result.rhythm < 390 && result.category === category).length
+            }
+          ]
+        },
+        {
+          'name': '6:30 - 7:00',
+          'series': [
+            {
+            'name': category,
+            'value': this.race.results.filter(result => result.rhythm >= 390 && result.rhythm < 420 && result.category === category).length
+            }
+          ]
+        },
+        {
+          'name': '> 7:00',
+          'series': [
+            {
+            'name': category,
+            'value': this.race.results.filter(result => result.rhythm >= 450 && result.category === category).length
+            }
+          ]
+        },
       );
     });
     return categoryRhythm;

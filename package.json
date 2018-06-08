@@ -18,6 +18,7 @@
     "dev": "tsc && concurrently \"nodemon ./server/index --watch server\" \"gulp\" \"ng serve --proxy-config proxy.conf.json\"",
     "server": "tsc && node server/server.js",
     "client": "ng serve --proxy-config proxy.conf.json",
+    "client:network": "ng serve --host 0.0.0.0 --proxy-config proxy.conf.json",
     "client:prod": "ng serve --prod --proxy-config proxy.conf.json",
     "https": "ng serve --ssl 1 --ssl-key \"./server/cert/server.key\" --ssl-cert \"./server/cert/server.crt\" --proxy-config proxy.conf.json"
   },

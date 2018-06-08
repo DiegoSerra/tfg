@@ -1,14 +1,12 @@
 import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {MatSnackBar, MatDialog} from '@angular/material';
 import {environment} from '../../../environments/environment';
 import {TimeService} from '../../time.service';
 import {HttpClient} from '@angular/common/http';
-import { SelectRunnerDialogComponent } from '../../main/content/race/show-race/select-club-dialog/select-runner-dialog.component';
-import { SelectClubDialogComponent } from '../../main/content/race/show-race/select-runner-dialog/select-club-dialog.component';
-import { Subject } from 'rxjs/Subject';
+import {SelectRunnerDialogComponent} from '../../main/content/race/show-race/select-club-dialog/select-runner-dialog.component';
+import {SelectClubDialogComponent} from '../../main/content/race/show-race/select-runner-dialog/select-club-dialog.component';
+import {Subject} from 'rxjs/Subject';
 
 const apiToken = environment.mapbox;
 declare const L: any;
@@ -287,9 +285,9 @@ export class TrackService {
         runnerView = VIEW.RUNNER;
         control.state('untie');
         Object.keys(heatDesc).forEach(key => {
-          runnerDesc[key] = this.createHeatLayer(heatDesc[key]._latlngs.filter((item, index) => index === myRunner.position - 1));
+          runnerDesc[key] = this.createHeatLayer(heatDesc[key]._latlngs.filter((item, index) => index === myRunner.position - 1), 10, {0.4: 'pink', 0.65: 'pink', 1: 'pink'});
         });
-        this.map.removeLayer(currentLayer);
+        // this.map.removeLayer(currentLayer);
         this.map.addLayer(runnerDesc[curLayerIndex]);
         currentLayer = runnerDesc[curLayerIndex];
         this.onRunnerViewChange.next(runnerView);
@@ -313,9 +311,9 @@ export class TrackService {
           .map(runner => runner.position);
 
         Object.keys(heatDesc).forEach(key => {
-          runnerDesc[key] = this.createHeatLayer(heatDesc[key]._latlngs.filter((item, index) => positionsOnClub.includes(index - 1)));
+          runnerDesc[key] = this.createHeatLayer(heatDesc[key]._latlngs.filter((item, index) => positionsOnClub.includes(index - 1)), 10, {0.4: 'pink', 0.65: 'pink', 1: 'pink'});
         });
-        this.map.removeLayer(currentLayer);
+        // this.map.removeLayer(currentLayer);
         this.map.addLayer(runnerDesc[curLayerIndex]);
         currentLayer = runnerDesc[curLayerIndex];
         this.onRunnerViewChange.next(runnerView);
@@ -407,8 +405,8 @@ export class TrackService {
     }
   }
 
-  createHeatLayer(coords, radius = 10) {
-    return L.heatLayer(coords, {radius, blur: 0, maxZoom: 8});
+  createHeatLayer(coords, radius = 10, gradient = {0.4: 'blue', 0.65: 'lime', 1: 'red'}) {
+    return L.heatLayer(coords, {radius, blur: 0, maxZoom: 8, gradient});
   } 
 
   createNetworkLayer(coords, maxDist, includeLinks) {
@@ -518,9 +516,11 @@ export class TrackService {
   changeOfSliderLayer(value, offset) {
     curLayerIndex = TrackService.format(value * offset);
     if (prevLayerIndex !== -1) {
-      if (this.map.hasLayer(currentLayer)) {
-        this.map.removeLayer(currentLayer);
-      }
+      this.map.eachLayer(layer => {
+        if (layer._latlngs && layer._bounds === undefined) {
+          this.map.removeLayer(layer);
+        }
+      });
     }
     if (runnerView === VIEW.HEATMAP) {
       this.map.addLayer(heatDesc[curLayerIndex]);
@@ -531,6 +531,7 @@ export class TrackService {
       prevLayerIndex = curLayerIndex;
       currentLayer = networkDesc[curLayerIndex];
     } else {
+      this.map.addLayer(heatDesc[curLayerIndex]);
       this.map.addLayer(runnerDesc[curLayerIndex]);
       prevLayerIndex = curLayerIndex;
       currentLayer = runnerDesc[curLayerIndex];

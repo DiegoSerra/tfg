@@ -1,4 +1,4 @@
-<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between start" class="p-24">
+<div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between start" ngClass.gt-sm="p-24">
   <mat-card fxFlex="100" fxFlex.gt-sm="78">
     <app-map [race]="race" style="min-height: 470px"></app-map>
   </mat-card>
@@ -26,8 +26,8 @@
       </div>
     </div>
   </mat-card>
-  <mat-card fxFlex="100" class="mt-24" fxLayoutAlign="space-between center">
-    <div [ngSwitch]="runnerView">
+  <mat-card fxFlex="100" class="mt-24" fxLayout="row wrap" fxLayoutAlign="space-between center">
+    <div fxFlex="100" fxFlex.gt-sm="50" fxLayoutAlign="space-around center" fxLayoutAlign.gt-sm="start center" [ngSwitch]="runnerView">
       <!-- HEATMAP -->
       <h2 *ngSwitchCase="0">
         Seguimiento de la carrera {{race?.name}}
@@ -49,7 +49,7 @@
       </h2>
       <!-- / CLUB -->
     </div>
-    <div>
+    <div fxFlex="100" fxFlex.gt-sm="50" fxLayoutAlign="space-around center" fxLayoutAlign.gt-sm="end center">
       <button mat-icon-button (click)="replay()">
         <mat-icon>replay_30</mat-icon>
       </button>
@@ -62,7 +62,7 @@
       <button mat-icon-button (click)="forward()">
         <mat-icon>forward_30</mat-icon>
       </button>
-      <mat-slider class="w-200" [(ngModel)]="sliderValue" value="0" [min]="0" [max]="numSteps - 1" (input)="sliderInput($event)"></mat-slider>
+      <mat-slider ngClass.gt-sm="w-200" [(ngModel)]="sliderValue" value="0" [min]="0" [max]="numSteps - 1" (input)="sliderInput($event)"></mat-slider>
       {{silderFormatValue}}
     </div>
   </mat-card>

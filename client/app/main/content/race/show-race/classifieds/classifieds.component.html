@@ -1,14 +1,14 @@
-<div fxFlex="1 0 100" fxLayout="row wrap" class="p-12">
+<div fxFlex="1 0 100" fxLayout="row wrap" ngClass.gt-sm="p-24">
 
   <!-- WIDGET -->
-  <app-widget class="widget" fxLayout="row" fxFlex="100">
+  <app-widget class="widget p-0" fxLayout="row" fxFlex="100">
     <!-- Front -->
     <div class="app-widget-front mat-white-bg mat-elevation-z2">
 
-      <div class="p-24 mb-8 border-bottom" fxLayout="row"
+      <div class="p-24 mb-8 border-bottom" fxLayout="row wrap"
           fxLayoutAlign="space-between center">
-          <div class="h2"> Corredores </div>
-          <div fxLayoutAlign="end center" fxLayoutGap="1.5em">
+          <div fxFlex="100" fxFlex.gt-sm="50" class="h2"> Corredores </div>
+          <div fxFlex="100" fxFlex.gt-sm="50" fxLayoutAlign="end center" fxLayoutGap="1.5em">
             <mat-form-field floatPlaceholder="never" [style.width.px]="'110'">
               <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar corredores">
             </mat-form-field>

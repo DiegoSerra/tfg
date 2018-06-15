@@ -15,7 +15,7 @@ export class ClassifiedsComponent implements OnInit, AfterViewInit {
 
   @Input() race: any;
 
-  displayedColumns = ['position', 'runnerName', 'time', 'rhythm'];
+  displayedColumns = ['position', 'runnerName', 'time', 'rhythm', 'club'];
   dataSource = new MatTableDataSource<any>(runners);
 
   loading = false;

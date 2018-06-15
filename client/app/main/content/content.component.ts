@@ -2,11 +2,12 @@ import {Component, HostBinding, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {Animations} from '../../core/animations';
 import {AppConfigService} from '../../core/services/config.service';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {AppSplashScreenService} from '../../core/services/splash-screen.service';
+import { map, filter } from 'rxjs/operators';
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
+
+
 
 @Component({
   selector: 'app-content',
@@ -36,8 +37,10 @@ export class AppContentComponent implements OnInit, OnDestroy {
               private appConfig: AppConfigService,
               private appSplashScreen: AppSplashScreenService) {
     this.router.events
-      .filter((event) => event instanceof NavigationEnd)
-      .map(() => this.activatedRoute)
+       .pipe(
+         filter((event) => event instanceof NavigationEnd),
+         map(() => this.activatedRoute)
+       )
       .subscribe((event) => {
         switch (this.appSettings.routerAnimation) {
           case 'fadeIn':

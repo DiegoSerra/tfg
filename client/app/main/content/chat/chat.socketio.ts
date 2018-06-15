@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import * as io from 'socket.io-client';
 import {UserService} from '../../../core/services/user.service';
 import {User} from '../../../models/user.model';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 import * as _ from 'lodash';
 import {Router} from '@angular/router';
 import * as Push from 'push.js';

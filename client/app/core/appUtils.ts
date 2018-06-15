@@ -70,6 +70,36 @@ export class AppUtils {
     return (S4() + S4());
   }
 
+  public static removeAccents(value) {
+    return value && value
+      .replace(/á/g, 'a')
+      .replace(/à/g, 'a')
+      .replace(/é/g, 'e')
+      .replace(/è/g, 'e')
+      .replace(/í/g, 'i')
+      .replace(/ì/g, 'i')
+      .replace(/ó/g, 'o')
+      .replace(/ò/g, 'o')
+      .replace(/ù/g, 'u')
+      .replace(/ú/g, 'u');
+  }
+
+  public static filterObject(object: any): any {
+    return { runnerName: object.runnerName, dorsal: object.dorsal };
+  }
+
+  public static filterPredicate(data, filter) {
+    // Transform the data into a lowercase string of all property values.
+    const accumulator = (currentTerm, key) => currentTerm + data[key];
+    const dataStr = this.removeAccents(Object.keys(data).reduce(accumulator, '').toLowerCase());
+
+    // Transform the filter by converting it to lowercase and removing whitespace.
+    filter = typeof filter === 'string' ? filter : filter.runnerName;
+    const transformedFilter = this.removeAccents(filter.trim().toLowerCase());
+
+    return dataStr.indexOf(transformedFilter) !== -1;
+  }
+
   goToFragment(directiveScroll, fragment) {
     const element = document.getElementById(fragment);
     directiveScroll.scrollToY(element.offsetTop, 500);

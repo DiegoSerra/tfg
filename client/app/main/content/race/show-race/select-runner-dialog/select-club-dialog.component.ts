@@ -1,7 +1,8 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Validators, FormBuilder, FormGroup, ValidationErrors, AbstractControl } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import {debounceTime, map} from 'rxjs/operators';
 import * as _ from 'lodash';
 
 
@@ -32,10 +33,12 @@ export class SelectClubDialogComponent implements OnInit {
     this.clubs = _.uniq(this.runners.map(result => result.club));
 
     this.filteredClubs = this.form.get('club').valueChanges
-      .debounceTime(400)
-      .map(name => {
-        return name ? this.filterClub(name) : this.clubs.slice();
-      });
+      .pipe(
+        debounceTime(400),
+        map(name => {
+          return name ? this.filterClub(name) : this.clubs.slice();
+        })
+      );
   }
 
   filterClub(clubInput): any[] {

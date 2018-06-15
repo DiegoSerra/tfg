@@ -7,7 +7,7 @@ import {
 } from 'angular-calendar';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { CalendarService } from './calendar.service';
 import { CalendarEventModel } from './event.model';
 import { Animations } from '../../../core/animations';

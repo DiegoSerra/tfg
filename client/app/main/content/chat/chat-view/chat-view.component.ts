@@ -4,7 +4,7 @@ import {NgForm} from '@angular/forms';
 import {User} from '../../../../models/user.model';
 import {UserService} from '../../../../core/services/user.service';
 import {ChatSocketio} from '../chat.socketio';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 import * as _ from 'lodash';
 import { AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';

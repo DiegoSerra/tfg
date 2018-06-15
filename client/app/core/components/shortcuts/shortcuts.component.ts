@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AppNavigationService } from '../navigation/navigation.service';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { ObservableMedia } from '@angular/flex-layout';
 import { AppMatchMedia } from '../../services/match-media.service';
 import { AppConfigService } from '../../services/config.service';

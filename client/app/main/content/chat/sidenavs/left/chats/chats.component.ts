@@ -5,7 +5,7 @@ import {AppMatSidenavHelperService} from '../../../../../../core/directives/mat-
 import {UserService} from '../../../../../../core/services/user.service';
 import {User} from '../../../../../../models/user.model';
 import {ChatSocketio} from '../../../chat.socketio';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-chat-chats-sidenav',

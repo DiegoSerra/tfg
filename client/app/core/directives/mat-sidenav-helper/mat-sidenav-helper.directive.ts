@@ -1,6 +1,6 @@
 import {Directive, Input, OnInit, HostListener, OnDestroy, HostBinding, AfterViewInit} from '@angular/core';
 import {MatSidenav} from '@angular/material';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {AppMatSidenavHelperService} from './mat-sidenav-helper.service';
 import {AppMatchMedia} from '../../services/match-media.service';
 import {ObservableMedia} from '@angular/flex-layout';

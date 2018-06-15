@@ -1,11 +1,12 @@
 import {Component, HostBinding, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import {Animations} from '../core/animations';
 import {AppConfigService} from '../core/services/config.service';
+import {filter, map} from 'rxjs/operators';
 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/filter';
+
+
 
 @Component({
   selector: 'app-authentication',
@@ -33,8 +34,10 @@ export class AuthenticationComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute,
               private appConfig: AppConfigService) {
     this.router.events
-      .filter((event) => event instanceof NavigationEnd)
-      .map(() => this.activatedRoute)
+        .pipe(
+          filter((event) => event instanceof NavigationEnd),
+          map(() => this.activatedRoute)
+        )
       .subscribe((event) => {
         switch (this.appSettings.routerAnimation) {
           case 'fadeIn':

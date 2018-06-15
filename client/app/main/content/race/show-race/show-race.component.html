@@ -4,14 +4,16 @@
   
     <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="start center">
       <mat-tab-group fxFlex="1 0 100" dynamicHeight>
-        <mat-tab label="Resumen">                 
+        <mat-tab label="Resumen">  
           <app-summary [race]="race"></app-summary>
         </mat-tab>
         <mat-tab label="Clasificados">   
           <app-classifieds [race]="race"></app-classifieds>
         </mat-tab>
         <mat-tab label="Análisis">   
-          <app-analysis [race]="race"></app-analysis>
+          <ng-template matTabContent>
+            <app-analysis [race]="race"></app-analysis>
+          </ng-template>
         </mat-tab>
       </mat-tab-group>
     </div>

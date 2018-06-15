@@ -1,5 +1,5 @@
 import { Component, HostBinding, HostListener, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import { AppMatchMedia } from '../../../core/services/match-media.service';
 import { AppNavbarService } from './navbar.service';
 import { ObservableMedia } from '@angular/flex-layout';

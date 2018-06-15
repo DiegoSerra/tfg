@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from '../../../../../core/services/user.service';
 import {User} from '../../../../../models/user.model';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
+import {Observable, forkJoin} from 'rxjs';
 
 @Component({
   selector: 'app-profile-about',
@@ -88,8 +88,7 @@ export class AppProfileAboutComponent implements OnInit {
     delete userForm.email;
     observables.push(this.userService.updateUser(userForm));
 
-    Observable
-      .forkJoin(...observables)
+      forkJoin(...observables)
       .subscribe(result => {
         this.userService.me();
         this.editing = false;

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import 'rxjs/add/operator/map';
+
 import {MatSnackBar, MatDialog} from '@angular/material';
 import {environment} from '../../../environments/environment';
 import {TimeService} from '../../time.service';
 import {HttpClient} from '@angular/common/http';
 import {SelectRunnerDialogComponent} from '../../main/content/race/show-race/select-club-dialog/select-runner-dialog.component';
 import {SelectClubDialogComponent} from '../../main/content/race/show-race/select-runner-dialog/select-club-dialog.component';
-import {Subject} from 'rxjs/Subject';
+import {Subject} from 'rxjs';
 
 const apiToken = environment.mapbox;
 declare const L: any;
@@ -22,6 +22,12 @@ declare const L: any;
 //   getValue: (value) => TrackService.format(value * 60)
 // };
 
+const redMarker = L.AwesomeMarkers.icon({
+  icon: 'user',
+  markerColor: 'red',
+  prefix: 'fa'
+});
+
 const trackElevationControl = L.control.elevation({
   position: 'topright',
   useHeightIndicator: true,
@@ -32,11 +38,13 @@ const trackElevationControl = L.control.elevation({
 
 let prevLayerIndex: any = -1;
 let currentLayer = '';
+let currentLayerSec = '';
 let curLayerIndex = '00:00:00';
 
 const heatDesc = {};
 const networkDesc = {};
 const runnerDesc = {};
+let myControl = null;
 let myRunner = null;
 let club = null;
 const VIEW = {
@@ -180,9 +188,6 @@ export class TrackService {
         }
       }]
     });
-    if (race.results.length > 300) {
-      layerButton.disable();
-    }
     return layerButton;
   }
 
@@ -258,6 +263,7 @@ export class TrackService {
     currentLayer = heatDesc[curLayerIndex];
     this.onRunnerViewChange.next(runnerView);
     this.onRunnerValueChange.next();
+    myControl = null;
   }
 
   clickOnLockClub(control, race) {
@@ -272,6 +278,7 @@ export class TrackService {
     currentLayer = heatDesc[curLayerIndex];
     this.onRunnerViewChange.next(runnerView);
     this.onRunnerValueChange.next(); 
+    myControl = null;
   }
 
   openSelectRunnerDialog(control, race) {
@@ -281,15 +288,24 @@ export class TrackService {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
+        if (myControl) {
+          myControl.state('tie');
+        }
+        myControl = control;
         myRunner = data;
         runnerView = VIEW.RUNNER;
         control.state('untie');
         Object.keys(heatDesc).forEach(key => {
-          runnerDesc[key] = this.createHeatLayer(heatDesc[key]._latlngs.filter((item, index) => index === myRunner.position - 1), 10, {0.4: 'pink', 0.65: 'pink', 1: 'pink'});
+          const lats = heatDesc[key]._latlngs.filter((item, index) => index === myRunner.position - 1);
+          lats.forEach(coord => {
+            runnerDesc[key] = L.marker([coord.lat, coord.lng, coord.alt], {icon: redMarker, title: myRunner.runnerName});
+          });
         });
-        // this.map.removeLayer(currentLayer);
+        this.map.removeLayer(currentLayer);
+        this.map.addLayer(heatDesc[curLayerIndex]);
         this.map.addLayer(runnerDesc[curLayerIndex]);
-        currentLayer = runnerDesc[curLayerIndex];
+        currentLayer = heatDesc[curLayerIndex];
+        currentLayerSec = runnerDesc[curLayerIndex];
         this.onRunnerViewChange.next(runnerView);
         this.onRunnerValueChange.next(myRunner.runnerName);
       }
@@ -303,6 +319,10 @@ export class TrackService {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
+        if (myControl) {
+          myControl.state('tie');
+        }
+        myControl = control;
         club = data;
         runnerView = VIEW.CLUB;
         control.state('untie');
@@ -311,11 +331,19 @@ export class TrackService {
           .map(runner => runner.position);
 
         Object.keys(heatDesc).forEach(key => {
-          runnerDesc[key] = this.createHeatLayer(heatDesc[key]._latlngs.filter((item, index) => positionsOnClub.includes(index - 1)), 10, {0.4: 'pink', 0.65: 'pink', 1: 'pink'});
+          const lats = heatDesc[key]._latlngs.filter((item, index) => positionsOnClub.includes(index - 1));
+          const markers = [];
+          lats.forEach((coord, index) => {
+            const runner = race.results.filter((item, _) => item.position === positionsOnClub[index])[0];
+            markers.push(L.marker([coord.lat, coord.lng, coord.alt], {icon: redMarker, title: runner.runnerName}));
+          });
+          runnerDesc[key] = L.layerGroup(markers);
         });
-        // this.map.removeLayer(currentLayer);
+        this.map.removeLayer(currentLayer);
+        this.map.addLayer(heatDesc[curLayerIndex]);
         this.map.addLayer(runnerDesc[curLayerIndex]);
-        currentLayer = runnerDesc[curLayerIndex];
+        currentLayer = heatDesc[curLayerIndex];
+        currentLayerSec = runnerDesc[curLayerIndex];
         this.onRunnerViewChange.next(runnerView);
         this.onRunnerValueChange.next(club);
       }
@@ -391,17 +419,13 @@ export class TrackService {
     const offset = Math.floor(race.finishTime / (this.numSteps - 1));
     const startCoord = Array(race.results.length).fill(this.points[0]);
     heatDesc[TrackService.format(0)] = this.createHeatLayer(startCoord);
-    if (race.results.length <= 300) {
-      networkDesc[TrackService.format(0)] = this.createNetworkLayer(startCoord, 20, true);
-    }
+    networkDesc[TrackService.format(0)] = this.createNetworkLayer(startCoord, 20, race.results.length <= 300);
     for (let index = offset; index <= race.finishTime; index += offset) {
       const {dist, runnerList} = this.calculateRunnerLocation(race.results, offset);
       const posInCumDist = this.calculateRunnerPositions(runnerList);
       const runnerCoords = this.indexToCoord(posInCumDist, dist);
       heatDesc[TrackService.format(index)] = this.createHeatLayer(runnerCoords);
-      if (race.results.length <= 300) {
-        networkDesc[TrackService.format(index)] = this.createNetworkLayer(runnerCoords, 20, true);
-      }
+      networkDesc[TrackService.format(index)] = this.createNetworkLayer(runnerCoords, 20, race.results.length <= 300);
     }
   }
 
@@ -409,7 +433,7 @@ export class TrackService {
     return L.heatLayer(coords, {radius, blur: 0, maxZoom: 8, gradient});
   } 
 
-  createNetworkLayer(coords, maxDist, includeLinks) {
+  createNetworkLayer(coords, maxDist, includeLinks = false) {
     let node = new L.circleMarker(coords[0], {radius: 5});
     const nodeList = [];
     nodeList.push(node);
@@ -521,6 +545,10 @@ export class TrackService {
           this.map.removeLayer(layer);
         }
       });
+      this.map.removeLayer(currentLayer);
+      if (this.map.hasLayer(currentLayerSec)) {
+        this.map.removeLayer(currentLayerSec);
+      }
     }
     if (runnerView === VIEW.HEATMAP) {
       this.map.addLayer(heatDesc[curLayerIndex]);

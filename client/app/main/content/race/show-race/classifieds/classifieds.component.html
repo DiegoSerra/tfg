@@ -54,6 +54,12 @@
           <mat-cell *matCellDef="let element"> {{element.rhythm | secondsToTime}} </mat-cell>
         </ng-container>
 
+        <!-- Club Column -->
+        <ng-container matColumnDef="club">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Club </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.club}} </mat-cell>
+        </ng-container>
+
         <!-- Action Column -->
         <!-- <ng-container matColumnDef="actions">
           <mat-header-cell *matHeaderCellDef> Acciones</mat-header-cell>

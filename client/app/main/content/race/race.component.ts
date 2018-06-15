@@ -1,6 +1,6 @@
 import {Component, HostBinding, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {Subscription} from 'rxjs/Subscription';
+import {Subscription} from 'rxjs';
 import { Animations } from '../../../core/animations';
 
 @Component({

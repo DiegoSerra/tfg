@@ -1,8 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import 'rxjs/Rx';
 
 import {ChatService} from '../../../chat.service';
+import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
 
 @Component({
   selector: 'app-chat-user-sidenav',
@@ -24,8 +24,10 @@ export class AppChatUserSidenavComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.onFormChange = this.userForm.valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged()
+      )
       .subscribe(data => {
         this.user.mood = data.mood;
         this.user.status = data.status;

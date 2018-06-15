@@ -1,7 +1,9 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { Validators, FormBuilder, FormGroup, ValidationErrors, AbstractControl } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
+import { AppUtils } from '../../../../../core/appUtils';
 
 
 @Component({
@@ -29,22 +31,38 @@ export class SelectRunnerDialogComponent implements OnInit {
     this.runners = this.data.race.results || [];
 
     this.filteredRunners = this.form.get('runner').valueChanges
-      .debounceTime(400)
-      .map(runnerName => {
-        return runnerName ? this.filterRunner(runnerName) : this.runners.slice();
-      });
+      .pipe(
+        debounceTime(400),
+        map(runnerName => {
+          return runnerName ? this.filterRunner(runnerName) : this.runners.slice();
+        })
+      );
   }
 
+  // filterRunner(runnerInput): any[] {
+  //   const runnerName = typeof runnerInput === 'string' ? runnerInput : runnerInput.runnerName;
+  //   const filteredRunners = this.runners.filter(runner => {
+  //     return runnerName && runner.runnerName && runner.runnerName.toLowerCase().indexOf(runnerName.toLowerCase()) !== -1;
+  //   });
+  //   return filteredRunners;
+  // }
+
   filterRunner(runnerInput): any[] {
-    const runnerName = typeof runnerInput === 'string' ? runnerInput : runnerInput.runnerName;
-    const filteredRunners = this.runners.filter(runner => {
-      return runnerName && runner.runnerName && runner.runnerName.toLowerCase().indexOf(runnerName.toLowerCase()) !== -1;
+    const filteredRunners =
+      this.runners
+        .map(runner => AppUtils.filterObject(runner))
+        .filter(runner => AppUtils.filterPredicate(runner, runnerInput));
+
+    const filteredRunners2 = [];
+    filteredRunners.forEach(filteredRunner => {
+      filteredRunners2.push(this.runners.find(runner => runner.dorsal === filteredRunner.dorsal));
     });
-    return filteredRunners;
+
+    return filteredRunners2;
   }
 
   displayName(runner): any {
-    return runner ? runner.runnerName : runner;
+    return runner ? `${runner.runnerName} (dorsal: ${runner.dorsal})` : runner;
   }
 
   isObject(control: AbstractControl): ValidationErrors | null {

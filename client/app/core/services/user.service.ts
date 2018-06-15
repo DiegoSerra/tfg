@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
-import {Observable} from 'rxjs/Rx';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {CookieService} from 'ngx-cookie';
-import {JwtHelper} from 'angular2-jwt';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 import * as _ from 'lodash';
 import {User} from '../../models/user.model';
 
-import 'rxjs/add/operator/map';
+
 import {Badges} from '../../models/badges.model';
 import {BadgesService} from './badges.service';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -21,7 +21,7 @@ export class UserService {
   private _userSubject: BehaviorSubject<User | {}> = new BehaviorSubject<User | {}>({});
   user$: Observable<User | {}> = this._userSubject.asObservable();
 
-  private JwtHelper = new JwtHelper();
+  private JwtHelper = new JwtHelperService();
   private userDecoded;
 
   constructor(private http: HttpClient,
@@ -77,9 +77,11 @@ export class UserService {
 
   deactivate(user: any) {
     return this.http.delete(`api/user/${user._id}`)
-      .map((res: Response) => {
-        return res;
-      });
+      .pipe(
+        map((res: Response) => {
+          return res;
+        })
+      );
   }
 
   isLoggedIn() {
@@ -114,9 +116,11 @@ export class UserService {
 
   forgotPassword(email) {
     return this.http.post(`api/user/forgotPassword`, {email})
-      .map(result => {
-        return result;
-      });
+      .pipe(
+        map((res: Response) => {
+          return res;
+        })
+      );
   }
 
   resetPassword(passwordToken, newPassword) {
@@ -135,10 +139,7 @@ export class UserService {
     return this.http.put(`api/user`, {user: user});
   }
 
-  exportExternalUsers() {
-    return this.http.get(`api/users/export`)
-      .map((result: Response) => {
-        return result;
-      });
+  export() {
+    return this.http.get(`api/users/export`);
   }
 }

@@ -7,7 +7,6 @@
     <mat-card-content class="pt-12 h-440">
       <ngx-charts-bar-vertical
         class="h-440"
-        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="rhythm"
         [gradient]="true"
@@ -26,7 +25,6 @@
     <mat-card-content class="pt-12 h-440">
       <ngx-charts-bar-vertical-2d
         class="h-440"
-        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="genderRhythm"
         [gradient]="true"
@@ -40,7 +38,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card fxFlex="100" fxFlex.gt-sm="49" class="mb-24">
+  <mat-card fxFlex="100" class="mb-24">
     <mat-card-header>
       <mat-card-title>Ritmo por categoría</mat-card-title>
     </mat-card-header>
@@ -48,7 +46,6 @@
     <mat-card-content class="pt-12 h-440">
       <ngx-charts-bar-vertical-2d
         class="h-440"
-        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="categoryRhythm"
         [gradient]="true"
@@ -61,7 +58,7 @@
       </ngx-charts-bar-vertical-2d>
     </mat-card-content>
   </mat-card>
-  <mat-card fxFlex="100" fxFlex.gt-sm="49" class="mb-24">
+  <mat-card fxFlex="100" class="mb-24">
     <mat-card-header>
       <mat-card-title>Ritmo por categoría y género</mat-card-title>
     </mat-card-header>
@@ -69,7 +66,6 @@
     <mat-card-content class="pt-12 h-440">
       <ngx-charts-bar-vertical-2d
         class="h-440"
-        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="categoryGenderRhythm"
         [gradient]="true"
@@ -91,7 +87,6 @@
     <mat-card-content class="pt-12 h-440">
       <ngx-charts-pie-chart
         class="h-440"
-        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="categorys"
         [labels]="true"
@@ -107,7 +102,6 @@
     <mat-card-content class="pt-12 h-440">
       <ngx-charts-pie-chart
         class="h-440"
-        [view]="isMobile ? [300,500] : null"
         [scheme]="colorScheme"
         [results]="genders"
         [labels]="true"

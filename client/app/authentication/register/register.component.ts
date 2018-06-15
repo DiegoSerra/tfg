@@ -6,8 +6,8 @@ import {AppConfigService} from '../../core/services/config.service';
 import {UserService} from '../../core/services/user.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormService} from '../../core/services/form.service';
+import {first} from 'rxjs/operators';
 
-import 'rxjs/add/operator/first';
 
 @Component({
   selector: 'app-register',
@@ -66,7 +66,9 @@ export class AppRegisterComponent implements OnInit {
 
   register() {
     this.route.queryParams
-      .first()
+      .pipe(
+        first()
+      )
       .subscribe(queryParams => {
         if (this.checked) {
           this.userService

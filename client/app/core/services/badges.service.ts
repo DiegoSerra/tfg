@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Rx';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject, Observable} from 'rxjs';
 
-import 'rxjs/add/operator/map';
+
 import {Badges} from '../../models/badges.model';
 import {Http, Response} from '@angular/http';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BadgesService {
@@ -13,7 +13,7 @@ export class BadgesService {
   private badgesSnapshot: Badges;
   private _badgesSubject: BehaviorSubject<Badges> = new BehaviorSubject<Badges>(new Badges({}));
   badges$: Observable<Badges> = this._badgesSubject.asObservable()
-    .map(badges => this.badgesSnapshot = badges);
+    .pipe(map(badges => this.badgesSnapshot = badges));
 
   constructor(private http: HttpClient) {}
 

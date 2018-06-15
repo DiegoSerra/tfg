@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { TimeService } from '../../../../../time.service';
 import * as _ from 'lodash';
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -6,14 +6,15 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 @Component({
   selector: 'app-analysis',
   templateUrl: './analysis.component.html',
-  styleUrls: ['./analysis.component.scss']
+  styleUrls: ['./analysis.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AnalysisComponent implements OnInit {
 
   @Input() race: any;
 
   colorScheme = {
-    domain: ['#2196f3', '#e91e63', '#5AA454', '#A10A28', '#C7B42C', '#AAAAAA', '#ff9800', '#9c27b0']
+    domain: ['#2196f3', '#e91e63', '#5AA454', '#A10A28', '#C7B42C', '#AAAAAA', '#ff9800', '#9c27b0', '#ffeb3b', '#795548', '#3C4252']
   };
 
   genderTypes: any[];

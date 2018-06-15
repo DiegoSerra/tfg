@@ -1,0 +1,218 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "Tfg": {
+      "root": "",
+      "sourceRoot": "client",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist",
+            "index": "client/index.html",
+            "main": "client/main.ts",
+            "tsConfig": "client/tsconfig.app.json",
+            "polyfills": "client/polyfills.ts",
+            "assets": [
+              "client/assets",
+              "client/assets/css/images",
+              "client/favicon.ico"
+            ],
+            "styles": [
+              "client/assets/css/leaflet.css",
+              "node_modules/leaflet-easybutton/src/easy-button.css",
+              "client/assets/css/leaflet.elevation.css",
+              "client/assets/css/leaflet.awesome-markers.css",
+              "client/styles.scss"
+            ],
+            "scripts": [
+              "node_modules/leaflet/dist/leaflet.js",
+              "node_modules/leaflet-omnivore/leaflet-omnivore.min.js",
+              "node_modules/leaflet-easybutton/src/easy-button.js",
+              "node_modules/leaflet.heat/dist/leaflet-heat.js",
+              "node_modules/socket.io-client/dist/socket.io.js",
+              "client/assets/js/leaflet-slider.js",
+              "client/assets/js/leaflet.elevation.js",
+              "client/assets/js/leaflet.awesome-markers.js"
+            ]
+          },
+          "configurations": {
+            "prod": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "client/environments/environment.ts",
+                  "with": "client/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "client/environments/environment.ts",
+                  "with": "client/environments/environment.prod.ts"
+                }
+              ]
+            },
+            "staging": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "client/environments/environment.ts",
+                  "with": "client/environments/environment.staging.ts"
+                }
+              ]
+            },
+            "test": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "client/environments/environment.ts",
+                  "with": "client/environments/environment.test.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "Tfg:build"
+          },
+          "configurations": {
+            "prod": {
+              "browserTarget": "Tfg:build:prod"
+            },
+            "production": {
+              "browserTarget": "Tfg:build:production"
+            },
+            "staging": {
+              "browserTarget": "Tfg:build:staging"
+            },
+            "test": {
+              "browserTarget": "Tfg:build:test"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "Tfg:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "client/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "client/polyfills.ts",
+            "tsConfig": "client/tsconfig.spec.json",
+            "scripts": [
+              "node_modules/leaflet/dist/leaflet.js",
+              "node_modules/leaflet-omnivore/leaflet-omnivore.min.js",
+              "node_modules/leaflet-easybutton/src/easy-button.js",
+              "node_modules/leaflet.heat/dist/leaflet-heat.js",
+              "node_modules/socket.io-client/dist/socket.io.js",
+              "client/assets/js/leaflet-slider.js",
+              "client/assets/js/leaflet.elevation.js"
+            ],
+            "styles": [
+              "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/leaflet-easybutton/src/easy-button.css",
+              "client/assets/css/leaflet.elevation.css",
+              "client/styles.scss"
+            ],
+            "assets": [
+              "client/assets",
+              "client/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet/dist/images",
+                "output": "/assets"
+              }
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "client/tsconfig.app.json",
+              "client/tsconfig.spec.json"
+            ],
+            "exclude": []
+          }
+        }
+      }
+    },
+    "Tfg-e2e": {
+      "root": "",
+      "sourceRoot": "e2e",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "Tfg:serve"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "client/e2e/tsconfig.e2e.json"
+            ],
+            "exclude": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "Tfg",
+  "schematics": {
+    "@schematics/angular:component": {
+      "prefix": "app",
+      "styleext": "scss"
+    },
+    "@schematics/angular:directive": {
+      "prefix": "app"
+    }
+  }
+}

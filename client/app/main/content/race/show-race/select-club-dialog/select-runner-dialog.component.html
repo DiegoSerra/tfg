@@ -19,7 +19,7 @@
                         [displayWith]="displayName">
         <mat-option *ngFor="let item of filteredRunners | async" [value]="item">
           <div fxLayout="row" fxLayoutAlign="start center">
-            <span>{{ item.runnerName }}</span>
+            <span>{{ item.runnerName + ' (dorsal: ' + item.dorsal + ')' }}</span>
           </div>
         </mat-option>
       </mat-autocomplete>

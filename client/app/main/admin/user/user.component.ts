@@ -1,18 +1,17 @@
 import {UserService} from '../../../core/services/user.service';
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import {Observable, BehaviorSubject} from 'rxjs';
 import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 import {DataSource} from '@angular/cdk/collections';
 
 let users: any[] = [];
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/merge';
+
+
+
+
+
+
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { User } from '../../../models/user.model';
 
@@ -76,10 +75,10 @@ export class UserComponent implements OnInit {
   exportFile() {
     delete this.exportedUrl;
     this.loading = true;
-    this.userService.exportExternalUsers()
-      .subscribe(data => {
+    this.userService.export()
+      .subscribe((data: any) => {
         this.loading = false;
-        this.exportedUrl = data.json().url;
+        this.exportedUrl = data.url;
         window.location.href = this.exportedUrl;
       });
   }

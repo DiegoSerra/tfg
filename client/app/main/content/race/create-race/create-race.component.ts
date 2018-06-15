@@ -6,13 +6,13 @@ import {
 } from '@angular/forms';
 import {Router} from '@angular/router';
 
-import 'rxjs/add/observable/zip';
-import 'rxjs/add/operator/filter';
-import 'rxjs/add/operator/debounceTime';
+
+
+
 
 import {RaceService} from '../../../../core/services/race.service';
 import {Race} from '../../../../models/race.model';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 import {Animations} from '../../../../core/animations';
 

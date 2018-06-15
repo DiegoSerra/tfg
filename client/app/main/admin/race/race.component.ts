@@ -1,19 +1,18 @@
 import {Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import {RaceService} from '../../../core/services/race.service';
 import {MapService} from '../../../core/services/map.service';
-import {Observable} from 'rxjs/Observable';
+import {Observable, BehaviorSubject} from 'rxjs';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 
 import {DataSource} from '@angular/cdk/collections';
 
 let races: any[] = [];
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/observable/merge';
+
+
+
+
+
+
 import { Race } from '../../../models/race.model';
 import { TimeService } from '../../../time.service';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';

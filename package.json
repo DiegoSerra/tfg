@@ -10,6 +10,7 @@
     "start": "node server/server.js",
     "heroku-prebuild": "npm prune",
     "heroku-postbuild": "npm rebuild node-sass && tsc && ng build --environment=\"$NODE_ENV\" --aot",
+    "postinstall": "ng build --aot --prod",
     "ng": "ng",
     "build": "tsc",
     "test": "ng test",

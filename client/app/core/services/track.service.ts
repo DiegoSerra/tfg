@@ -242,6 +242,12 @@ export class TrackService {
   }
   
   clickOnNetworkView(control) {
+    if (myControl) {
+      myControl.state('tie');
+    }
+    if (this.map.hasLayer(runnerDesc[curLayerIndex])) {
+      this.map.removeLayer(runnerDesc[curLayerIndex]);
+    }
     runnerView = VIEW.NETWORK;
     control.state('heat');
     this.map.removeLayer(heatDesc[curLayerIndex]);
@@ -307,7 +313,7 @@ export class TrackService {
         currentLayer = heatDesc[curLayerIndex];
         currentLayerSec = runnerDesc[curLayerIndex];
         this.onRunnerViewChange.next(runnerView);
-        this.onRunnerValueChange.next(myRunner.runnerName);
+        this.onRunnerValueChange.next(myRunner);
       }
     });
   }
@@ -367,7 +373,8 @@ export class TrackService {
           this.cumdist.push(this.cumdist[this.cumdist.length - 1] + newPoint.distanceTo(this.points[this.points.length - 1]));
           this.points.push(newPoint);
         }
-      }
+      },
+
     });
   }
 

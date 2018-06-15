@@ -3,7 +3,7 @@
     <app-map [race]="race" style="min-height: 470px"></app-map>
   </mat-card>
   <mat-card fxFlex="100" fxFlex.gt-sm="18" ngClass.lt-md="mt-24" ngClass.md="px-0">
-    <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between start">
+    <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between start" *ngIf="runnerView != 2">
       <div class="px-24 py-16">
         <div class="mat-display-1 m-0">{{race.kms}}</div>
         <div class="h3 secondary-text">Kilómetros</div>
@@ -25,6 +25,28 @@
         <div class="h3 secondary-text">Mejor ritmo</div>
       </div>
     </div>
+    <div fxFlex="1 0 100" fxLayout="row wrap" fxLayoutAlign="space-between start" *ngIf="runnerView === 2">
+      <div class="px-24 py-16">
+        <div class="mat-display-1 m-0">{{runnerValue.dorsal}}</div>
+        <div class="h3 secondary-text">Dorsal</div>
+      </div>
+      <div class="px-24 py-16">
+        <div class="mat-display-1 m-0">{{runnerValue.position}}</div>
+        <div class="h3 secondary-text">Posición</div>
+      </div>
+      <div class="px-24 py-16">
+        <div class="mat-display-1 m-0">{{runnerValue.fullCategory}}</div>
+        <div class="h3 secondary-text">Categoría</div>
+      </div>
+      <div class="px-24 py-16">
+        <div class="mat-display-1 m-0">{{runnerValue.time | secondsToTime}}</div>
+        <div class="h3 secondary-text">Tiempo</div>
+      </div>
+      <div class="px-24 py-16">
+        <div class="mat-display-1 m-0">{{runnerValue.rhythm | secondsToTime}}</div>
+        <div class="h3 secondary-text">Ritmo</div>
+      </div>
+    </div>
   </mat-card>
   <mat-card fxFlex="100" class="mt-24" fxLayout="row wrap" fxLayoutAlign="space-between center">
     <div fxFlex="100" fxFlex.gt-sm="50" fxLayoutAlign="space-around center" fxLayoutAlign.gt-sm="start center" [ngSwitch]="runnerView">
@@ -40,7 +62,7 @@
       <!-- / NETWORK -->
       <!-- RUNNER -->
       <h2 *ngSwitchCase="2">
-        Seguimiento del corredor {{runnerValue}}
+        Seguimiento del corredor {{runnerValue.runnerName}}
       </h2>
       <!-- / RUNNER -->
       <!-- CLUB -->

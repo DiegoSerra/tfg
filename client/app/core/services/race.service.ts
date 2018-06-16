@@ -36,10 +36,6 @@ export class RaceService {
     return this.http.put(`api/race/${race._id}`, race);
   }
 
-  getOpportumeeties(raceId: string) {
-    return this.http.get(`api/race/${raceId}/opportumeeties`);
-  }
-
   requestMatch(participantId: string, fromRace: string, toRace: string, pts: Object) {
     return this.http.post(`api/race/request`, {participants: [participantId], fromRace, toRace, pts });
   }

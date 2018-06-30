@@ -65,7 +65,7 @@ export class UserService {
     }    
   }
 
-  create(user: any, queryParams?: {[key: string]: string}) {
+  create(user: any, queryParams?: {[key: string]: string} | any) {
     const observer: Observable<any> = this.http.post('api/user', user, {params: queryParams});
 
     return observer;

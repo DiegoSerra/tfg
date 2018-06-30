@@ -10,9 +10,9 @@ import { map } from 'rxjs/operators';
 @Injectable()
 export class BadgesService {
 
-  private badgesSnapshot: Badges;
-  private _badgesSubject: BehaviorSubject<Badges> = new BehaviorSubject<Badges>(new Badges({}));
-  badges$: Observable<Badges> = this._badgesSubject.asObservable()
+  private badgesSnapshot: Badges | any;
+  private _badgesSubject: BehaviorSubject<Badges> = new BehaviorSubject<Badges | any>(new Badges({}));
+  badges$: Observable<Badges | any> = this._badgesSubject.asObservable()
     .pipe(map(badges => this.badgesSnapshot = badges));
 
   constructor(private http: HttpClient) {}

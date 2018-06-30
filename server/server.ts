@@ -42,3 +42,4 @@ server.listen(PORT, () => {
   console.log(`up and running: ${os.hostname()} on PORT: ${PORT}`);
 });
 
+module.exports = app;

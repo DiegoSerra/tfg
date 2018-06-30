@@ -28,7 +28,7 @@ export class AppChatUserSidenavComponent implements OnInit, OnDestroy {
         debounceTime(500),
         distinctUntilChanged()
       )
-      .subscribe(data => {
+      .subscribe((data: any) => {
         this.user.mood = data.mood;
         this.user.status = data.status;
         this.chatService.updateUserData(this.user);

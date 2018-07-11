@@ -39,7 +39,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="runnerName">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.runnerName}} </mat-cell>
+          <mat-cell *matCellDef="let element"> {{element.runnerName | uppercase}} </mat-cell>
         </ng-container>
 
         <!-- Time Column -->
@@ -57,7 +57,7 @@
         <!-- Club Column -->
         <ng-container matColumnDef="club">
           <mat-header-cell *matHeaderCellDef mat-sort-header> Club </mat-header-cell>
-          <mat-cell *matCellDef="let element"> {{element.club}} </mat-cell>
+          <mat-cell *matCellDef="let element"> {{element.club | uppercase}} </mat-cell>
         </ng-container>
 
         <!-- Action Column -->
